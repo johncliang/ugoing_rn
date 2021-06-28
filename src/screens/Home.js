@@ -5,28 +5,30 @@ import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
 export const HomeScreen = ({ navigation }) => {
     return (
         <View style={styles.mainContainer}>
-            <View style={styles.titleSection}>
-                <Text style={[GlobalStyles.headerText, { color: "black" }]}>
-                    ...U Going?
-                </Text>
-                <Text
-                    style={[
-                        GlobalStyles.subheaderText,
-                        { paddingVertical: 15, color: "black" },
-                    ]}
-                >
-                    Share events with a single link
-                </Text>
+            <View style={GlobalStyles.topSection}>
+                <View style={styles.titleSection}>
+                    <Text style={[GlobalStyles.headerText, { color: "black" }]}>
+                        ...U Going?
+                    </Text>
+                    <Text
+                        style={[
+                            GlobalStyles.subheaderText,
+                            { paddingVertical: 15, color: "black" },
+                        ]}
+                    >
+                        Share events with a single link
+                    </Text>
+                </View>
             </View>
-            <View style={styles.createSection}>
+            <View style={GlobalStyles.bottomSection}>
                 <TouchableOpacity
-                    style={styles.createButton}
+                    style={GlobalStyles.submitButton}
                     onPress={() => {
                         console.log(navigation);
                         navigation.navigate("Create");
                     }}
                 >
-                    <Text style={styles.buttonText}>Create Event</Text>
+                    <Text style={GlobalStyles.buttonText}>Create Event</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -48,16 +50,5 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "center",
-    },
-
-    createButton: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        borderRadius: 20,
-        backgroundColor: GlobalColors.shamrock,
-    },
-    buttonText: {
-        color: "white",
-        fontSize: 28,
     },
 });

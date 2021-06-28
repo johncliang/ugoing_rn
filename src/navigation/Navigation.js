@@ -5,39 +5,45 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../screens/Home";
 import { CreateEvent } from "../screens/CreateEvent";
 
+function headerLogo() {
+    return (
+        <TouchableOpacity style={{ paddingLeft: 20 }}>
+            <Image
+                style={{ width: 89, height: 29 }}
+                source={require("../assets/UGoing_Logo.png")}
+            />
+        </TouchableOpacity>
+    );
+}
+function loginButton() {
+    return (
+        <TouchableOpacity style={{ paddingRight: 20 }}>
+            <Text
+                style={{
+                    textDecorationLine: "underline",
+                    fontSize: 18,
+                }}
+            >
+                Login/Register
+            </Text>
+        </TouchableOpacity>
+    );
+}
 export const AppNavigator = () => {
     const Stack = createStackNavigator();
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator initialRouteName="Create">
                 <Stack.Screen
                     name="Home"
                     component={HomeScreen}
                     options={{
                         title: "",
                         headerLeft: () => {
-                            return (
-                                <TouchableOpacity style={{ paddingLeft: 20 }}>
-                                    <Image
-                                        style={{ width: 150, height: 50 }}
-                                        source={require("../assets/UGoing_Logo.png")}
-                                    />
-                                </TouchableOpacity>
-                            );
+                            return headerLogo();
                         },
                         headerRight: () => {
-                            return (
-                                <TouchableOpacity style={{ paddingRight: 20 }}>
-                                    <Text
-                                        style={{
-                                            textDecorationLine: "underline",
-                                            fontSize: 18,
-                                        }}
-                                    >
-                                        Sign up
-                                    </Text>
-                                </TouchableOpacity>
-                            );
+                            return loginButton();
                         },
                     }}
                 />
@@ -48,28 +54,10 @@ export const AppNavigator = () => {
                     options={{
                         title: "",
                         headerLeft: () => {
-                            return (
-                                <TouchableOpacity style={{ paddingLeft: 20 }}>
-                                    <Image
-                                        style={{ width: 150, height: 50 }}
-                                        source={require("../assets/UGoing_Logo.png")}
-                                    />
-                                </TouchableOpacity>
-                            );
+                            return headerLogo();
                         },
                         headerRight: () => {
-                            return (
-                                <TouchableOpacity style={{ paddingRight: 20 }}>
-                                    <Text
-                                        style={{
-                                            textDecorationLine: "underline",
-                                            fontSize: 18,
-                                        }}
-                                    >
-                                        Sign up
-                                    </Text>
-                                </TouchableOpacity>
-                            );
+                            return loginButton();
                         },
                     }}
                 />
