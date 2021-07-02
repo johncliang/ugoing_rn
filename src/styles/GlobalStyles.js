@@ -32,7 +32,6 @@ export const GlobalStyles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
-        alignItems: "center",
         justifyContent: "center",
     },
     topSection: {
@@ -59,6 +58,13 @@ export const GlobalStyles = StyleSheet.create({
         paddingLeft: 20,
         paddingVertical: 10,
     },
+    subheaderText_smaller: {
+        fontSize: 18,
+        fontWeight: "bold",
+        fontFamily: "SFPro",
+        paddingLeft: 20,
+        paddingVertical: 10,
+    },
     bodyText: {
         fontFamily: "SFPro",
         fontSize: 16,
@@ -73,6 +79,10 @@ export const GlobalStyles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor: GlobalColors.shamrock,
     },
+    timeButton: {
+        width: 150,
+        alignSelf: "center",
+    },
     textInput: {
         fontSize: 15,
         fontFamily: "SFPro",
@@ -83,5 +93,11 @@ export const GlobalStyles = StyleSheet.create({
         borderColor: "lightgrey",
         borderRadius: 7,
         placeholderTextColor: "lightgrey",
+    },
+    errorText: {
+        fontSize: 15,
+        fontFamily: "SFPro",
+        color: "red",
+        textAlign: "center",
     },
 });
