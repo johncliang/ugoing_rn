@@ -65,13 +65,14 @@ export const GlobalStyles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        fontSize: 22,
+        fontSize: 15,
     },
     submitButton: {
         borderRadius: 7,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        backgroundColor: GlobalColors.shamrock,
+        textAlign: "center",
+        paddingVertical: 15,
+        width: 145,
+        backgroundColor: "#2C69F6",
     },
     textInput: {
         fontSize: 15,
@@ -80,8 +81,7 @@ export const GlobalStyles = StyleSheet.create({
         paddingVertical: 10,
         marginHorizontal: 15,
         borderWidth: 1,
-        borderColor: "lightgrey",
-        borderRadius: 7,
-        placeholderTextColor: "lightgrey",
+        borderColor: "#D5D5D5",
+        borderRadius: 7
     },
 });
