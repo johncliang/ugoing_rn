@@ -66,7 +66,7 @@ export const SignupScreen = ({ navigation }) => {
                     </Text>
                     <TextInput
                         style={GlobalStyles.textInput}
-                        value={email}
+                        value={name}
                         onChangeText={(name) => setName(name)}
                         placeholder="Kenta"
                         autoCapitalize="none"

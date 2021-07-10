@@ -17,7 +17,7 @@ export const LoginScreen = ({ navigation }) => {
 
     //const { signIn } = useContext(AuthContext);
 
-    function handleLogin() {
+    function handleLogin(navigation) {
         console.log(email);
         console.log(password);
         fb.auth()
@@ -29,6 +29,7 @@ export const LoginScreen = ({ navigation }) => {
                 console.log(error.message);
                 setErrorMsg("Login error:\n" + error.message);
             });
+        navigation.navigate("Home");
     }
 
     return (
@@ -66,7 +67,7 @@ export const LoginScreen = ({ navigation }) => {
             <View style={styles.bottomSection}>
                 <TouchableOpacity
                     style={GlobalStyles.submitButton}
-                    onPress={handleLogin}
+                    onPress={() => handleLogin(navigation)}
                 >
                     <Text style={GlobalStyles.buttonText}>LOGIN</Text>
                 </TouchableOpacity>

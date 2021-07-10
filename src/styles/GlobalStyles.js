@@ -39,8 +39,9 @@ export const GlobalStyles = StyleSheet.create({
     },
     bottomSection: {
         flex: 1,
-        justifyContent: "center",
         alignItems: "center",
+        justifyContent: "flex-end",
+        paddingBottom: 40,
     },
     headerText: {
         fontSize: 36,

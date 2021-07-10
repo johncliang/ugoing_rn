@@ -6,14 +6,18 @@ import {
     View,
     TouchableOpacity,
     FlatList,
+    Switch,
 } from "react-native";
-import { GlobalStyles } from "../styles/GlobalStyles";
+import { GlobalColors, GlobalStyles } from "../styles/GlobalStyles";
 import "../styles/datePicker.css";
 
 import { DatePicker, TimePicker, Space } from "antd";
 import "antd/dist/antd.css";
 
 import moment from "moment";
+
+import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+import { fs } from "../Firebase/firebase";
 
 const STATES = {
     NAME: 0,
@@ -33,6 +37,8 @@ export const CreateEvent = ({ navigation }) => {
     const [startTime, setStartTime] = useState(
         moment().startOf("day").add(10, "hours")
     );
+
+    const [showEndTime, setShowEndTime] = useState(true);
     const [endTime, setEndTime] = useState(
         moment().startOf("day").add(11, "hours")
     );
@@ -46,7 +52,7 @@ export const CreateEvent = ({ navigation }) => {
 
     const [sectionTitles, setSectionTitles] = useState([]);
     const [status, setStatus] = useState({
-        state: STATES.NAME,
+        state: STATES.PLACE,
     });
     const [errorStatus, setErrorStatus] = useState("");
 
@@ -105,12 +111,20 @@ export const CreateEvent = ({ navigation }) => {
         );
     };
 
-    const onChangeDate = (dates, dateStrings) => {
-        if (dates[0]) setStartDate(dates[0]);
-        if (dates[1]) setEndDate(dates[1]);
-        console.log(startDate);
-        console.log(endDate);
+    const onChangeDate = (date, isStartTime) => {
+        if (isStartTime) {
+            setStartDate(date);
+            console.log(endDate.isBefore(startDate));
+            console.log(endDate.isAfter(startDate));
+            if (endDate.isBefore(date)) {
+                setEndDate(date);
+            }
+        } else setEndDate(date);
     };
+
+    function disabledDates(current) {
+        return current < startDate;
+    }
 
     function incrementStatus() {
         setErrorStatus("");
@@ -128,10 +142,33 @@ export const CreateEvent = ({ navigation }) => {
                 return;
             case STATES.TIME:
                 incrementStatus();
+                return;
             case STATES.PLACE:
                 incrementStatus();
+                return;
             case STATES.PEOPLE:
+                submitData();
+                return;
         }
+    }
+
+    function submitData() {
+        let eventData = {
+            eventName: eventName,
+            eventDetails: eventDetails,
+            startDate: startDate.format("D, M, YYYY").toString(),
+            endDate: endDate.format("D, M, YYYY").toString(),
+            startTime: startTime.format("h:m").toString(),
+            endTime: endTime.format("h:m").toString(),
+            eventLocation: eventLocation,
+            arrivalInstructions: arrivalInstructions,
+            phoneNumber: phoneNumber,
+            organizerName: organizerName,
+        };
+
+        console.log(submitData);
+
+        // fs.collection("alerts").add(eventData);
     }
 
     const getCurrentSection = () => {
@@ -162,19 +199,15 @@ export const CreateEvent = ({ navigation }) => {
             case STATES.TIME:
                 return (
                     <View style={styles.infoSection}>
-                        <View style={{ alignItems: "center" }}>
-                            <Space align={"center"}>
-                                <DatePicker.RangePicker
-                                    allowEmpty={[false, true]}
-                                    onCalendarChange={onChangeDate}
-                                    value={[startDate, endDate]}
-                                />
-                            </Space>
-                        </View>
+                        <View style={{ alignItems: "center" }}></View>
                         <Text style={GlobalStyles.subheaderText}>
                             Start Time
                         </Text>
                         <View style={GlobalStyles.timeButton}>
+                            <DatePicker
+                                value={startDate}
+                                onChange={(dates) => onChangeDate(dates, true)}
+                            />
                             <TimePicker
                                 format={"HH:mm"}
                                 minuteStep={5}
@@ -185,28 +218,118 @@ export const CreateEvent = ({ navigation }) => {
                             />
                         </View>
 
-                        <Text style={GlobalStyles.subheaderText}>End Time</Text>
-                        <View style={GlobalStyles.timeButton}>
-                            <TimePicker
-                                format={"HH:mm"}
-                                minuteStep={5}
-                                use12Hours={true}
-                                showNow={false}
-                                value={endTime}
-                                onChange={setEndTime}
-                            />
+                        <View style={styles.endTimeSection}>
+                            <Text style={GlobalStyles.subheaderText}>
+                                End Time
+                            </Text>
+                            <Switch
+                                value={showEndTime}
+                                onValueChange={setShowEndTime}
+                                trackColor={{
+                                    false: "#767577",
+                                    true: GlobalColors.shamrock,
+                                }}
+                                activeThumbColor={GlobalColors.shamrock}
+                            ></Switch>
                         </View>
+                        {showEndTime && (
+                            <View style={GlobalStyles.timeButton}>
+                                <DatePicker
+                                    value={endDate}
+                                    onChange={(dates) =>
+                                        onChangeDate(dates, false)
+                                    }
+                                    disabledDate={disabledDates}
+                                />
+                                <TimePicker
+                                    format={"HH:mm"}
+                                    minuteStep={5}
+                                    use12Hours={true}
+                                    showNow={false}
+                                    value={endTime}
+                                    onChange={setEndTime}
+                                />
+                            </View>
+                        )}
                     </View>
                 );
             case STATES.PLACE:
                 return (
                     <View style={styles.infoSection}>
                         <Text style={GlobalStyles.subheaderText}>Place</Text>
-                        <TextInput
+                        {/* <TextInput
                             style={GlobalStyles.textInput}
                             onChangeText={setEventLocation}
                             value={eventLocation}
                             placeholder="e.g. 100 Moffett Blvd"
+                        /> */}
+                        <GooglePlacesAutocomplete
+                            placeholder="e.g. 100 Moffett Blvd"
+                            placeholderTextColor="#333"
+                            minLength={1}
+                            currentLocation="true"
+                            numberOfLines={3}
+                            onPress={(data, details = null) => {
+                                console.log(data, details);
+                            }}
+                            query={{
+                                key: "AIzaSyAn4ES_5Lu5aTaEv1nfi6T9nhJgKfNA7nw",
+                                language: "en",
+                            }}
+                            textInputProps={{
+                                autoCapitalize: "none",
+                                autoCorrect: false,
+                            }}
+                            fetchDetails={true}
+                            returnKeyType={"search"} // Can be left out for default return key
+                            styles={{
+                                container: {
+                                    flex: 1,
+                                    position: "absolute",
+                                    width: "100%",
+                                },
+                                textInputContainer: {
+                                    backgroundColor: "transparent",
+                                    height: 54,
+                                    marginTop: 250,
+                                    marginHorizontal: 15,
+                                },
+                                textInput: {
+                                    height: 54,
+                                    margin: 0,
+                                    borderRadius: 0,
+                                    paddingVertical: 15,
+                                    paddingHorizontal: 20,
+                                    shadowColor: "#000",
+                                    shadowOpacity: 0.1,
+                                    shadowOffset: { x: 0, y: 0 },
+                                    shadowRadius: 15,
+                                    borderWidth: 1,
+                                    borderColor: "#DDD",
+                                    borderRadius: 7,
+                                    fontSize: 18,
+                                },
+                                listView: {
+                                    borderWidth: 1,
+                                    borderColor: "#DDD",
+                                    backgroundColor: "#FFF",
+                                    marginHorizontal: 15,
+                                    marginTop: 0,
+                                    zIndex: 5,
+                                    shadowColor: "#000",
+                                    shadowOpacity: 0.1,
+                                    shadowOffset: { x: 0, y: 0 },
+                                    shadowRadius: 15,
+                                },
+                                description: {
+                                    fontSize: 16,
+                                },
+                                row: {
+                                    padding: 10,
+                                    height: 40,
+                                },
+                            }}
+                            debounce={300}
                         />
                         <Text style={GlobalStyles.subheaderText}>
                             Instructions
@@ -276,7 +399,7 @@ export const CreateEvent = ({ navigation }) => {
                 </View>
             </View>
 
-            <View style={styles.bottomSection}>
+            <View style={GlobalStyles.bottomSection}>
                 <TouchableOpacity
                     style={GlobalStyles.submitButton}
                     onPress={validateSection}
@@ -304,14 +427,16 @@ const styles = StyleSheet.create({
     topSection: {
         flex: 1,
     },
-    bottomSection: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
     minimizedSection: {
         flex: 1,
         flexDirection: "row",
         justifyContent: "space-between",
+    },
+
+    endTimeSection: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingRight: 20,
     },
 });

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Image, TouchableOpacity, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -31,15 +31,36 @@ export const AppNavigator = () => {
     const Stack = createStackNavigator();
     const [user, setUser] = useState(null);
 
+    useEffect(() => {
+        console.log("User state changed");
+        fb.auth().onAuthStateChanged(setUser);
+    }, []);
     const userProvider = useMemo(() => ({ user, setUser }), [user, setUser]);
 
     function loginButton(navigation) {
+        if (!user) {
+            return (
+                <TouchableOpacity
+                    style={{ paddingRight: 20 }}
+                    onPress={() => {
+                        navigation.navigate("Login");
+                    }}
+                >
+                    <Text
+                        style={{
+                            textDecorationLine: "underline",
+                            fontSize: 18,
+                        }}
+                    >
+                        Login/Register
+                    </Text>
+                </TouchableOpacity>
+            );
+        }
         return (
             <TouchableOpacity
                 style={{ paddingRight: 20 }}
-                onPress={() => {
-                    navigation.navigate("Login");
-                }}
+                onPress={() => fb.auth().signOut()}
             >
                 <Text
                     style={{
@@ -47,7 +68,7 @@ export const AppNavigator = () => {
                         fontSize: 18,
                     }}
                 >
-                    Login/Register
+                    Sign Out
                 </Text>
             </TouchableOpacity>
         );
@@ -56,7 +77,7 @@ export const AppNavigator = () => {
     return (
         <AuthContext.Provider value={userProvider}>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Home">
+                <Stack.Navigator initialRouteName="Create">
                     <Stack.Screen
                         name="Home"
                         component={HomeScreen}
