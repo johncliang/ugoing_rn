@@ -14,6 +14,8 @@ import "../styles/datePicker.css";
 import { DatePicker, TimePicker, Space } from "antd";
 import "antd/dist/antd.css";
 
+import { ProgressBar } from 'react-native-paper';
+
 import moment from "moment";
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -77,6 +79,14 @@ export const CreateEvent = ({ navigation }) => {
             case STATES.PEOPLE:
                 return "The Who 📞";
         }
+    }
+
+    const showProgressBar = () => {
+        var progress = status.state / 4;
+        console.log(progress)
+        return ( 
+            <ProgressBar progress={progress} color={"black"} style={{marginHorizontal: 20}} />
+        );
     }
 
     const getMinimizedSection = ({ item }) => {
@@ -388,6 +398,7 @@ export const CreateEvent = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            {showProgressBar()}
             <View style={styles.topSection}>
                 <View>
                     <FlatList
