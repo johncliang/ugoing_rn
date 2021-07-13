@@ -27,6 +27,11 @@ export const GlobalColors = {
     light: "#E46C6C",
     lighter: "#ED9D9D",
     lightest: "#F6CECE",
+
+    // Button color
+    lightBlack: "#292929",
+    veryLightGrey: "#F4F4F4",
+    lightestGrey: "#D5D5D5"
 };
 export const GlobalStyles = StyleSheet.create({
     container: {
@@ -72,13 +77,13 @@ export const GlobalStyles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        fontSize: 22,
+        fontSize: 16,
     },
     submitButton: {
         borderRadius: 7,
-        paddingHorizontal: 15,
+        paddingHorizontal: 20,
         paddingVertical: 10,
-        backgroundColor: GlobalColors.shamrock,
+        backgroundColor: GlobalColors.lightBlack,
     },
     timeButton: {
         width: 150,
@@ -94,6 +99,7 @@ export const GlobalStyles = StyleSheet.create({
         borderColor: "lightgrey",
         borderRadius: 7,
         placeholderTextColor: "lightgrey",
+        backgroundColor: "white",
     },
     errorText: {
         fontSize: 15,

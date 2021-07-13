@@ -10,6 +10,7 @@ import { HomeScreen } from "../screens/Home";
 import { CreateEvent } from "../screens/CreateEvent";
 import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
+import { PublishPost } from "../screens/PublishPost";
 
 function headerLogo(navigation) {
     return (
@@ -77,7 +78,7 @@ export const AppNavigator = () => {
     return (
         <AuthContext.Provider value={userProvider}>
             <NavigationContainer>
-                <Stack.Navigator initialRouteName="Create">
+                <Stack.Navigator initialRouteName="Home">
                     <Stack.Screen
                         name="Home"
                         component={HomeScreen}
@@ -102,6 +103,16 @@ export const AppNavigator = () => {
                             },
                             headerRight: () => {
                                 return loginButton(navigation);
+                            },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="Publish"
+                        component={PublishPost}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerLeft: () => {
+                                return headerLogo(navigation);
                             },
                         })}
                     />

@@ -54,7 +54,7 @@ export const CreateEvent = ({ navigation }) => {
 
     const [sectionTitles, setSectionTitles] = useState([]);
     const [status, setStatus] = useState({
-        state: STATES.PLACE,
+        state: STATES.NAME,
     });
     const [errorStatus, setErrorStatus] = useState("");
 
@@ -65,32 +65,29 @@ export const CreateEvent = ({ navigation }) => {
             newSectionTitles.push(newSection);
         }
         setSectionTitles((sectionTitles) => newSectionTitles);
-        console.log(sectionTitles);
     }, [status]);
 
     function getSectionTitle(section) {
         switch (section) {
             case STATES.NAME:
-                return eventName != "" ? eventName : "The Basics ✏️";
+                return eventName != "" ? eventName : "What ✏️";
             case STATES.TIME:
-                return "The When 🕐";
+                return "When 🕐";
             case STATES.PLACE:
-                return "The Where 🌎";
+                return "Where 🌎";
             case STATES.PEOPLE:
-                return "The Who 📞";
+                return "Who 📞";
         }
     }
 
     const showProgressBar = () => {
         var progress = status.state / 4;
-        console.log(progress)
         return ( 
             <ProgressBar progress={progress} color={"black"} style={{marginHorizontal: 20}} />
         );
     }
 
     const getMinimizedSection = ({ item }) => {
-        console.log(getSectionTitle(item.id));
         return (
             <View style={styles.minimizedSection}>
                 <Text style={GlobalStyles.subheaderText}>
@@ -124,8 +121,6 @@ export const CreateEvent = ({ navigation }) => {
     const onChangeDate = (date, isStartTime) => {
         if (isStartTime) {
             setStartDate(date);
-            console.log(endDate.isBefore(startDate));
-            console.log(endDate.isAfter(startDate));
             if (endDate.isBefore(date)) {
                 setEndDate(date);
             }
@@ -162,23 +157,25 @@ export const CreateEvent = ({ navigation }) => {
         }
     }
 
+    // TODO: Pass in optional user field to tether events to a uid
     function submitData() {
         let eventData = {
             eventName: eventName,
             eventDetails: eventDetails,
-            startDate: startDate.format("D, M, YYYY").toString(),
-            endDate: endDate.format("D, M, YYYY").toString(),
-            startTime: startTime.format("h:m").toString(),
-            endTime: endTime.format("h:m").toString(),
+            startDate: startDate.format("M/D/YYYY").toString(),
+            endDate: endDate.format("M/D/YYYY").toString(),
+            startTime: startTime.format("h:mm").toString(),
+            endTime: endTime.format("h:mm").toString(),
             eventLocation: eventLocation,
             arrivalInstructions: arrivalInstructions,
             phoneNumber: phoneNumber,
             organizerName: organizerName,
         };
 
-        console.log(submitData);
-
-        // fs.collection("alerts").add(eventData);
+        fs.collection("events").add(eventData).then((value) => {
+            console.log(value.id);
+            navigation.navigate("Publish", value.id);
+        });
     }
 
     const getCurrentSection = () => {
@@ -187,7 +184,10 @@ export const CreateEvent = ({ navigation }) => {
                 return (
                     <View style={styles.infoSection}>
                         <Text style={GlobalStyles.subheaderText}>
-                            Event Name
+                            Event Name{"\ "}
+                            <Text style={{color: 'red'}}>
+                                 *
+                            </Text>
                         </Text>
                         <TextInput
                             style={GlobalStyles.textInput}
@@ -381,7 +381,6 @@ export const CreateEvent = ({ navigation }) => {
     };
 
     function buttonText() {
-        console.log(status);
         switch (status.state) {
             case STATES.NAME:
                 return "Next";
@@ -429,8 +428,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
     },
     infoSection: {
-        borderColor: "lightgrey",
-        borderWidth: 1,
+        backgroundColor: GlobalColors.veryLightGrey,
         borderRadius: 7,
         marginHorizontal: 20,
         paddingVertical: 15,
