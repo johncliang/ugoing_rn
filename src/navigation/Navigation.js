@@ -109,6 +109,7 @@ export const AppNavigator = () => {
                     <Stack.Screen
                         name="Publish"
                         component={PublishPost}
+                        initialParams={{uid: ""}}
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {

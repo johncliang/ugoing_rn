@@ -174,7 +174,7 @@ export const CreateEvent = ({ navigation }) => {
 
         fs.collection("events").add(eventData).then((value) => {
             console.log(value.id);
-            navigation.navigate("Publish", value.id);
+            navigation.navigate("Publish", {uid: value.id});
         });
     }
 
@@ -182,7 +182,7 @@ export const CreateEvent = ({ navigation }) => {
         switch (status.state) {
             case STATES.NAME:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>
                             Event Name{"\ "}
                             <Text style={{color: 'red'}}>
@@ -208,7 +208,7 @@ export const CreateEvent = ({ navigation }) => {
                 );
             case STATES.TIME:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <View style={{ alignItems: "center" }}></View>
                         <Text style={GlobalStyles.subheaderText}>
                             Start Time
@@ -265,7 +265,7 @@ export const CreateEvent = ({ navigation }) => {
                 );
             case STATES.PLACE:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>Place</Text>
                         {/* <TextInput
                             style={GlobalStyles.textInput}
@@ -354,7 +354,7 @@ export const CreateEvent = ({ navigation }) => {
                 );
             case STATES.PEOPLE:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>
                             Event Creator
                         </Text>
@@ -426,12 +426,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         justifyContent: "center",
-    },
-    infoSection: {
-        backgroundColor: GlobalColors.veryLightGrey,
-        borderRadius: 7,
-        marginHorizontal: 20,
-        paddingVertical: 15,
     },
     topSection: {
         flex: 1,
