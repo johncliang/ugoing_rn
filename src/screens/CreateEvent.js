@@ -14,6 +14,8 @@ import "../styles/datePicker.css";
 import { DatePicker, TimePicker, Space } from "antd";
 import "antd/dist/antd.css";
 
+import { AddressSearchBar } from "../components/AddressSearchBar";
+
 import moment from "moment";
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -26,6 +28,8 @@ const STATES = {
     PEOPLE: 3,
     FINISH: 4,
 };
+
+const GooglePlacesKey = 'AIzaSyAn4ES_5Lu5aTaEv1nfi6T9nhJgKfNA7nw';
 
 export const CreateEvent = ({ navigation }) => {
     const [eventName, setEventName] = useState("");
@@ -264,70 +268,81 @@ export const CreateEvent = ({ navigation }) => {
                             placeholder="e.g. 100 Moffett Blvd"
                         /> */}
                         <GooglePlacesAutocomplete
-                            placeholder="e.g. 100 Moffett Blvd"
-                            placeholderTextColor="#333"
-                            minLength={1}
-                            currentLocation="true"
-                            numberOfLines={3}
-                            onPress={(data, details = null) => {
+                            placeholder = 'Where?'
+                            placeholderTextColor = '#333'
+                            minLength = {1}
+
+                            onChangeText={setEventLocation}
+                            onPress = {(data, details) => {
                                 console.log(data, details);
                             }}
-                            query={{
-                                key: "AIzaSyAn4ES_5Lu5aTaEv1nfi6T9nhJgKfNA7nw",
-                                language: "en",
+                            query = {{
+                                key: GooglePlacesKey,
+                                language: 'en'
+                            }}
+                            requestUrl={{
+                                useOnPlatform: 'web', // or "all"
+                                url:
+                                `https://maps.googleapis.com/maps/api/place/`, // or any proxy server that hits https://maps.googleapis.com/maps/api
                             }}
                             textInputProps={{
-                                autoCapitalize: "none",
-                                autoCorrect: false,
+                            autoCapitalize: "none",
+                            autoCorrect: false
                             }}
-                            fetchDetails={true}
-                            returnKeyType={"search"} // Can be left out for default return key
-                            styles={{
-                                container: {
-                                    flex: 1,
-                                    position: "absolute",
-                                    width: "100%",
-                                },
-                                textInputContainer: {
-                                    backgroundColor: "transparent",
-                                    height: 54,
-                                    marginTop: 250,
-                                    marginHorizontal: 15,
-                                },
-                                textInput: {
-                                    height: 54,
-                                    margin: 0,
-                                    borderRadius: 0,
-                                    paddingVertical: 15,
-                                    paddingHorizontal: 20,
-                                    shadowColor: "#000",
-                                    shadowOpacity: 0.1,
-                                    shadowOffset: { x: 0, y: 0 },
-                                    shadowRadius: 15,
-                                    borderWidth: 1,
-                                    borderColor: "#DDD",
-                                    borderRadius: 7,
-                                    fontSize: 18,
-                                },
-                                listView: {
-                                    borderWidth: 1,
-                                    borderColor: "#DDD",
-                                    backgroundColor: "#FFF",
-                                    marginHorizontal: 15,
-                                    marginTop: 0,
-                                    zIndex: 5,
-                                    shadowColor: "#000",
-                                    shadowOpacity: 0.1,
-                                    shadowOffset: { x: 0, y: 0 },
-                                    shadowRadius: 15,
-                                },
-                                description: {
-                                    fontSize: 16,
-                                },
-                                row: {
-                                    padding: 10,
-                                    height: 40,
-                                },
+                            fetchDetails = {true}
+                            enablePoweredByContainer = {false}
+                            returnKeyType={'search'} // Can be left out for default return key 
+                            listViewDisplayed={false}    // true/false/undefined
+                            styles = {{
+                            container: {
+                                position: 'absolute',
+                                width: '100%'
+                            },
+                            textInputContainer: {
+                                flex: 1,
+                                backgroundColor: 'transparent',
+                                height: 54,
+                                marginTop: 100,
+                                marginHorizontal: 20,
+                                borderTopWidth: 0,
+                                borderBottomWidth: 0
+                            },
+                            textInput: {
+                                height: 54,
+                                margin: 0,
+                                borderRadius: 0,
+                                paddingTop: 0,
+                                paddingBottom: 0,
+                                paddingLeft: 20,
+                                paddingRight: 20,
+                                marginTop: 0,
+                                marginLeft: 0,
+                                marginRight: 0,
+                                shadowColor: '#000',
+                                shadowOpacity: 0.1,
+                                shadowOffset: {x: 0, y: 0},
+                                shadowRadius: 15,
+                                borderWidth: 1,
+                                borderColor: '#DDD',
+                                fontSize: 18
+                            },
+                            listView: {
+                                borderWidth: 1,
+                                borderColor: "#DDD",
+                                backgroundColor: "#FFF",
+                                marginHorizontal: 20,
+                                shadowColor: "#000",
+                                shadowOpacity: 0.1,
+                                shadowOffset: {x: 0, y: 0},
+                                shadowRadius: 15
+                            },
+                            description: {
+                                fontSize: 16
+                            },
+                            row: {
+                                padding: 10,
+                                height: 50
+                            }
                             }}
                             debounce={300}
                         />

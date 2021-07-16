@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Image, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, Image, TouchableOpacity, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -11,16 +11,32 @@ import { CreateEvent } from "../screens/CreateEvent";
 import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
 
-function headerLogo(navigation) {
+function headerLogoBig(navigation) {
     return (
         <TouchableOpacity
-            style={{ paddingLeft: 20 }}
+            style={{ /*paddingLeft: 20*/ justifyContent: "center" }}
             onPress={() => {
                 navigation.navigate("Home");
             }}
         >
             <Image
-                style={{ width: 89, height: 29 }}
+                style={{ width: 154, height: 50 }}
+                source={require("../assets/UGoing_Logo.png")}
+            />
+        </TouchableOpacity>
+    );
+}
+
+function headerLogoSmall(navigation) {
+    return (
+        <TouchableOpacity
+            style={{ /*paddingLeft: 20*/ justifyContent: "center" }}
+            onPress={() => {
+                navigation.navigate("Home");
+            }}
+        >
+            <Image
+                style={{ width: 74, height: 24 }}
                 source={require("../assets/UGoing_Logo.png")}
             />
         </TouchableOpacity>
@@ -83,12 +99,16 @@ export const AppNavigator = () => {
                         component={HomeScreen}
                         options={({ navigation }) => ({
                             title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogoBig(navigation);
                             },
+                            headerStyle: styles.headerStyle,
+                            /*
                             headerRight: () => {
                                 return loginButton(navigation);
-                            },
+                            },*/
                         })}
                     />
 
@@ -98,7 +118,7 @@ export const AppNavigator = () => {
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {
-                                return headerLogo(navigation);
+                                return headerLogoSmall(navigation);
                             },
                             headerRight: () => {
                                 return loginButton(navigation);
@@ -111,7 +131,7 @@ export const AppNavigator = () => {
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {
-                                return headerLogo(navigation);
+                                return headerLogoSmall(navigation);
                             },
                         })}
                     />
@@ -121,7 +141,7 @@ export const AppNavigator = () => {
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {
-                                return headerLogo(navigation);
+                                return headerLogoSmall(navigation);
                             },
                         })}
                     />
@@ -130,3 +150,15 @@ export const AppNavigator = () => {
         </AuthContext.Provider>
     );
 };
+
+const styles = StyleSheet.create({
+    headerStyle: {
+        shadowColor: 'transparent',
+        shadowRadius: 0,
+        shadowOffset: {
+            height: 0,
+        },
+        elevation: 0,
+        borderBottomWidth: 0,
+    }
+});

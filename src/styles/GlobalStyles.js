@@ -48,6 +48,7 @@ export const GlobalStyles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: "SFPro",
         textAlign: "center",
+        letterSpacing: 0.28,
     },
     descriptionText: {
         fontSize: 22,
@@ -68,17 +69,19 @@ export const GlobalStyles = StyleSheet.create({
     },
     bodyText: {
         fontFamily: "SFPro",
-        fontSize: 16,
+        fontSize: 18,
     },
     buttonText: {
         color: "white",
-        fontSize: 22,
+        fontSize: 15,
     },
     submitButton: {
-        borderRadius: 7,
-        paddingHorizontal: 15,
-        paddingVertical: 10,
-        backgroundColor: GlobalColors.shamrock,
+        borderRadius: 8,
+        width: 145,
+        height: 44,
+        backgroundColor: "#292929",
+        justifyContent: "center",
+        alignItems: "center",
     },
     timeButton: {
         width: 150,
