@@ -109,7 +109,7 @@ export const PublishPost = ({ route, navigation }) => {
                     <Ionicons name="add-outline" size={32} color="black" />
                 </View>
             </View>
-            <View style={[GlobalStyles.infoSectionFilledGreen, {flexDirection: "row", marginTop: 21}]}>
+            <View style={[GlobalStyles.infoSectionFilledGreen, {flexDirection: "row", marginTop: 10}]}>
                 <View style={{width: "75%", borderColor: GlobalColors.greenOutline, borderRightWidth: 1, justifyContent: "center"}}>
                     <Text style={GlobalStyles.subheaderText_smaller}>Share {eventDetails.eventName}</Text>
                 </View> 

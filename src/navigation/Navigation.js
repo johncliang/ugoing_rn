@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Image, TouchableOpacity, Text } from "react-native";
+import { Image, TouchableOpacity, Text, Platform } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -11,6 +11,8 @@ import { CreateEvent } from "../screens/CreateEvent";
 import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
 import { PublishPost } from "../screens/PublishPost";
+
+const isWeb = Platform.OS === 'web';
 
 function headerLogo(navigation) {
     return (
@@ -74,11 +76,23 @@ export const AppNavigator = () => {
             </TouchableOpacity>
         );
     }
+    
+    const config = {
+        screens: {
+            Create: 'create',
+            Login: 'login',
+            Signup: 'signup'
+        }
+    }
 
+    const linking = {
+        prefixes: ['http://ugoing.us', 'ugoing://'],
+        config,
+    }
     return (
         <AuthContext.Provider value={userProvider}>
-            <NavigationContainer>
-                <Stack.Navigator initialRouteName="Home">
+            <NavigationContainer linking={linking}>
+                <Stack.Navigator initialRouteName="Create">
                     <Stack.Screen
                         name="Home"
                         component={HomeScreen}

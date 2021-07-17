@@ -21,6 +21,48 @@ import moment from "moment";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { fs } from "../Firebase/firebase";
 
+import usePlacesAutocomplete from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+
+import "@reach/combobox/styles.css";
+
+const PlacesAutocomplete = () => {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+  } = usePlacesAutocomplete();
+
+  const handleInput = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleSelect = (val) => {
+    setValue(val, false);
+  };
+
+  return (
+    <Combobox onSelect={handleSelect} aria-labelledby="demo">
+      <ComboboxInput value={value} onChange={handleInput} disabled={!ready} />
+      <ComboboxPopover>
+        <ComboboxList>
+          {status === "OK" &&
+            data.map(({ place_id, description }) => (
+              <ComboboxOption key={place_id} value={description} />
+            ))}
+        </ComboboxList>
+      </ComboboxPopover>
+    </Combobox>
+  );
+};
+
 const STATES = {
     NAME: 0,
     TIME: 1,
@@ -54,9 +96,11 @@ export const CreateEvent = ({ navigation }) => {
 
     const [sectionTitles, setSectionTitles] = useState([]);
     const [status, setStatus] = useState({
-        state: STATES.NAME,
+        state: STATES.PLACE,
     });
     const [errorStatus, setErrorStatus] = useState("");
+
+    //const [mapsLoading] = useGoogleMapsApi({ library: "places" });
 
     useEffect(() => {
         let newSectionTitles = [];
@@ -273,74 +317,7 @@ export const CreateEvent = ({ navigation }) => {
                             value={eventLocation}
                             placeholder="e.g. 100 Moffett Blvd"
                         /> */}
-                        <GooglePlacesAutocomplete
-                            placeholder="e.g. 100 Moffett Blvd"
-                            placeholderTextColor="#333"
-                            minLength={1}
-                            currentLocation="true"
-                            numberOfLines={3}
-                            onPress={(data, details = null) => {
-                                console.log(data, details);
-                            }}
-                            query={{
-                                key: "AIzaSyAn4ES_5Lu5aTaEv1nfi6T9nhJgKfNA7nw",
-                                language: "en",
-                            }}
-                            textInputProps={{
-                                autoCapitalize: "none",
-                                autoCorrect: false,
-                            }}
-                            fetchDetails={true}
-                            returnKeyType={"search"} // Can be left out for default return key
-                            styles={{
-                                container: {
-                                    flex: 1,
-                                    position: "absolute",
-                                    width: "100%",
-                                },
-                                textInputContainer: {
-                                    backgroundColor: "transparent",
-                                    height: 54,
-                                    marginTop: 250,
-                                    marginHorizontal: 15,
-                                },
-                                textInput: {
-                                    height: 54,
-                                    margin: 0,
-                                    borderRadius: 0,
-                                    paddingVertical: 15,
-                                    paddingHorizontal: 20,
-                                    shadowColor: "#000",
-                                    shadowOpacity: 0.1,
-                                    shadowOffset: { x: 0, y: 0 },
-                                    shadowRadius: 15,
-                                    borderWidth: 1,
-                                    borderColor: "#DDD",
-                                    borderRadius: 7,
-                                    fontSize: 18,
-                                },
-                                listView: {
-                                    borderWidth: 1,
-                                    borderColor: "#DDD",
-                                    backgroundColor: "#FFF",
-                                    marginHorizontal: 15,
-                                    marginTop: 0,
-                                    zIndex: 5,
-                                    shadowColor: "#000",
-                                    shadowOpacity: 0.1,
-                                    shadowOffset: { x: 0, y: 0 },
-                                    shadowRadius: 15,
-                                },
-                                description: {
-                                    fontSize: 16,
-                                },
-                                row: {
-                                    padding: 10,
-                                    height: 40,
-                                },
-                            }}
-                            debounce={300}
-                        />
+                        {/* {!loading ? <PlacesAutocomplete /> : null} */}
                         <Text style={GlobalStyles.subheaderText}>
                             Instructions
                         </Text>
