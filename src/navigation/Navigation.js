@@ -1,5 +1,11 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Image, TouchableOpacity, Text, Platform } from "react-native";
+import {
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+    Text,
+    Platform,
+} from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -12,18 +18,22 @@ import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
 import { PublishPost } from "../screens/PublishPost";
 
-const isWeb = Platform.OS === 'web';
+const isWeb = Platform.OS === "web";
 
-function headerLogo(navigation) {
+function headerLogo(navigation, bigLogo) {
     return (
         <TouchableOpacity
-            style={{ paddingLeft: 20 }}
+            style={{ justifyContent: "center" }}
             onPress={() => {
                 navigation.navigate("Home");
             }}
         >
             <Image
-                style={{ width: 89, height: 29 }}
+                style={
+                    bigLogo
+                        ? { width: 154, height: 50 }
+                        : { width: 74, height: 24 }
+                }
                 source={require("../assets/UGoing_Logo.png")}
             />
         </TouchableOpacity>
@@ -76,34 +86,37 @@ export const AppNavigator = () => {
             </TouchableOpacity>
         );
     }
-    
+
     const config = {
         screens: {
-            Create: 'create',
-            Login: 'login',
-            Signup: 'signup'
-        }
-    }
+            Create: "create",
+            Login: "login",
+            Signup: "signup",
+        },
+    };
 
     const linking = {
-        prefixes: ['http://ugoing.us', 'ugoing://'],
+        prefixes: ["http://ugoing.us", "ugoing://"],
         config,
-    }
+    };
     return (
         <AuthContext.Provider value={userProvider}>
             <NavigationContainer linking={linking}>
-                <Stack.Navigator initialRouteName="Create">
+                <Stack.Navigator initialRouteName="Home">
                     <Stack.Screen
                         name="Home"
                         component={HomeScreen}
                         options={({ navigation }) => ({
                             title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
                             },
-                            headerRight: () => {
-                                return loginButton(navigation);
-                            },
+                            headerStyle: styles.headerStyle,
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
                         })}
                     />
 
@@ -123,7 +136,7 @@ export const AppNavigator = () => {
                     <Stack.Screen
                         name="Publish"
                         component={PublishPost}
-                        initialParams={{uid: ""}}
+                        initialParams={{ uid: "" }}
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {
@@ -156,3 +169,15 @@ export const AppNavigator = () => {
         </AuthContext.Provider>
     );
 };
+
+const styles = StyleSheet.create({
+    headerStyle: {
+        shadowColor: "transparent",
+        shadowRadius: 0,
+        shadowOffset: {
+            height: 0,
+        },
+        elevation: 0,
+        borderBottomWidth: 0,
+    },
+});
