@@ -14,12 +14,25 @@ import "../styles/datePicker.css";
 import { DatePicker, TimePicker, Space } from "antd";
 import "antd/dist/antd.css";
 
-import { AddressSearchBar } from "../components/AddressSearchBar";
+import { ProgressBar } from 'react-native-paper';
 
 import moment from "moment";
 
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { fs } from "../Firebase/firebase";
+
+import usePlacesAutocomplete from "use-places-autocomplete";
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxPopover,
+  ComboboxList,
+  ComboboxOption,
+} from "@reach/combobox";
+
+import "@reach/combobox/styles.css";
+
+const place_id = 'AIzaSyAn4ES_5Lu5aTaEv1nfi6T9nhJgKfNA7nw';
+
 
 const STATES = {
     NAME: 0,
@@ -28,8 +41,6 @@ const STATES = {
     PEOPLE: 3,
     FINISH: 4,
 };
-
-const GooglePlacesKey = 'AIzaSyAn4ES_5Lu5aTaEv1nfi6T9nhJgKfNA7nw';
 
 export const CreateEvent = ({ navigation }) => {
     const [eventName, setEventName] = useState("");
@@ -60,6 +71,8 @@ export const CreateEvent = ({ navigation }) => {
     });
     const [errorStatus, setErrorStatus] = useState("");
 
+    //const [mapsLoading] = useGoogleMapsApi({ library: "places" });
+
     useEffect(() => {
         let newSectionTitles = [];
         for (let i = 0; i <= status.state; i++) {
@@ -67,24 +80,29 @@ export const CreateEvent = ({ navigation }) => {
             newSectionTitles.push(newSection);
         }
         setSectionTitles((sectionTitles) => newSectionTitles);
-        console.log(sectionTitles);
     }, [status]);
 
     function getSectionTitle(section) {
         switch (section) {
             case STATES.NAME:
-                return eventName != "" ? eventName : "The Basics ✏️";
+                return eventName != "" ? eventName : "What ✏️";
             case STATES.TIME:
-                return "The When 🕐";
+                return "When 🕐";
             case STATES.PLACE:
-                return "The Where 🌎";
+                return "Where 🌎";
             case STATES.PEOPLE:
-                return "The Who 📞";
+                return "Who 📞";
         }
     }
 
+    const showProgressBar = () => {
+        var progress = status.state / 4;
+        return ( 
+            <ProgressBar progress={progress} color={"black"} style={{marginHorizontal: 20, height: 3}} />
+        );
+    }
+
     const getMinimizedSection = ({ item }) => {
-        console.log(getSectionTitle(item.id));
         return (
             <View style={styles.minimizedSection}>
                 <Text style={GlobalStyles.subheaderText}>
@@ -118,8 +136,6 @@ export const CreateEvent = ({ navigation }) => {
     const onChangeDate = (date, isStartTime) => {
         if (isStartTime) {
             setStartDate(date);
-            console.log(endDate.isBefore(startDate));
-            console.log(endDate.isAfter(startDate));
             if (endDate.isBefore(date)) {
                 setEndDate(date);
             }
@@ -156,38 +172,45 @@ export const CreateEvent = ({ navigation }) => {
         }
     }
 
+    // TODO: Pass in optional user field to tether events to a uid
     function submitData() {
         let eventData = {
             eventName: eventName,
             eventDetails: eventDetails,
-            startDate: startDate.format("D, M, YYYY").toString(),
-            endDate: endDate.format("D, M, YYYY").toString(),
-            startTime: startTime.format("h:m").toString(),
-            endTime: endTime.format("h:m").toString(),
+            startDate: startDate.format("M/D/YYYY").toString(),
+            endDate: endDate.format("M/D/YYYY").toString(),
+            startTime: startTime.format("h:mm").toString(),
+            endTime: endTime.format("h:mm").toString(),
             eventLocation: eventLocation,
             arrivalInstructions: arrivalInstructions,
             phoneNumber: phoneNumber,
             organizerName: organizerName,
         };
 
-        console.log(submitData);
-
-        // fs.collection("alerts").add(eventData);
+        fs.collection("events").add(eventData).then((value) => {
+            console.log(value.id);
+            navigation.navigate("Publish", {uid: value.id});
+        });
     }
+
 
     const getCurrentSection = () => {
         switch (status.state) {
             case STATES.NAME:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>
-                            Event Name
+                            Event Name{"\ "}
+                            <Text style={{color: 'red'}}>
+                                 *
+                            </Text>
                         </Text>
                         <TextInput
                             style={GlobalStyles.textInput}
                             onChangeText={setEventName}
                             value={eventName}
                             placeholder="e.g. John's Surprise Birthday Party"
+                            autoCompleteType='off'
                         />
                         <Text style={GlobalStyles.subheaderText}>
                             Event Description
@@ -197,12 +220,13 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setEventDetails}
                             value={eventDetails}
                             placeholder="Enter your event details here!"
+                            autoCompleteType='off'
                         />
                     </View>
                 );
             case STATES.TIME:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <View style={{ alignItems: "center" }}></View>
                         <Text style={GlobalStyles.subheaderText}>
                             Start Time
@@ -259,7 +283,7 @@ export const CreateEvent = ({ navigation }) => {
                 );
             case STATES.PLACE:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>Place</Text>
                         {/* <TextInput
                             style={GlobalStyles.textInput}
@@ -267,85 +291,7 @@ export const CreateEvent = ({ navigation }) => {
                             value={eventLocation}
                             placeholder="e.g. 100 Moffett Blvd"
                         /> */}
-                        <GooglePlacesAutocomplete
-                            placeholder = 'Where?'
-                            placeholderTextColor = '#333'
-                            minLength = {1}
-
-                            onChangeText={setEventLocation}
-                            onPress = {(data, details) => {
-                                console.log(data, details);
-                            }}
-                            query = {{
-                                key: GooglePlacesKey,
-                                language: 'en'
-                            }}
-                            requestUrl={{
-                                useOnPlatform: 'web', // or "all"
-                                url:
-                                `https://maps.googleapis.com/maps/api/place/`, // or any proxy server that hits https://maps.googleapis.com/maps/api
-                            }}
-                            textInputProps={{
-                            autoCapitalize: "none",
-                            autoCorrect: false
-                            }}
-                            fetchDetails = {true}
-                            enablePoweredByContainer = {false}
-                            returnKeyType={'search'} // Can be left out for default return key 
-                            listViewDisplayed={false}    // true/false/undefined
-                            styles = {{
-                            container: {
-                                position: 'absolute',
-                                width: '100%'
-                            },
-                            textInputContainer: {
-                                flex: 1,
-                                backgroundColor: 'transparent',
-                                height: 54,
-                                marginTop: 100,
-                                marginHorizontal: 20,
-                                borderTopWidth: 0,
-                                borderBottomWidth: 0
-                            },
-                            textInput: {
-                                height: 54,
-                                margin: 0,
-                                borderRadius: 0,
-                                paddingTop: 0,
-                                paddingBottom: 0,
-                                paddingLeft: 20,
-                                paddingRight: 20,
-                                marginTop: 0,
-                                marginLeft: 0,
-                                marginRight: 0,
-                                shadowColor: '#000',
-                                shadowOpacity: 0.1,
-                                shadowOffset: {x: 0, y: 0},
-                                shadowRadius: 15,
-                                borderWidth: 1,
-                                borderColor: '#DDD',
-                                fontSize: 18
-                            },
-                            listView: {
-                                borderWidth: 1,
-                                borderColor: "#DDD",
-                                backgroundColor: "#FFF",
-                                marginHorizontal: 20,
-                                shadowColor: "#000",
-                                shadowOpacity: 0.1,
-                                shadowOffset: {x: 0, y: 0},
-                                shadowRadius: 15
-                            },
-                            description: {
-                                fontSize: 16
-                            },
-                            row: {
-                                padding: 10,
-                                height: 50
-                            }
-                            }}
-                            debounce={300}
-                        />
+                        {/* {!loading ? <PlacesAutocomplete /> : null} */}
                         <Text style={GlobalStyles.subheaderText}>
                             Instructions
                         </Text>
@@ -354,12 +300,13 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setArrivalInstructions}
                             value={arrivalInstructions}
                             placeholder="There's guest parking in Lot B!"
+                            autoCompleteType='off'
                         />
                     </View>
                 );
             case STATES.PEOPLE:
                 return (
-                    <View style={styles.infoSection}>
+                    <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>
                             Event Creator
                         </Text>
@@ -368,6 +315,7 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setOrganizerName}
                             value={organizerName}
                             placeholder="Joe Shmoe"
+                            autoCompleteType='name'
                         />
                         <Text style={GlobalStyles.subheaderText}>
                             Phone Number
@@ -377,6 +325,7 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setPhoneNumber}
                             value={phoneNumber}
                             placeholder="678-999-8212"
+                            autoCompleteType='tel'
                         />
                     </View>
                 );
@@ -386,7 +335,6 @@ export const CreateEvent = ({ navigation }) => {
     };
 
     function buttonText() {
-        console.log(status);
         switch (status.state) {
             case STATES.NAME:
                 return "Next";
@@ -403,6 +351,7 @@ export const CreateEvent = ({ navigation }) => {
 
     return (
         <View style={styles.container}>
+            {showProgressBar()}
             <View style={styles.topSection}>
                 <View>
                     <FlatList
@@ -431,13 +380,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#fff",
         justifyContent: "center",
-    },
-    infoSection: {
-        borderColor: "lightgrey",
-        borderWidth: 1,
-        borderRadius: 7,
-        marginHorizontal: 20,
-        paddingVertical: 15,
     },
     topSection: {
         flex: 1,

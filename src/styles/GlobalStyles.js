@@ -27,6 +27,15 @@ export const GlobalColors = {
     light: "#E46C6C",
     lighter: "#ED9D9D",
     lightest: "#F6CECE",
+
+    // Button color
+    lightBlack: "#292929",
+    veryLightGrey: "#F4F4F4",
+    lightestGrey: "#D5D5D5",
+    blueOutline: "#2C69F6",
+    lightBlue: "#EFF5FE",
+    greenOutline: "#96C746",
+    lightGreen: "#FAFDF2",
 };
 export const GlobalStyles = StyleSheet.create({
     container: {
@@ -48,7 +57,6 @@ export const GlobalStyles = StyleSheet.create({
         fontWeight: "bold",
         fontFamily: "SFPro",
         textAlign: "center",
-        letterSpacing: 0.28,
     },
     descriptionText: {
         fontSize: 22,
@@ -69,19 +77,18 @@ export const GlobalStyles = StyleSheet.create({
     },
     bodyText: {
         fontFamily: "SFPro",
-        fontSize: 18,
+        fontSize: 16,
+        paddingLeft: 20,
     },
     buttonText: {
         color: "white",
-        fontSize: 15,
+        fontSize: 16,
     },
     submitButton: {
-        borderRadius: 8,
-        width: 145,
-        height: 44,
-        backgroundColor: "#292929",
-        justifyContent: "center",
-        alignItems: "center",
+        borderRadius: 7,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: GlobalColors.lightBlack,
     },
     timeButton: {
         width: 150,
@@ -97,11 +104,46 @@ export const GlobalStyles = StyleSheet.create({
         borderColor: "lightgrey",
         borderRadius: 7,
         placeholderTextColor: "lightgrey",
+        backgroundColor: "white",
     },
     errorText: {
         fontSize: 15,
         fontFamily: "SFPro",
         color: "red",
         textAlign: "center",
+    },
+
+    infoSection: {
+        backgroundColor: "#fff",
+        borderWidth: 1,
+        borderColor: GlobalColors.lightestGrey,
+        borderRadius: 7,
+        marginHorizontal: 20,
+        paddingVertical: 15,
+    },
+
+    infoSectionFilled: {
+        backgroundColor: GlobalColors.veryLightGrey,
+        borderRadius: 7,
+        marginHorizontal: 20,
+        paddingVertical: 15,
+    },
+    infoSectionFilledGreen: {
+        backgroundColor: GlobalColors.lightGreen,
+        borderWidth: 1,
+        borderColor: GlobalColors.greenOutline,
+        borderRadius: 7,
+        marginHorizontal: 20,
+        paddingVertical: 15,
+    },
+
+    infoSectionFilledBlue: {
+        backgroundColor: GlobalColors.lightBlue,
+        borderWidth: 1,
+        borderColor: GlobalColors.blueOutline,
+        borderRadius: 7,
+        borderRadius: 7,
+        marginHorizontal: 20,
+        paddingVertical: 15,
     },
 });
