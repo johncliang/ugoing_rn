@@ -5,7 +5,6 @@ import {
     View,
     StyleSheet,
     TouchableOpacity,
-    TouchableHighlight,
     Dimensions,
     ScrollView,
     FlatList
