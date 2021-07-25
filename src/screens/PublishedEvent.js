@@ -5,7 +5,7 @@ import { fs } from "../Firebase/firebase";
 import { Ionicons } from "@expo/vector-icons";
 
 // route.params - uid to event
-export const PublishPost = ({ route, navigation }) => {
+export const PublishedEvent = ({ route, navigation }) => {
     //console.log("passed info is " + JSON.stringify(route.params));
     const [eventDetails, setEventDetails] = useState({});
 
@@ -154,7 +154,7 @@ export const PublishPost = ({ route, navigation }) => {
                             { textDecorationLine: "underline" },
                         ]}
                     >
-                        ugoing.us/{uid}
+                        ugoing.us/cks0i7SlWYGD8Vy4Cr8z
                     </Text>
                 </View>
                 <View

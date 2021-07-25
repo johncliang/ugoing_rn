@@ -31,6 +31,7 @@ export const HomeScreen = ({ navigation }) => {
                                     paddingHorizontal: 35,
                                     color: "#292929",
                                     fontWeight: "normal",
+                                    letterSpacing: 1,
                                 },
                             ]}
                         >
@@ -77,6 +78,8 @@ export const HomeScreen = ({ navigation }) => {
                                     fontSize: 24,
                                     marginTop: 5,
                                     justifyContent: "left",
+                                    fontWeight: 700,
+                                    letterSpacing: 1,
                                 },
                             ]}
                         >
@@ -91,7 +94,7 @@ export const HomeScreen = ({ navigation }) => {
                         <Text
                             style={[
                                 GlobalStyles.bodyText,
-                                { textAlign: "right" },
+                                { textAlign: "right", fontSize: 18 },
                             ]}
                         >
                             UGoing creates a{" "}
@@ -125,6 +128,9 @@ export const HomeScreen = ({ navigation }) => {
                                         fontSize: 24,
                                         marginBottom: 5,
                                         textAlign: "left",
+                                        fontWeight: 700,
+                                        letterSpacing: 1,
+                                        paddingBottom: 5,
                                     },
                                 ]}
                             >
@@ -133,7 +139,7 @@ export const HomeScreen = ({ navigation }) => {
                             <Text
                                 style={[
                                     GlobalStyles.bodyText,
-                                    { marginBottom: 5 },
+                                    { paddingHorizontal: 0, marginBottom: 5 },
                                 ]}
                             >
                                 Details get burried often in the group chat.
@@ -177,6 +183,9 @@ export const HomeScreen = ({ navigation }) => {
                                         fontSize: 24,
                                         marginVertical: 5,
                                         textAlign: "right",
+                                        fontStyle: "normal",
+                                        fontWeight: 700,
+                                        letterSpacing: 1,
                                     },
                                 ]}
                             >
@@ -185,7 +194,11 @@ export const HomeScreen = ({ navigation }) => {
                             <Text
                                 style={[
                                     GlobalStyles.bodyText,
-                                    { textAlign: "right" },
+                                    {
+                                        textAlign: "right",
+                                        fontSize: 18,
+                                        paddingHorizontal: 0,
+                                    },
                                 ]}
                             >
                                 UGoing lets friends add your event directly into
@@ -214,6 +227,8 @@ export const HomeScreen = ({ navigation }) => {
                                     fontSize: 24,
                                     marginTop: 5,
                                     justifyContent: "left",
+                                    fontWeight: 700,
+                                    letterSpacing: 1,
                                 },
                             ]}
                         >
@@ -224,7 +239,12 @@ export const HomeScreen = ({ navigation }) => {
                         <Text
                             style={[
                                 GlobalStyles.bodyText,
-                                { textAlign: "right" },
+                                {
+                                    textAlign: "right",
+                                    paddingHorizontal: 17,
+                                    fontSize: 18,
+                                    paddingTop: 38,
+                                },
                             ]}
                         >
                             Does it get any better?
@@ -250,6 +270,9 @@ export const HomeScreen = ({ navigation }) => {
                                 paddingHorizontal: 35,
                                 color: "#292929",
                                 fontSize: 24,
+                                fontStyle: "normal",
+                                fontWeight: 700,
+                                letterSpacing: 1,
                             },
                         ]}
                     >

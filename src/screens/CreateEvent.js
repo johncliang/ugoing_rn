@@ -14,54 +14,12 @@ import "../styles/datePicker.css";
 import { DatePicker, TimePicker, Space } from "antd";
 import "antd/dist/antd.css";
 
-import { ProgressBar } from 'react-native-paper';
+import { ProgressBar } from "react-native-paper";
 
 import moment from "moment";
-
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { fs } from "../Firebase/firebase";
 
-import usePlacesAutocomplete from "use-places-autocomplete";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxPopover,
-  ComboboxList,
-  ComboboxOption,
-} from "@reach/combobox";
-
-import "@reach/combobox/styles.css";
-
-const PlacesAutocomplete = () => {
-  const {
-    ready,
-    value,
-    suggestions: { status, data },
-    setValue,
-  } = usePlacesAutocomplete();
-
-  const handleInput = (e) => {
-    setValue(e.target.value);
-  };
-
-  const handleSelect = (val) => {
-    setValue(val, false);
-  };
-
-  return (
-    <Combobox onSelect={handleSelect} aria-labelledby="demo">
-      <ComboboxInput value={value} onChange={handleInput} disabled={!ready} />
-      <ComboboxPopover>
-        <ComboboxList>
-          {status === "OK" &&
-            data.map(({ place_id, description }) => (
-              <ComboboxOption key={place_id} value={description} />
-            ))}
-        </ComboboxList>
-      </ComboboxPopover>
-    </Combobox>
-  );
-};
+import AutocompleteSearch from "../components/AutocompleteSearch";
 
 const STATES = {
     NAME: 0,
@@ -72,20 +30,21 @@ const STATES = {
 };
 
 export const CreateEvent = ({ navigation }) => {
+    const [status, setStatus] = useState({
+        state: STATES.NAME,
+    });
+
     const [eventName, setEventName] = useState("");
     const [eventDetails, setEventDetails] = useState("");
 
-    const [startDate, setStartDate] = useState(moment());
-    const [endDate, setEndDate] = useState(moment());
-
-    const [startTime, setStartTime] = useState(
+    const [startDate, setStartDate] = useState(
         moment().startOf("day").add(10, "hours")
+    );
+    const [endDate, setEndDate] = useState(
+        moment().startOf("day").add(11, "hours")
     );
 
     const [showEndTime, setShowEndTime] = useState(true);
-    const [endTime, setEndTime] = useState(
-        moment().startOf("day").add(11, "hours")
-    );
 
     // TODO: Change to be based on position / Google Maps
     const [eventLocation, setEventLocation] = useState("");
@@ -95,9 +54,7 @@ export const CreateEvent = ({ navigation }) => {
     const [organizerName, setOrganizerName] = useState("");
 
     const [sectionTitles, setSectionTitles] = useState([]);
-    const [status, setStatus] = useState({
-        state: STATES.PLACE,
-    });
+
     const [errorStatus, setErrorStatus] = useState("");
 
     //const [mapsLoading] = useGoogleMapsApi({ library: "places" });
@@ -126,10 +83,14 @@ export const CreateEvent = ({ navigation }) => {
 
     const showProgressBar = () => {
         var progress = status.state / 4;
-        return ( 
-            <ProgressBar progress={progress} color={"black"} style={{marginHorizontal: 20}} />
+        return (
+            <ProgressBar
+                progress={progress}
+                color={"black"}
+                style={{ marginHorizontal: 10 }}
+            />
         );
-    }
+    };
 
     const getMinimizedSection = ({ item }) => {
         return (
@@ -183,14 +144,14 @@ export const CreateEvent = ({ navigation }) => {
     function validateSection() {
         switch (status.state) {
             case STATES.NAME:
-                if (eventName == "")
+                if (eventName === "")
                     setErrorStatus("Please enter a valid event name!");
-                else {
-                    incrementStatus();
-                }
+                else incrementStatus();
                 return;
             case STATES.TIME:
-                incrementStatus();
+                if (startDate === null)
+                    setErrorStatus("Please input a valid start date!");
+                else incrementStatus();
                 return;
             case STATES.PLACE:
                 incrementStatus();
@@ -206,20 +167,22 @@ export const CreateEvent = ({ navigation }) => {
         let eventData = {
             eventName: eventName,
             eventDetails: eventDetails,
-            startDate: startDate.format("M/D/YYYY").toString(),
-            endDate: endDate.format("M/D/YYYY").toString(),
-            startTime: startTime.format("h:mm").toString(),
-            endTime: endTime.format("h:mm").toString(),
+            startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
+            endDate: endDate.format("M/D/YYYY, h:mm a").toString(),
             eventLocation: eventLocation,
             arrivalInstructions: arrivalInstructions,
             phoneNumber: phoneNumber,
             organizerName: organizerName,
         };
 
-        fs.collection("events").add(eventData).then((value) => {
-            console.log(value.id);
-            navigation.navigate("Publish", {uid: value.id});
-        });
+        console.log(eventData);
+
+        fs.collection("events")
+            .add(eventData)
+            .then((value) => {
+                console.log(value.id);
+                navigation.navigate("Publish", { uid: value.id });
+            });
     }
 
     const getCurrentSection = () => {
@@ -228,16 +191,14 @@ export const CreateEvent = ({ navigation }) => {
                 return (
                     <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>
-                            Event Name{"\ "}
-                            <Text style={{color: 'red'}}>
-                                 *
-                            </Text>
+                            Event Name <Text style={{ color: "red" }}>*</Text>
                         </Text>
                         <TextInput
                             style={GlobalStyles.textInput}
                             onChangeText={setEventName}
                             value={eventName}
                             placeholder="e.g. John's Surprise Birthday Party"
+                            autoCompleteType="off"
                         />
                         <Text style={GlobalStyles.subheaderText}>
                             Event Description
@@ -247,6 +208,7 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setEventDetails}
                             value={eventDetails}
                             placeholder="Enter your event details here!"
+                            autoCompleteType="off"
                         />
                     </View>
                 );
@@ -260,15 +222,17 @@ export const CreateEvent = ({ navigation }) => {
                         <View style={GlobalStyles.timeButton}>
                             <DatePicker
                                 value={startDate}
-                                onChange={(dates) => onChangeDate(dates, true)}
+                                onChange={(date) => onChangeDate(date, true)}
+                                inputReadOnly={true}
                             />
                             <TimePicker
                                 format={"HH:mm"}
                                 minuteStep={5}
                                 use12Hours={true}
                                 showNow={false}
-                                value={startTime}
-                                onChange={setStartTime}
+                                value={startDate}
+                                onChange={(date) => onChangeDate(date, true)}
+                                inputReadOnly={true}
                             />
                         </View>
 
@@ -290,18 +254,22 @@ export const CreateEvent = ({ navigation }) => {
                             <View style={GlobalStyles.timeButton}>
                                 <DatePicker
                                     value={endDate}
-                                    onChange={(dates) =>
-                                        onChangeDate(dates, false)
+                                    onChange={(date) =>
+                                        onChangeDate(date, false)
                                     }
                                     disabledDate={disabledDates}
+                                    inputReadOnly={true}
                                 />
                                 <TimePicker
                                     format={"HH:mm"}
                                     minuteStep={5}
                                     use12Hours={true}
                                     showNow={false}
-                                    value={endTime}
-                                    onChange={setEndTime}
+                                    value={endDate}
+                                    onChange={(date) =>
+                                        onChangeDate(date, false)
+                                    }
+                                    inputReadOnly={true}
                                 />
                             </View>
                         )}
@@ -311,13 +279,11 @@ export const CreateEvent = ({ navigation }) => {
                 return (
                     <View style={GlobalStyles.infoSectionFilled}>
                         <Text style={GlobalStyles.subheaderText}>Place</Text>
-                        {/* <TextInput
-                            style={GlobalStyles.textInput}
-                            onChangeText={setEventLocation}
-                            value={eventLocation}
-                            placeholder="e.g. 100 Moffett Blvd"
-                        /> */}
-                        {/* {!loading ? <PlacesAutocomplete /> : null} */}
+                        <AutocompleteSearch
+                            onChangeOutputText={(text) => {
+                                setEventLocation((eventLocation) => text);
+                            }}
+                        />
                         <Text style={GlobalStyles.subheaderText}>
                             Instructions
                         </Text>
@@ -326,6 +292,7 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setArrivalInstructions}
                             value={arrivalInstructions}
                             placeholder="There's guest parking in Lot B!"
+                            autoCompleteType="off"
                         />
                     </View>
                 );
@@ -340,6 +307,7 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setOrganizerName}
                             value={organizerName}
                             placeholder="Joe Shmoe"
+                            autoCompleteType="name"
                         />
                         <Text style={GlobalStyles.subheaderText}>
                             Phone Number
@@ -349,6 +317,7 @@ export const CreateEvent = ({ navigation }) => {
                             onChangeText={setPhoneNumber}
                             value={phoneNumber}
                             placeholder="678-999-8212"
+                            autoCompleteType="tel"
                         />
                     </View>
                 );
@@ -373,9 +342,9 @@ export const CreateEvent = ({ navigation }) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={GlobalStyles.container}>
             {showProgressBar()}
-            <View style={styles.topSection}>
+            <View style={GlobalStyles.topSection}>
                 <View>
                     <FlatList
                         data={sectionTitles}
@@ -399,14 +368,6 @@ export const CreateEvent = ({ navigation }) => {
     );
 };
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        justifyContent: "center",
-    },
-    topSection: {
-        flex: 1,
-    },
     minimizedSection: {
         flex: 1,
         flexDirection: "row",

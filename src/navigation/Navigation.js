@@ -17,6 +17,7 @@ import { CreateEvent } from "../screens/CreateEvent";
 import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
 import { PublishPost } from "../screens/PublishPost";
+import { PublishedEvent } from "../screens/PublishedEvent";
 
 const isWeb = Platform.OS === "web";
 
@@ -89,14 +90,23 @@ export const AppNavigator = () => {
 
     const config = {
         screens: {
+            Home: {
+                path: "",
+            },
             Create: "create",
             Login: "login",
             Signup: "signup",
+            Event: {
+                path: "u/:eventID?",
+                parse: {
+                    eventID: (eventID) => `${eventID}`,
+                },
+            },
         },
     };
 
     const linking = {
-        prefixes: ["http://ugoing.us", "ugoing://"],
+        prefixes: ["http://ugoing.us", "https://ugoing.us", "ugoing://"],
         config,
     };
     return (
