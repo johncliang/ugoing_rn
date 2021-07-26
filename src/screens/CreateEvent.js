@@ -7,6 +7,8 @@ import {
     TouchableOpacity,
     FlatList,
     Switch,
+    Keyboard,
+    TouchableWithoutFeedback,
 } from "react-native";
 import { GlobalColors, GlobalStyles } from "../styles/GlobalStyles";
 import "../styles/datePicker.css";
@@ -231,10 +233,12 @@ export const CreateEvent = ({ navigation }) => {
                         <Text style={GlobalStyles.subheaderText}>
                             Start Time
                         </Text>
-                        <View style={GlobalStyles.timeButton}>
+                        <View style={[GlobalStyles.timeButton]}>
                             <DatePicker
                                 value={startDate}
                                 onChange={(dates) => onChangeDate(dates, true)}
+                                inputReadOnly={true}
+                                
                             />
                             <TimePicker
                                 format={"HH:mm"}
@@ -243,7 +247,9 @@ export const CreateEvent = ({ navigation }) => {
                                 showNow={false}
                                 value={startTime}
                                 onChange={setStartTime}
+                                inputReadOnly={true}
                             />
+                            
                         </View>
 
                         <View style={styles.endTimeSection}>
@@ -258,6 +264,7 @@ export const CreateEvent = ({ navigation }) => {
                                     true: GlobalColors.shamrock,
                                 }}
                                 activeThumbColor={GlobalColors.shamrock}
+                                
                             ></Switch>
                         </View>
                         {showEndTime && (
@@ -268,6 +275,8 @@ export const CreateEvent = ({ navigation }) => {
                                         onChangeDate(dates, false)
                                     }
                                     disabledDate={disabledDates}
+                                    inputReadOnly={true}
+                                    
                                 />
                                 <TimePicker
                                     format={"HH:mm"}
@@ -276,6 +285,7 @@ export const CreateEvent = ({ navigation }) => {
                                     showNow={false}
                                     value={endTime}
                                     onChange={setEndTime}
+                                    inputReadOnly={true}
                                 />
                             </View>
                         )}

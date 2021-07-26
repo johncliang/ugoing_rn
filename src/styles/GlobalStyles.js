@@ -51,6 +51,7 @@ export const GlobalStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-end",
         paddingBottom: 40,
+        zIndex: -1,
     },
     headerText: {
         fontSize: 36,
