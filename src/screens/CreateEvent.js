@@ -181,7 +181,7 @@ export const CreateEvent = ({ navigation }) => {
             .add(eventData)
             .then((value) => {
                 console.log(value.id);
-                navigation.navigate("Publish", { uid: value.id });
+                navigation.navigate("Publish", { eventID: value.id });
             });
     }
 

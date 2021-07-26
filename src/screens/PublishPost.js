@@ -4,19 +4,19 @@ import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
 import { fs } from "../Firebase/firebase";
 import { Ionicons } from "@expo/vector-icons";
 
-// route.params - uid to event
+// route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
     //console.log("passed info is " + JSON.stringify(route.params));
     const [eventDetails, setEventDetails] = useState({});
 
-    const { uid } = route.params;
+    const { eventID } = route.params;
 
     useEffect(() => {
-        if (uid == "") {
+        if (eventID == "") {
             console.log("route params not found");
             return;
         }
-        var docRef = fs.collection("events").doc(uid);
+        var docRef = fs.collection("events").doc(eventID);
         //var docRef = fs.collection('events').doc("cks0i7SlWYGD8Vy4Cr8z");
 
         docRef
@@ -26,7 +26,7 @@ export const PublishPost = ({ route, navigation }) => {
                     setEventDetails(doc.data());
                 } else {
                     console.log(
-                        "ERROR: Document with uid " +
+                        "ERROR: Document with eventID " +
                             route.params +
                             " not found!"
                     );
@@ -35,7 +35,7 @@ export const PublishPost = ({ route, navigation }) => {
             .catch((error) => {
                 console.log("Error getting document:", error);
             });
-    }, [route.params?.uid]);
+    }, [route.params?.eventID]);
 
     const getTitleSection = () => {
         // check to make sure firebase data exists
@@ -154,7 +154,7 @@ export const PublishPost = ({ route, navigation }) => {
                             { textDecorationLine: "underline" },
                         ]}
                     >
-                        ugoing.us/{uid}
+                        ugoing.us/u/{eventID}
                     </Text>
                 </View>
                 <View

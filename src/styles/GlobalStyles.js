@@ -36,6 +36,7 @@ export const GlobalColors = {
     lightBlue: "#EFF5FE",
     greenOutline: "#96C746",
     lightGreen: "#FAFDF2",
+    darkGrey: "#7B7B7B",
 };
 export const GlobalStyles = StyleSheet.create({
     container: {
@@ -60,7 +61,11 @@ export const GlobalStyles = StyleSheet.create({
         letterSpacing: 0.28,
     },
     descriptionText: {
-        fontSize: 22,
+        fontFamily: "SFPro",
+        fontWeight: "bold",
+        fontSize: 16,
+        color: GlobalColors.darkGrey,
+        paddingLeft: 20,
     },
     subheaderText: {
         fontSize: 22,

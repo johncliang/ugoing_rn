@@ -4,20 +4,20 @@ import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
 import { fs } from "../Firebase/firebase";
 import { Ionicons } from "@expo/vector-icons";
 
-// route.params - uid to event
+// route.params - eventID to event
 export const PublishedEvent = ({ route, navigation }) => {
     //console.log("passed info is " + JSON.stringify(route.params));
     const [eventDetails, setEventDetails] = useState({});
 
-    const { uid } = route.params;
+    const { eventID } = route.params;
 
     useEffect(() => {
-        if (uid == "") {
+        console.log(route);
+        if (eventID == "") {
             console.log("route params not found");
             return;
         }
-        var docRef = fs.collection("events").doc(uid);
-        //var docRef = fs.collection('events').doc("cks0i7SlWYGD8Vy4Cr8z");
+        var docRef = fs.collection("events").doc(eventID);
 
         docRef
             .get()
@@ -26,7 +26,7 @@ export const PublishedEvent = ({ route, navigation }) => {
                     setEventDetails(doc.data());
                 } else {
                     console.log(
-                        "ERROR: Document with uid " +
+                        "ERROR: Document with eventID " +
                             route.params +
                             " not found!"
                     );
@@ -35,7 +35,7 @@ export const PublishedEvent = ({ route, navigation }) => {
             .catch((error) => {
                 console.log("Error getting document:", error);
             });
-    }, [route.params?.uid]);
+    }, [route.params?.eventID]);
 
     const getTitleSection = () => {
         // check to make sure firebase data exists
@@ -48,68 +48,49 @@ export const PublishedEvent = ({ route, navigation }) => {
                 <Text style={GlobalStyles.subheaderText}>
                     {eventDetails.eventName}
                 </Text>
-
-                <TouchableOpacity
-                    style={{
-                        paddingRight: 20,
-                        justifyContent: "center",
-                    }}
-                    onPress={() => {
-                        // navigate to actual event
-                    }}
-                >
-                    <Text
-                        style={{
-                            textDecorationLine: "underline",
-                            fontSize: 15,
-                        }}
-                    >
-                        view event
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        );
-    };
-
-    const getCongratsSection = () => {
-        return (
-            <View style={GlobalStyles.infoSection}>
-                <Text style={GlobalStyles.subheaderText_smaller}>
-                    Congratulations 👏🎉
-                </Text>
-                <Text style={GlobalStyles.bodyText}>
-                    You’ve just published{" \n"}
-                </Text>
-                <Text
-                    style={[
-                        GlobalStyles.bodyText,
-                        {
-                            fontWeight: "bold",
-                            paddingLeft: 0,
-                            textAlign: "center",
-                        },
-                    ]}
-                >
-                    {eventDetails.eventName}!
-                </Text>
-                <Text style={GlobalStyles.bodyText}>
-                    Click below to share details with friends:{" "}
-                </Text>
             </View>
         );
     };
 
     return (
-        <View style={GlobalStyles.container}>
+        <View
+            style={[GlobalStyles.container, { justifyContent: "flex-start" }]}
+        >
             <View style={{ justifyContent: "flex-start" }}>
-                {getTitleSection()}
-                {getCongratsSection()}
-                <Text style={GlobalStyles.subheaderText}>Plan It 📅</Text>
+                <View style={styles.eventField}>
+                    {getTitleSection()}
+
+                    <Text style={GlobalStyles.descriptionText}>
+                        {eventDetails.eventDetails}
+                    </Text>
+                </View>
+                <View style={styles.eventField}>
+                    <Text style={GlobalStyles.subheaderText}>When 🕐</Text>
+                    <Text style={GlobalStyles.descriptionText}>
+                        {eventDetails.startDate} to {eventDetails.endDate}
+                    </Text>
+                </View>
+                <View style={styles.eventField}>
+                    <Text style={GlobalStyles.subheaderText}>Where 🌎</Text>
+                    <Text style={GlobalStyles.descriptionText}>
+                        {eventDetails.eventLocation}
+                        {"\n\n"}
+                        {eventDetails.arrivalInstructions}
+                    </Text>
+                </View>
+                <View style={styles.eventField}>
+                    <Text style={GlobalStyles.subheaderText}>Who 📞</Text>
+                    <Text style={GlobalStyles.descriptionText}>
+                        {eventDetails.organizerName}
+                        {"\n"}
+                        {eventDetails.phoneNumber}
+                    </Text>
+                </View>
             </View>
             <View
                 style={[
                     GlobalStyles.infoSectionFilledBlue,
-                    { flexDirection: "row" },
+                    { flexDirection: "row", marginVertical: 15 },
                 ]}
             >
                 <View
@@ -120,41 +101,7 @@ export const PublishedEvent = ({ route, navigation }) => {
                     }}
                 >
                     <Text style={GlobalStyles.subheaderText_smaller}>
-                        Add to Calendar
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        width: "25%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Ionicons name="add-outline" size={32} color="black" />
-                </View>
-            </View>
-            <Text style={GlobalStyles.subheaderText}>Share It 📤</Text>
-            <View
-                style={[
-                    GlobalStyles.infoSectionFilledGreen,
-                    { flexDirection: "row" },
-                ]}
-            >
-                <View
-                    style={{
-                        width: "75%",
-                        borderColor: GlobalColors.greenOutline,
-                        borderRightWidth: 1,
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text
-                        style={[
-                            GlobalStyles.bodyText,
-                            { textDecorationLine: "underline" },
-                        ]}
-                    >
-                        ugoing.us/cks0i7SlWYGD8Vy4Cr8z
+                        Add to Calendar 📅
                     </Text>
                 </View>
                 <View
@@ -195,32 +142,6 @@ export const PublishedEvent = ({ route, navigation }) => {
                     <Ionicons name="share-outline" size={32} color="black" />
                 </View>
             </View>
-            <View style={GlobalStyles.bottomSection}>
-                <View style={{ width: "90%", marginBottom: 10 }}>
-                    <Text
-                        style={[GlobalStyles.bodyText, { textAlign: "center" }]}
-                    >
-                        To edit this event in the future {"\n"} create an
-                        account{" "}
-                    </Text>
-                </View>
-                <TouchableOpacity
-                    style={GlobalStyles.submitButton}
-                    onPress={() => {
-                        console.log(navigation);
-                        navigation.navigate("Signup");
-                    }}
-                >
-                    <Text style={GlobalStyles.buttonText}>Create Account</Text>
-                </TouchableOpacity>
-                <View style={{ width: "90%", marginBottom: 10 }}>
-                    <Text
-                        style={[GlobalStyles.bodyText, { textAlign: "center" }]}
-                    >
-                        (it only takes 30 seconds 😁)
-                    </Text>
-                </View>
-            </View>
         </View>
     );
 };
@@ -231,5 +152,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "baseline",
+    },
+    eventField: {
+        paddingVertical: 5,
     },
 });

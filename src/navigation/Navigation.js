@@ -129,7 +129,6 @@ export const AppNavigator = () => {
                             // },
                         })}
                     />
-
                     <Stack.Screen
                         name="Create"
                         component={CreateEvent}
@@ -146,7 +145,18 @@ export const AppNavigator = () => {
                     <Stack.Screen
                         name="Publish"
                         component={PublishPost}
-                        initialParams={{ uid: "" }}
+                        initialParams={{ eventID: "" }}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerLeft: () => {
+                                return headerLogo(navigation);
+                            },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="Event"
+                        component={PublishedEvent}
+                        initialParams={{ eventID: "" }}
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {
