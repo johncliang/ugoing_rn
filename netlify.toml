@@ -28,10 +28,3 @@ from = "/publish"
 to = "/publish"
 status = 200
 force = false
-
-/u /u 200
-/login /login 200
-/signup /signup 200
-/home /home 200
-/create /create 200
-/publish /publish 200
