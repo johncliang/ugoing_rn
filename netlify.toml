@@ -1,0 +1,37 @@
+[[redirects]]
+from = "/u"
+to = "/u"
+status = 200
+force = false
+[[redirects]]
+from = "/login"
+to = "/login"
+status = 200
+force = false
+[[redirects]]
+from = "/signup"
+to = "/signup"
+status = 200
+force = false
+[[redirects]]
+from = "/home"
+to = "/home"
+status = 200
+force = false
+[[redirects]]
+from = "/create"
+to = "/create"
+status = 200
+force = false
+[[redirects]]
+from = "/publish"
+to = "/publish"
+status = 200
+force = false
+
+/u /u 200
+/login /login 200
+/signup /signup 200
+/home /home 200
+/create /create 200
+/publish /publish 200
