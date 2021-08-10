@@ -31,7 +31,7 @@ const STATES = {
 
 export const CreateEvent = ({ navigation }) => {
     const [status, setStatus] = useState({
-        state: STATES.NAME,
+        state: STATES.PLACE,
     });
 
     const [eventName, setEventName] = useState("");
@@ -56,8 +56,6 @@ export const CreateEvent = ({ navigation }) => {
     const [sectionTitles, setSectionTitles] = useState([]);
 
     const [errorStatus, setErrorStatus] = useState("");
-
-    //const [mapsLoading] = useGoogleMapsApi({ library: "places" });
 
     useEffect(() => {
         let newSectionTitles = [];
@@ -281,8 +279,9 @@ export const CreateEvent = ({ navigation }) => {
                         <Text style={GlobalStyles.subheaderText}>Place</Text>
                         <AutocompleteSearch
                             onChangeOutputText={(text) => {
-                                setEventLocation((eventLocation) => text);
+                                setEventLocation(text);
                             }}
+                            value={eventLocation}
                         />
                         <Text style={GlobalStyles.subheaderText}>
                             Instructions

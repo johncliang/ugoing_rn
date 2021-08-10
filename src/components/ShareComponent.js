@@ -6,14 +6,11 @@ import { Ionicons } from "@expo/vector-icons";
 export const ShareComponent = (props) => {
     const { url, eventName } = props;
 
-    console.log(eventName);
-
     const onShare = async () => {
+        console.log(url);
         try {
             const result = await Share.share({
-                message:
-                    "U going? Click the link below to accept the invitation",
-                url: url,
+                message: `U going? Click the link below to accept the invitation \n ${url}`,
             });
         } catch (error) {
             alert(error.message);
