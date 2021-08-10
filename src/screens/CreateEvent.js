@@ -31,7 +31,7 @@ const STATES = {
 
 export const CreateEvent = ({ navigation }) => {
     const [status, setStatus] = useState({
-        state: STATES.PLACE,
+        state: STATES.NAME,
     });
 
     const [eventName, setEventName] = useState("");
