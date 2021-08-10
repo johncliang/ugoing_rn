@@ -12,7 +12,7 @@ export const ShareComponent = (props) => {
         try {
             const result = await Share.share({
                 message:
-                    "React Native | A framework for building native apps using React",
+                    "U going? Click the link below to accept the invitation",
                 url: url,
             });
         } catch (error) {
