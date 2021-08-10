@@ -3,11 +3,13 @@ import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
 import { fs } from "../Firebase/firebase";
 import { Ionicons } from "@expo/vector-icons";
+import { ShareComponent } from "../components/ShareComponent";
 
 // route.params - eventID to event
 export const PublishedEvent = ({ route, navigation }) => {
     //console.log("passed info is " + JSON.stringify(route.params));
     const [eventDetails, setEventDetails] = useState({});
+    const [url, setUrl] = useState("");
 
     const { eventID } = route.params;
 
@@ -24,6 +26,7 @@ export const PublishedEvent = ({ route, navigation }) => {
             .then((doc) => {
                 if (doc.exists) {
                     setEventDetails(doc.data());
+                    setUrl(`ugoing.us/u/${eventID}`);
                 } else {
                     console.log(
                         "ERROR: Document with eventID " +
@@ -48,6 +51,79 @@ export const PublishedEvent = ({ route, navigation }) => {
                 <Text style={GlobalStyles.subheaderText}>
                     {eventDetails.eventName}
                 </Text>
+            </View>
+        );
+    };
+
+    const getCalendarSection = () => {
+        <View
+            style={[
+                GlobalStyles.infoSectionFilledBlue,
+                { flexDirection: "row", marginVertical: 15 },
+            ]}
+        >
+            <View
+                style={{
+                    width: "75%",
+                    borderColor: GlobalColors.blueOutline,
+                    borderRightWidth: 1,
+                }}
+            >
+                <Text style={GlobalStyles.subheaderText_smaller}>
+                    Add to Calendar 📅
+                </Text>
+            </View>
+            <View
+                style={{
+                    width: "25%",
+                    alignItems: "center",
+                    justifyContent: "center",
+                }}
+            >
+                <Ionicons name="add-outline" size={32} color="black" />
+            </View>
+        </View>;
+    };
+
+    const getShareSection = () => {
+        return (
+            <View
+                style={[
+                    GlobalStyles.infoSectionFilledGreen,
+                    { flexDirection: "row", marginTop: 10 },
+                ]}
+            >
+                <View
+                    style={{
+                        width: "75%",
+                        borderColor: GlobalColors.greenOutline,
+                        borderRightWidth: 1,
+                        justifyContent: "center",
+                    }}
+                >
+                    <Text style={GlobalStyles.subheaderText_smaller}>
+                        Share {eventDetails.eventName}
+                    </Text>
+                </View>
+                <View
+                    style={{
+                        width: "25%",
+                        alignItems: "center",
+                        justifyContent: "center",
+                    }}
+                >
+                    <TouchableOpacity
+                        onPress={() => {
+                            console.log("pressed");
+                        }}
+                    >
+                        <Ionicons
+                            name="share-outline"
+                            size={32}
+                            color="black"
+                        />
+                    </TouchableOpacity>
+                </View>
             </View>
         );
     };
@@ -87,61 +163,8 @@ export const PublishedEvent = ({ route, navigation }) => {
                     </Text>
                 </View>
             </View>
-            <View
-                style={[
-                    GlobalStyles.infoSectionFilledBlue,
-                    { flexDirection: "row", marginVertical: 15 },
-                ]}
-            >
-                <View
-                    style={{
-                        width: "75%",
-                        borderColor: GlobalColors.blueOutline,
-                        borderRightWidth: 1,
-                    }}
-                >
-                    <Text style={GlobalStyles.subheaderText_smaller}>
-                        Add to Calendar 📅
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        width: "25%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Ionicons name="add-outline" size={32} color="black" />
-                </View>
-            </View>
-            <View
-                style={[
-                    GlobalStyles.infoSectionFilledGreen,
-                    { flexDirection: "row", marginTop: 10 },
-                ]}
-            >
-                <View
-                    style={{
-                        width: "75%",
-                        borderColor: GlobalColors.greenOutline,
-                        borderRightWidth: 1,
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text style={GlobalStyles.subheaderText_smaller}>
-                        Share {eventDetails.eventName}
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        width: "25%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Ionicons name="share-outline" size={32} color="black" />
-                </View>
-            </View>
+            {getCalendarSection()}
+            <ShareComponent url={url} eventName={eventDetails.eventName} />
         </View>
     );
 };

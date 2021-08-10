@@ -52,13 +52,14 @@ export const GlobalStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-end",
         paddingBottom: 40,
+        zIndex: -1,
     },
     headerText: {
         fontSize: 36,
         fontWeight: "bold",
         fontFamily: "SFPro",
         textAlign: "center",
-        letterSpacing: 0.28,
+        letterSpacing: 1,
     },
     descriptionText: {
         fontFamily: "SFPro",

@@ -1,13 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
+import {
+    Text,
+    View,
+    StyleSheet,
+    TouchableOpacity,
+    Clipboard,
+} from "react-native";
 import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
 import { fs } from "../Firebase/firebase";
 import { Ionicons } from "@expo/vector-icons";
+// The below import isn't working for me -- setString fails
+//import Clipboard from "@react-native-community/clipboard";
+import { ShareComponent } from "../components/ShareComponent";
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
     //console.log("passed info is " + JSON.stringify(route.params));
     const [eventDetails, setEventDetails] = useState({});
+    const [url, setURL] = useState("");
 
     const { eventID } = route.params;
 
@@ -24,6 +34,7 @@ export const PublishPost = ({ route, navigation }) => {
             .then((doc) => {
                 if (doc.exists) {
                     setEventDetails(doc.data());
+                    setURL(`ugoing.us/u/${eventID}`);
                 } else {
                     console.log(
                         "ERROR: Document with eventID " +
@@ -99,6 +110,91 @@ export const PublishPost = ({ route, navigation }) => {
         );
     };
 
+    const getShareSection = () => {
+        return (
+            <View>
+                <View
+                    style={[
+                        GlobalStyles.infoSectionFilledBlue,
+                        { flexDirection: "row" },
+                    ]}
+                >
+                    <View
+                        style={{
+                            width: "75%",
+                            borderColor: GlobalColors.blueOutline,
+                            borderRightWidth: 1,
+                        }}
+                    >
+                        <Text style={GlobalStyles.subheaderText_smaller}>
+                            Add to Calendar
+                        </Text>
+                    </View>
+                    <View
+                        style={{
+                            width: "25%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Ionicons name="add-outline" size={32} color="black" />
+                    </View>
+                </View>
+                <Text style={GlobalStyles.subheaderText}>Share It 📤</Text>
+                <View
+                    style={[
+                        GlobalStyles.infoSectionFilledGreen,
+                        { flexDirection: "row" },
+                    ]}
+                >
+                    <View
+                        style={{
+                            width: "75%",
+                            borderColor: GlobalColors.greenOutline,
+                            borderRightWidth: 1,
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Text
+                            style={[
+                                GlobalStyles.bodyText,
+                                { textDecorationLine: "underline" },
+                            ]}
+                        >
+                            {url}
+                        </Text>
+                    </View>
+                    <View
+                        style={{
+                            width: "25%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <TouchableOpacity
+                            onPress={() => {
+                                Clipboard.setString(url);
+                            }}
+                        >
+                            <Text
+                                style={[
+                                    GlobalStyles.bodyText,
+                                    {
+                                        color: GlobalColors.greenOutline,
+                                        paddingLeft: 0,
+                                    },
+                                ]}
+                            >
+                                COPY
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+                <ShareComponent url={url} eventName={eventDetails.eventName} />
+            </View>
+        );
+    };
+
     return (
         <View style={GlobalStyles.container}>
             <View style={{ justifyContent: "flex-start" }}>
@@ -106,95 +202,7 @@ export const PublishPost = ({ route, navigation }) => {
                 {getCongratsSection()}
                 <Text style={GlobalStyles.subheaderText}>Plan It 📅</Text>
             </View>
-            <View
-                style={[
-                    GlobalStyles.infoSectionFilledBlue,
-                    { flexDirection: "row" },
-                ]}
-            >
-                <View
-                    style={{
-                        width: "75%",
-                        borderColor: GlobalColors.blueOutline,
-                        borderRightWidth: 1,
-                    }}
-                >
-                    <Text style={GlobalStyles.subheaderText_smaller}>
-                        Add to Calendar
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        width: "25%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Ionicons name="add-outline" size={32} color="black" />
-                </View>
-            </View>
-            <Text style={GlobalStyles.subheaderText}>Share It 📤</Text>
-            <View
-                style={[
-                    GlobalStyles.infoSectionFilledGreen,
-                    { flexDirection: "row" },
-                ]}
-            >
-                <View
-                    style={{
-                        width: "75%",
-                        borderColor: GlobalColors.greenOutline,
-                        borderRightWidth: 1,
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text
-                        style={[
-                            GlobalStyles.bodyText,
-                            { textDecorationLine: "underline" },
-                        ]}
-                    >
-                        ugoing.us/u/{eventID}
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        width: "25%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Ionicons name="add-outline" size={32} color="black" />
-                </View>
-            </View>
-            <View
-                style={[
-                    GlobalStyles.infoSectionFilledGreen,
-                    { flexDirection: "row", marginTop: 10 },
-                ]}
-            >
-                <View
-                    style={{
-                        width: "75%",
-                        borderColor: GlobalColors.greenOutline,
-                        borderRightWidth: 1,
-                        justifyContent: "center",
-                    }}
-                >
-                    <Text style={GlobalStyles.subheaderText_smaller}>
-                        Share {eventDetails.eventName}
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        width: "25%",
-                        alignItems: "center",
-                        justifyContent: "center",
-                    }}
-                >
-                    <Ionicons name="share-outline" size={32} color="black" />
-                </View>
-            </View>
+            {getShareSection()}
             <View style={GlobalStyles.bottomSection}>
                 <View style={{ width: "90%", marginBottom: 10 }}>
                     <Text

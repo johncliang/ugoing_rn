@@ -13,10 +13,10 @@ import axios from "axios";
 import { useDebounce } from "../hooks/useDebounce";
 import { GlobalColors } from "../styles/GlobalStyles";
 
+//const GOOGLE_PLACES_API_BASE_URL =
+//    "https://thingproxy.freeboard.io/fetch/https://maps.googleapis.com/maps/api/place";
 const GOOGLE_PLACES_API_BASE_URL =
-    "https://thingproxy.freeboard.io/fetch/https://maps.googleapis.com/maps/api/place";
-// const GOOGLE_PLACES_API_BASE_URL =
-//     "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place";
+    "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place";
 
 const GOOGLE_API_KEY = "AIzaSyAYMwjUPXCoPloFIfuWhLDRWVmKb2G8PwM";
 

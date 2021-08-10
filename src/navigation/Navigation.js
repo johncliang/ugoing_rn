@@ -93,7 +93,9 @@ export const AppNavigator = () => {
             Home: {
                 path: "",
             },
-            Create: "publish",
+            Create: {
+                path: "create",
+            },
             Publish: {
                 path: "publish/:eventID?",
                 parse: {
