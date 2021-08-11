@@ -1,5 +1,6 @@
 import { StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
+import { AutoComplete } from "antd";
 
 // Getting a bit carried away here but I love the names of these analagous colors
 // for our logo color
@@ -36,12 +37,11 @@ export const GlobalColors = {
     lightBlue: "#EFF5FE",
     greenOutline: "#96C746",
     lightGreen: "#FAFDF2",
-    darkGrey: "#7B7B7B",
 };
 export const GlobalStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#fff",
+        backgroundColor: "#ffffff",
         justifyContent: "center",
     },
     topSection: {
@@ -52,30 +52,30 @@ export const GlobalStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-end",
         paddingBottom: 40,
+        paddingTop: 10,
+        zIndex: -1,
     },
     headerText: {
         fontSize: 36,
         fontWeight: "bold",
         fontFamily: "SFPro",
         textAlign: "center",
-        letterSpacing: 0.28,
+        
     },
     descriptionText: {
-        fontFamily: "SFPro",
-        fontWeight: "bold",
-        fontSize: 16,
-        color: GlobalColors.darkGrey,
-        paddingLeft: 20,
+        fontSize: 22,
     },
     subheaderText: {
-        fontSize: 22,
+        fontSize: 16,
         fontWeight: "bold",
         fontFamily: "SFPro",
         paddingLeft: 20,
-        paddingVertical: 10,
+        paddingTop: 20,
+        paddingBottom: 13,
+        letterSpacing: 0.3
     },
     subheaderText_smaller: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: "bold",
         fontFamily: "SFPro",
         paddingLeft: 20,
@@ -88,17 +88,15 @@ export const GlobalStyles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        fontSize: 15,
+        fontSize: 16,
     },
     submitButton: {
-        borderRadius: 8,
-        width: 145,
-        height: 44,
-        paddingHorizontal: 20,
-        paddingVertical: 10,
+        borderRadius: 7,
+        //paddingHorizontal: 20,
+        textAlign: "center",
+        paddingVertical: 13,
         backgroundColor: GlobalColors.lightBlack,
-        alignItems: "center",
-        justifyContent: "center",
+        width: "10.36em",
     },
     timeButton: {
         width: 150,
@@ -107,12 +105,12 @@ export const GlobalStyles = StyleSheet.create({
     textInput: {
         fontSize: 15,
         fontFamily: "SFPro",
-        paddingLeft: 10,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        paddingVertical: 12,
         marginHorizontal: 15,
         borderWidth: 1,
         borderColor: "lightgrey",
-        borderRadius: 8,
+        borderRadius: 7,
         placeholderTextColor: "lightgrey",
         backgroundColor: "white",
     },
@@ -122,7 +120,13 @@ export const GlobalStyles = StyleSheet.create({
         color: "red",
         textAlign: "center",
     },
+    detailText: {
+        fontFamily: "SFPro",
+        fontWeight: 500,
+        fontSize: 16,
 
+        color: "#7B7B7B",
+    },
     infoSection: {
         backgroundColor: "#fff",
         borderWidth: 1,
@@ -136,7 +140,7 @@ export const GlobalStyles = StyleSheet.create({
         backgroundColor: GlobalColors.veryLightGrey,
         borderRadius: 7,
         marginHorizontal: 20,
-        paddingVertical: 15,
+        paddingBottom: 13,
     },
     infoSectionFilledGreen: {
         backgroundColor: GlobalColors.lightGreen,
@@ -144,7 +148,16 @@ export const GlobalStyles = StyleSheet.create({
         borderColor: GlobalColors.greenOutline,
         borderRadius: 7,
         marginHorizontal: 20,
-        paddingVertical: 15,
+        paddingVertical: 12,
+    },
+    greenCopyButtonText: {
+        fontSize: 15,
+        fontFamily: "SFPro",
+        fontWeight: 700,
+
+
+        color: '#96C746',
+        
     },
 
     infoSectionFilledBlue: {
@@ -152,8 +165,13 @@ export const GlobalStyles = StyleSheet.create({
         borderWidth: 1,
         borderColor: GlobalColors.blueOutline,
         borderRadius: 7,
-        borderRadius: 7,
         marginHorizontal: 20,
-        paddingVertical: 15,
+        paddingVertical: 12,
     },
+
+    toggleSwitch: {
+        height: 31,
+        width: 51
+    },
+    
 });

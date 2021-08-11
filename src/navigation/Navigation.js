@@ -17,7 +17,12 @@ import { CreateEvent } from "../screens/CreateEvent";
 import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
 import { PublishPost } from "../screens/PublishPost";
-import { PublishedEvent } from "../screens/PublishedEvent";
+import { AboutScreen } from "../screens/About";
+import { TOS } from "../screens/TermsOfService";
+import { PrivacyPolicy } from "../screens/PrivacyPolicy";
+import { Tabs } from "antd";
+
+
 
 const isWeb = Platform.OS === "web";
 
@@ -90,38 +95,24 @@ export const AppNavigator = () => {
 
     const config = {
         screens: {
-            Home: {
-                path: "",
-            },
-            Create: "publish",
-            Publish: {
-                path: "publish/:eventID?",
-                parse: {
-                    eventID: (eventID) => `${eventID}`,
-                },
-            },
+            Create: "create",
             Login: "login",
             Signup: "signup",
-            Event: {
-                path: "u/:eventID?",
-                parse: {
-                    eventID: (eventID) => `${eventID}`,
-                },
-            },
         },
     };
 
     const linking = {
-        prefixes: ["http://ugoing.us", "https://ugoing.us", "ugoing://"],
+        prefixes: ["http://ugoing.us", "ugoing://"],
         config,
     };
     return (
         <AuthContext.Provider value={userProvider}>
             <NavigationContainer linking={linking}>
-                <Stack.Navigator initialRouteName="Home">
+                <Stack.Navigator initialRouteName="Home" headerMode='screen'>
                     <Stack.Screen
                         name="Home"
                         component={HomeScreen}
+                        style={styles.containerStyle}
                         options={({ navigation }) => ({
                             title: "",
                             headerTitleAlign: "center",
@@ -129,55 +120,65 @@ export const AppNavigator = () => {
                             headerTitle: () => {
                                 return headerLogo(navigation, true);
                             },
-                            headerStyle: styles.headerStyle,
+                            headerStyle: styles.headerStyle
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
+                        })}
+                    />
+
+                    <Stack.Screen
+                        name="Create"
+                        component={CreateEvent}
+                        headerStyle={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, false);
+                            },
+                            headerStyle: [styles.headerStyle, styles.headerSmall]
+                                
                             // headerRight: () => {
                             //     return loginButton(navigation);
                             // },
                         })}
                     />
                     <Stack.Screen
-                        name="Create"
-                        component={CreateEvent}
-                        options={({ navigation }) => ({
-                            title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
-                            },
-                            headerRight: () => {
-                                return loginButton(navigation);
-                            },
-                        })}
-                    />
-                    <Stack.Screen
                         name="Publish"
                         component={PublishPost}
-                        initialParams={{ eventID: "" }}
+                        initialParams={{ uid: "" }}
                         options={({ navigation }) => ({
                             title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, false);
                             },
+                            headerStyle: [styles.headerStyle, styles.headerSmall, {borderBottomWidth: 1}]
+                                
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
                         })}
-                    />
-                    <Stack.Screen
-                        name="Event"
-                        component={PublishedEvent}
-                        initialParams={{ eventID: "" }}
-                        options={({ navigation }) => ({
-                            title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
-                            },
-                        })}
+                        style={{borderBottomWidth: 1}}
                     />
                     <Stack.Screen
                         name="Login"
                         component={LoginScreen}
                         options={({ navigation }) => ({
                             title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, false);
                             },
+                            headerStyle: [styles.headerStyle, styles.headerSmall]
+                                
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
                         })}
                     />
                     <Stack.Screen
@@ -185,19 +186,80 @@ export const AppNavigator = () => {
                         component={SignupScreen}
                         options={({ navigation }) => ({
                             title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, false);
                             },
+                            headerStyle: [styles.headerStyle, styles.headerSmall]
+                                
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
+                        })}
+                    />
+
+                    <Stack.Screen
+                        name="About"
+                        component={AboutScreen}
+                        style={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
+                            },
+                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="TOS"
+                        component={TOS}
+                        style={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
+                            },
+                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="PrivacyPolicy"
+                        component={PrivacyPolicy}
+                        style={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
+                            },
+                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
                         })}
                     />
                 </Stack.Navigator>
             </NavigationContainer>
         </AuthContext.Provider>
+        
     );
 };
 
 const styles = StyleSheet.create({
     headerStyle: {
+        zIndex: 3,
         shadowColor: "transparent",
         shadowRadius: 0,
         shadowOffset: {
@@ -206,4 +268,21 @@ const styles = StyleSheet.create({
         elevation: 0,
         borderBottomWidth: 0,
     },
+
+    headerSmall: {
+        height: 50
+    },
+    footerTextStyle: {
+        fontFamily: "SFPro",
+        fontStyle: 'normal',
+        fontWeight: 300,
+        fontSize: 15,
+        lineHeight: 18,
+    },
+    containerStyle: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+    }
 });
