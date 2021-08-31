@@ -5,6 +5,8 @@ import { useFonts } from "expo-font";
 function App() {
     const [loaded] = useFonts({
         SFPro: require("./assets/fonts/SF-Pro.ttf"),
+        Mako: require("./assets/fonts/Mako-Regular.ttf"),
+        Limelight: require("./assets/fonts/Limelight-Regular.ttf")
     });
     if (!loaded) {
         return null;
