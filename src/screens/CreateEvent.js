@@ -21,6 +21,9 @@ import { fs } from "../Firebase/firebase";
 
 import AutocompleteSearch from "../components/AutocompleteSearch";
 
+import  Flatpickr  from "react-flatpickr";
+import {BrowserView, MobileView} from 'react-device-detect';
+
 const STATES = {
     NAME: 0,
     TIME: 1,
@@ -56,6 +59,9 @@ export const CreateEvent = ({ navigation }) => {
     const [sectionTitles, setSectionTitles] = useState([]);
 
     const [errorStatus, setErrorStatus] = useState("");
+
+    const datepickerRef = React.createRef();
+
 
     useEffect(() => {
         let newSectionTitles = [];
@@ -121,13 +127,18 @@ export const CreateEvent = ({ navigation }) => {
         );
     };
 
+    
+
+
     const onChangeDate = (date, isStartTime) => {
+        console.log(date)
         if (isStartTime) {
             setStartDate(date);
-            if (endDate.isBefore(date)) {
+            /*if (endDate.isBefore(date)) {
                 setEndDate(date);
-            }
+            }*/
         } else setEndDate(date);
+    
     };
 
     function disabledDates(current) {
@@ -138,6 +149,7 @@ export const CreateEvent = ({ navigation }) => {
         setErrorStatus("");
         setStatus({ state: status.state + 1 });
     }
+
 
     function validateSection() {
         switch (status.state) {
@@ -218,20 +230,45 @@ export const CreateEvent = ({ navigation }) => {
                             Start Time
                         </Text>
                         <View style={GlobalStyles.timeButton}>
-                            <DatePicker
-                                value={startDate}
-                                onChange={(date) => onChangeDate(date, true)}
-                                inputReadOnly={true}
-                            />
-                            <TimePicker
-                                format={"HH:mm"}
-                                minuteStep={5}
-                                use12Hours={true}
-                                showNow={false}
-                                value={startDate}
-                                onChange={(date) => onChangeDate(date, true)}
-                                inputReadOnly={true}
-                            />
+                            <BrowserView>
+                                <DatePicker
+                                    value={startDate}
+                                    onChange={(date) => onChangeDate(date, true)}
+                                    inputReadOnly={true}
+                                />
+                                <TimePicker
+                                    format={"HH:mm"}
+                                    minuteStep={5}
+                                    use12Hours={true}
+                                    showNow={false}
+                                    value={startDate}
+                                    onChange={(date) => onChangeDate(date, true)}
+                                    inputReadOnly={true}
+                                />
+                            </BrowserView>
+                            
+                            <MobileView>
+                                    <Flatpickr
+                                        options={{
+                                            enableTime: true,
+                                            time_24hr: false,
+                                            defaultDate: startDate,
+                                        }}
+                                        //enableTime={true}
+                                        onChange={(dates) =>
+                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
+                                        }
+                                        //value={}
+                                        //onChange={(dates) => onChangeDate(dates, true)}
+                                        
+                                                
+                                    >
+                                        
+                                    </Flatpickr>
+
+                                
+                            </MobileView>
+                            
                         </View>
 
                         <View style={styles.endTimeSection}>
@@ -250,25 +287,41 @@ export const CreateEvent = ({ navigation }) => {
                         </View>
                         {showEndTime && (
                             <View style={GlobalStyles.timeButton}>
-                                <DatePicker
-                                    value={endDate}
-                                    onChange={(date) =>
-                                        onChangeDate(date, false)
-                                    }
-                                    disabledDate={disabledDates}
-                                    inputReadOnly={true}
-                                />
-                                <TimePicker
-                                    format={"HH:mm"}
-                                    minuteStep={5}
-                                    use12Hours={true}
-                                    showNow={false}
-                                    value={endDate}
-                                    onChange={(date) =>
-                                        onChangeDate(date, false)
-                                    }
-                                    inputReadOnly={true}
-                                />
+                                <BrowserView>
+                                    <DatePicker
+                                        value={endDate}
+                                        onChange={(date) =>
+                                            onChangeDate(date, false)
+                                        }
+                                        disabledDate={disabledDates}
+                                        inputReadOnly={true}
+                                    />
+                                    <TimePicker
+                                        format={"HH:mm"}
+                                        minuteStep={5}
+                                        use12Hours={true}
+                                        showNow={false}
+                                        value={endDate}
+                                        onChange={(date) =>
+                                            onChangeDate(date, false)
+                                        }
+                                        inputReadOnly={true}
+                                    />
+                                </BrowserView>
+                                <MobileView>
+                                    <Flatpickr
+                                        
+                                        //onChange={(dates) => onChangeDate(dates, true)}
+                                        options={{
+                                            time_24hr: false,
+                                            enableTime: true,
+
+                                        }}
+                                        onChange={(dates) =>
+                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), false)
+                                        }
+                                    />
+                                </MobileView>
                             </View>
                         )}
                     </View>

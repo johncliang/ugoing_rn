@@ -18,6 +18,10 @@ import { LoginScreen } from "../screens/Login";
 import { SignupScreen } from "../screens/Signup";
 import { PublishPost } from "../screens/PublishPost";
 import { PublishedEvent } from "../screens/PublishedEvent";
+import { AboutScreen } from "../screens/About";
+import { TOS } from "../screens/TermsOfService";
+import { PrivacyPolicy } from "../screens/PrivacyPolicy";
+import { Tabs } from "antd";
 
 const isWeb = Platform.OS === "web";
 
@@ -129,7 +133,7 @@ export const AppNavigator = () => {
                             headerTitleAlign: "center",
                             headerLeft: () => null,
                             headerTitle: () => {
-                                return headerLogo(navigation, true);
+                                return headerLogo(navigation);
                             },
                             headerStyle: styles.headerStyle,
                             // headerRight: () => {
@@ -190,6 +194,57 @@ export const AppNavigator = () => {
                             headerLeft: () => {
                                 return headerLogo(navigation);
                             },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="About"
+                        component={AboutScreen}
+                        style={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
+                            },
+                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="TOS"
+                        component={TOS}
+                        style={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
+                            },
+                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
+                        })}
+                    />
+                    <Stack.Screen
+                        name="PrivacyPolicy"
+                        component={PrivacyPolicy}
+                        style={styles.containerStyle}
+                        options={({ navigation }) => ({
+                            title: "",
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
+                                return headerLogo(navigation, true);
+                            },
+                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            // headerRight: () => {
+                            //     return loginButton(navigation);
+                            // },
                         })}
                     />
                 </Stack.Navigator>

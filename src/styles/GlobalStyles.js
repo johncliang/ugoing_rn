@@ -47,6 +47,10 @@ export const GlobalStyles = StyleSheet.create({
     topSection: {
         flex: 1,
     },
+    cardSection: {
+        borderRadius: 30,
+        overflow: "hidden",
+    },
     bottomSection: {
         flex: 1,
         alignItems: "center",
