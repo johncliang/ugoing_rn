@@ -308,12 +308,11 @@ export const PublishPost = ({ route, navigation }) => {
 
     return (
         <View style={{ height: "100%", width: "100%" }}>
-            {/* {fromCreate ? (
+            {fromCreate ? (
                 <PublishScreen />
             ) : (
                 <PublishedEvent eventID={eventID} />
-            )} */}
-            <PublishScreen />
+            )}
         </View>
     );
 };
