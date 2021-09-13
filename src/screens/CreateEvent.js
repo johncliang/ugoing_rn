@@ -21,8 +21,8 @@ import { fs } from "../Firebase/firebase";
 
 import AutocompleteSearch from "../components/AutocompleteSearch";
 
-import  Flatpickr  from "react-flatpickr";
-import {BrowserView, MobileView} from 'react-device-detect';
+import Flatpickr from "react-flatpickr";
+import { BrowserView, MobileView } from "react-device-detect";
 
 const STATES = {
     NAME: 0,
@@ -61,7 +61,6 @@ export const CreateEvent = ({ navigation }) => {
     const [errorStatus, setErrorStatus] = useState("");
 
     const datepickerRef = React.createRef();
-
 
     useEffect(() => {
         let newSectionTitles = [];
@@ -127,18 +126,14 @@ export const CreateEvent = ({ navigation }) => {
         );
     };
 
-    
-
-
     const onChangeDate = (date, isStartTime) => {
-        console.log(date)
+        console.log(date);
         if (isStartTime) {
             setStartDate(date);
             /*if (endDate.isBefore(date)) {
                 setEndDate(date);
             }*/
         } else setEndDate(date);
-    
     };
 
     function disabledDates(current) {
@@ -149,7 +144,6 @@ export const CreateEvent = ({ navigation }) => {
         setErrorStatus("");
         setStatus({ state: status.state + 1 });
     }
-
 
     function validateSection() {
         switch (status.state) {
@@ -191,7 +185,10 @@ export const CreateEvent = ({ navigation }) => {
             .add(eventData)
             .then((value) => {
                 console.log(value.id);
-                navigation.navigate("Publish", { eventID: value.id });
+                navigation.navigate("Publish", {
+                    eventID: value.id,
+                    fromCreate: true,
+                });
             });
     }
 
@@ -233,7 +230,9 @@ export const CreateEvent = ({ navigation }) => {
                             <BrowserView>
                                 <DatePicker
                                     value={startDate}
-                                    onChange={(date) => onChangeDate(date, true)}
+                                    onChange={(date) =>
+                                        onChangeDate(date, true)
+                                    }
                                     inputReadOnly={true}
                                 />
                                 <TimePicker
@@ -242,33 +241,34 @@ export const CreateEvent = ({ navigation }) => {
                                     use12Hours={true}
                                     showNow={false}
                                     value={startDate}
-                                    onChange={(date) => onChangeDate(date, true)}
+                                    onChange={(date) =>
+                                        onChangeDate(date, true)
+                                    }
                                     inputReadOnly={true}
                                 />
                             </BrowserView>
-                            
-                            <MobileView>
-                                    <Flatpickr
-                                        options={{
-                                            enableTime: true,
-                                            time_24hr: false,
-                                            defaultDate: startDate,
-                                        }}
-                                        //enableTime={true}
-                                        onChange={(dates) =>
-                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
-                                        }
-                                        //value={}
-                                        //onChange={(dates) => onChangeDate(dates, true)}
-                                        
-                                                
-                                    >
-                                        
-                                    </Flatpickr>
 
-                                
+                            <MobileView>
+                                <Flatpickr
+                                    options={{
+                                        enableTime: true,
+                                        time_24hr: false,
+                                        defaultDate: startDate,
+                                    }}
+                                    //enableTime={true}
+                                    onChange={(dates) =>
+                                        onChangeDate(
+                                            moment(
+                                                dates,
+                                                "ddd MMM DD YYYY HH:mm:ss ZZ "
+                                            ),
+                                            true
+                                        )
+                                    }
+                                    //value={}
+                                    //onChange={(dates) => onChangeDate(dates, true)}
+                                ></Flatpickr>
                             </MobileView>
-                            
                         </View>
 
                         <View style={styles.endTimeSection}>
@@ -310,15 +310,19 @@ export const CreateEvent = ({ navigation }) => {
                                 </BrowserView>
                                 <MobileView>
                                     <Flatpickr
-                                        
                                         //onChange={(dates) => onChangeDate(dates, true)}
                                         options={{
                                             time_24hr: false,
                                             enableTime: true,
-
                                         }}
                                         onChange={(dates) =>
-                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), false)
+                                            onChangeDate(
+                                                moment(
+                                                    dates,
+                                                    "ddd MMM DD YYYY HH:mm:ss ZZ "
+                                                ),
+                                                false
+                                            )
                                         }
                                     />
                                 </MobileView>
