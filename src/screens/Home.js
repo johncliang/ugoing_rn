@@ -28,7 +28,7 @@ export const HomeScreen = ({ navigation }) => {
                             style={[
                                 GlobalStyles.headerText,
                                 {
-                                    paddingTop: 95,
+                                    paddingTop: 115,
                                     paddingBottom: 186,
                                     paddingHorizontal: 35,
                                     color: "#292929",
@@ -49,7 +49,7 @@ export const HomeScreen = ({ navigation }) => {
                         <TouchableOpacity
                             style={[
                                 GlobalStyles.submitButton,
-                                { marginBottom: 112 },
+                                { marginBottom: 192, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"},
                             ]}
                             onPress={() => {
                                 navigation.navigate("Create");
