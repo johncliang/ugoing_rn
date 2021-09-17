@@ -6,8 +6,9 @@ import {
     View,
     TouchableOpacity,
     FlatList,
-    Switch,
+    //Switch,
 } from "react-native";
+import Switch from 'react-ios-switch';
 import { GlobalColors, GlobalStyles } from "../styles/GlobalStyles";
 import "../styles/datePicker.css";
 
@@ -23,6 +24,7 @@ import AutocompleteSearch from "../components/AutocompleteSearch";
 
 import  Flatpickr  from "react-flatpickr";
 import {BrowserView, MobileView} from 'react-device-detect';
+
 
 const STATES = {
     NAME: 0,
@@ -41,11 +43,15 @@ export const CreateEvent = ({ navigation }) => {
     const [eventDetails, setEventDetails] = useState("");
 
     const [startDate, setStartDate] = useState(
-        moment().startOf("day").add(10, "hours")
+        //moment().startOf("day").add(10, "hours")
+        moment().startOf('hour').add(1, "hours")
     );
     const [endDate, setEndDate] = useState(
-        moment().startOf("day").add(11, "hours")
+        //moment().startOf("day").add(11, "hours")
+        moment().startOf('hour').add(2, "hours")
     );
+
+    const [dateEntryError, setDateEntryError] = useState('')
 
     const [showEndTime, setShowEndTime] = useState(true);
 
@@ -161,6 +167,10 @@ export const CreateEvent = ({ navigation }) => {
             case STATES.TIME:
                 if (startDate === null)
                     setErrorStatus("Please input a valid start date!");
+                else if (endDate.isBefore(startDate))
+                    setErrorStatus("Cannot have an event end before the start time!")
+                else if (startDate.isBefore(moment()))
+                    setErrorStatus("Cannot set events in the past")
                 else incrementStatus();
                 return;
             case STATES.PLACE:
@@ -196,6 +206,7 @@ export const CreateEvent = ({ navigation }) => {
     }
 
     const getCurrentSection = () => {
+        console.log(startDate.format('YYYY-MM-DD HH:mm'))
         switch (status.state) {
             case STATES.NAME:
                 return (
@@ -252,12 +263,28 @@ export const CreateEvent = ({ navigation }) => {
                                         options={{
                                             enableTime: true,
                                             time_24hr: false,
-                                            defaultDate: startDate,
+                                            defaultDate: startDate.format('YYYY-MM-DD HH:mm'),
+                                            minuteIncrement: 10,
+                                            //minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                            
                                         }}
+                                        minuteStep={5}
                                         //enableTime={true}
-                                        onChange={(dates) =>
+                                        /*onChange={(dates) =>
                                             onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
+                                        }*/
+                                        onChange = {(dstr, dobjs, fp) =>
+                                            setTimeout(function() {
+                                                var i = fp.latestSelectedDateObj
+                                                const d = i ? i : new Date()
+                                                const mins = d.getMinutes()
+                        
+                                                if (mins % 5) d.setMinutes(5*Math.round(d.getMinutes() / 5))
+                        
+                                                onChangeDate(moment(d,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
+                                            }, 1000)
                                         }
+                                        
                                         //value={}
                                         //onChange={(dates) => onChangeDate(dates, true)}
                                         
@@ -276,13 +303,24 @@ export const CreateEvent = ({ navigation }) => {
                                 End Time
                             </Text>
                             <Switch
-                                value={showEndTime}
+                                /*value={showEndTime}
                                 onValueChange={setShowEndTime}
                                 trackColor={{
                                     false: "#767577",
                                     true: GlobalColors.shamrock,
                                 }}
-                                activeThumbColor={GlobalColors.shamrock}
+                                activeThumbColor={GlobalColors.shamrock}*/
+                                checked={showEndTime}
+                                onChange={setShowEndTime}
+                                offColor="#767577"
+                                onColor={GlobalColors.shamrock}
+                                //ios_backgroundColor= "#ffffff"
+                                //trackColor={{
+                                    //false: ,
+                                   // true: GlobalColors.shamrock,
+                                //}}
+                                //activeThumbColor={GlobalColors.shamrock}
+                                style={GlobalStyles.toggleSwitch}
                             ></Switch>
                         </View>
                         {showEndTime && (
@@ -310,15 +348,26 @@ export const CreateEvent = ({ navigation }) => {
                                 </BrowserView>
                                 <MobileView>
                                     <Flatpickr
+                                        class="flatpickr-input"
                                         
                                         //onChange={(dates) => onChangeDate(dates, true)}
                                         options={{
                                             time_24hr: false,
                                             enableTime: true,
-
+                                            defaultDate: endDate.format('YYYY-MM-DD HH:mm'),
+                                            //minDate: moment().format('YYYY-MM-DD HH:mm')
+                                            
                                         }}
-                                        onChange={(dates) =>
-                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), false)
+                                        onChange = {(dstr, dobjs, fp) =>
+                                            setTimeout(function() {
+                                                var i = fp.latestSelectedDateObj
+                                                const d = i ? i : new Date()
+                                                const mins = d.getMinutes()
+                        
+                                                if (mins % 5) d.setMinutes(5*Math.round(d.getMinutes() / 5))
+                        
+                                                onChangeDate(moment(d,"ddd MMM DD YYYY HH:mm:ss ZZ "), false)
+                                            }, 1000)
                                         }
                                     />
                                 </MobileView>

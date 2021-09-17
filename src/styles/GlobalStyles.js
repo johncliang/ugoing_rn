@@ -161,4 +161,8 @@ export const GlobalStyles = StyleSheet.create({
         marginHorizontal: 20,
         paddingVertical: 15,
     },
+    toggleSwitch: {
+        height: 31,
+        width: 51
+    },
 });
