@@ -49,7 +49,7 @@ export const HomeScreen = ({ navigation }) => {
                         <TouchableOpacity
                             style={[
                                 GlobalStyles.submitButton,
-                                { marginBottom: 192, boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"},
+                                { marginBottom: 192},
                             ]}
                             onPress={() => {
                                 navigation.navigate("Create");
