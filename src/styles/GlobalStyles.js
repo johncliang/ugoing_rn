@@ -104,6 +104,7 @@ export const GlobalStyles = StyleSheet.create({
         backgroundColor: GlobalColors.lightBlack,
         alignItems: "center",
         justifyContent: "center",
+        boxShadow: "0px 4px 4px rgba(0, 0, 0, 0.25)"
     },
     timeButton: {
         width: 150,
@@ -160,5 +161,9 @@ export const GlobalStyles = StyleSheet.create({
         borderRadius: 7,
         marginHorizontal: 20,
         paddingVertical: 15,
+    },
+    toggleSwitch: {
+        height: 31,
+        width: 51
     },
 });
