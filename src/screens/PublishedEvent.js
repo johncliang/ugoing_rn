@@ -6,19 +6,19 @@ import { Ionicons } from "@expo/vector-icons";
 import { ShareComponent } from "../components/ShareComponent";
 
 // route.params - eventID to event
-export const PublishedEvent = ({ route, navigation }) => {
+export const PublishedEvent = (params) => {
     //console.log("passed info is " + JSON.stringify(route.params));
     const [eventDetails, setEventDetails] = useState({});
     const [url, setUrl] = useState("");
 
-    const { eventID } = route.params;
+    const { eventID } = params;
 
     useEffect(() => {
-        console.log(route);
         if (eventID == "") {
             console.log("route params not found");
             return;
         }
+        console.log("eventID is" + eventID);
         var docRef = fs.collection("events").doc(eventID);
 
         docRef
@@ -38,7 +38,7 @@ export const PublishedEvent = ({ route, navigation }) => {
             .catch((error) => {
                 console.log("Error getting document:", error);
             });
-    }, [route.params?.eventID]);
+    }, []);
 
     const getTitleSection = () => {
         // check to make sure firebase data exists

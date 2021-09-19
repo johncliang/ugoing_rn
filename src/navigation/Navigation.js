@@ -21,7 +21,6 @@ import { PublishedEvent } from "../screens/PublishedEvent";
 import { AboutScreen } from "../screens/About";
 import { TOS } from "../screens/TermsOfService";
 import { PrivacyPolicy } from "../screens/PrivacyPolicy";
-import { Tabs } from "antd";
 
 const isWeb = Platform.OS === "web";
 
@@ -101,19 +100,23 @@ export const AppNavigator = () => {
                 path: "create",
             },
             Publish: {
-                path: "publish/:eventID?",
+                path: "u/:eventID?/:fromCreate?",
                 parse: {
                     eventID: (eventID) => `${eventID}`,
+                    fromCreate: (fromCreate) => `${fromCreate}`,
+                },
+                stringify: {
+                    fromCreate: () => "",
                 },
             },
             Login: "login",
             Signup: "signup",
-            Event: {
-                path: "u/:eventID?",
-                parse: {
-                    eventID: (eventID) => `${eventID}`,
-                },
-            },
+            // Event: {
+            //     path: "u/:eventID?",
+            //     parse: {
+            //         eventID: (eventID) => `${eventID}`,
+            //     },
+            // },
         },
     };
 
@@ -146,18 +149,17 @@ export const AppNavigator = () => {
                         component={CreateEvent}
                         options={({ navigation }) => ({
                             title: "",
-                            headerLeft: () => {
+                            headerTitleAlign: "center",
+                            headerLeft: () => null,
+                            headerTitle: () => {
                                 return headerLogo(navigation);
-                            },
-                            headerRight: () => {
-                                return loginButton(navigation);
                             },
                         })}
                     />
                     <Stack.Screen
                         name="Publish"
                         component={PublishPost}
-                        initialParams={{ eventID: "" }}
+                        initialParams={({ eventID: "" }, { fromCreate: false })}
                         options={({ navigation }) => ({
                             title: "",
                             headerLeft: () => {
@@ -165,7 +167,7 @@ export const AppNavigator = () => {
                             },
                         })}
                     />
-                    <Stack.Screen
+                    {/* <Stack.Screen
                         name="Event"
                         component={PublishedEvent}
                         initialParams={{ eventID: "" }}
@@ -175,7 +177,7 @@ export const AppNavigator = () => {
                                 return headerLogo(navigation);
                             },
                         })}
-                    />
+                    /> */}
                     <Stack.Screen
                         name="Login"
                         component={LoginScreen}
@@ -207,7 +209,10 @@ export const AppNavigator = () => {
                             headerTitle: () => {
                                 return headerLogo(navigation, true);
                             },
-                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            headerStyle: [
+                                styles.headerStyle,
+                                { borderBottomWidth: 1 },
+                            ],
                             // headerRight: () => {
                             //     return loginButton(navigation);
                             // },
@@ -224,7 +229,10 @@ export const AppNavigator = () => {
                             headerTitle: () => {
                                 return headerLogo(navigation, true);
                             },
-                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            headerStyle: [
+                                styles.headerStyle,
+                                { borderBottomWidth: 1 },
+                            ],
                             // headerRight: () => {
                             //     return loginButton(navigation);
                             // },
@@ -241,7 +249,10 @@ export const AppNavigator = () => {
                             headerTitle: () => {
                                 return headerLogo(navigation, true);
                             },
-                            headerStyle: [styles.headerStyle, {borderBottomWidth: 1}]
+                            headerStyle: [
+                                styles.headerStyle,
+                                { borderBottomWidth: 1 },
+                            ],
                             // headerRight: () => {
                             //     return loginButton(navigation);
                             // },
