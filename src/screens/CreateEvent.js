@@ -8,7 +8,7 @@ import {
     FlatList,
     //Switch,
 } from "react-native";
-import Switch from 'react-ios-switch';
+import Switch from "react-ios-switch";
 import { GlobalColors, GlobalStyles } from "../styles/GlobalStyles";
 import "../styles/datePicker.css";
 
@@ -24,7 +24,6 @@ import AutocompleteSearch from "../components/AutocompleteSearch";
 
 import Flatpickr from "react-flatpickr";
 import { BrowserView, MobileView } from "react-device-detect";
-
 
 const STATES = {
     NAME: 0,
@@ -44,14 +43,14 @@ export const CreateEvent = ({ navigation }) => {
 
     const [startDate, setStartDate] = useState(
         //moment().startOf("day").add(10, "hours")
-        moment().startOf('hour').add(1, "hours")
+        moment().startOf("hour").add(1, "hours")
     );
     const [endDate, setEndDate] = useState(
         //moment().startOf("day").add(11, "hours")
-        moment().startOf('hour').add(2, "hours")
+        moment().startOf("hour").add(2, "hours")
     );
 
-    const [dateEntryError, setDateEntryError] = useState('')
+    const [dateEntryError, setDateEntryError] = useState("");
 
     const [showEndTime, setShowEndTime] = useState(true);
 
@@ -162,9 +161,11 @@ export const CreateEvent = ({ navigation }) => {
                 if (startDate === null)
                     setErrorStatus("Please input a valid start date!");
                 else if (endDate.isBefore(startDate))
-                    setErrorStatus("Cannot have an event end before the start time!")
+                    setErrorStatus(
+                        "Cannot have an event end before the start time!"
+                    );
                 else if (startDate.isBefore(moment()))
-                    setErrorStatus("Cannot set events in the past")
+                    setErrorStatus("Cannot set events in the past");
                 else incrementStatus();
                 return;
             case STATES.PLACE:
@@ -203,7 +204,7 @@ export const CreateEvent = ({ navigation }) => {
     }
 
     const getCurrentSection = () => {
-        console.log(startDate.format('YYYY-MM-DD HH:mm'))
+        //console.log(startDate.format("YYYY-MM-DD HH:mm"));
         switch (status.state) {
             case STATES.NAME:
                 return (
@@ -257,58 +258,48 @@ export const CreateEvent = ({ navigation }) => {
                                     }
                                     inputReadOnly={true}
                                 />
-                            </BrowserView>                            
-                            <MobileView>
-                                    <Flatpickr
-                                        options={{
-                                            enableTime: true,
-                                            time_24hr: false,
-                                            defaultDate: startDate.format('YYYY-MM-DD HH:mm'),
-                                            minuteIncrement: 10,
-                                            //minDate: moment().format('YYYY-MM-DD HH:mm'),
-                                            
-                                        }}
-                                        minuteStep={5}
-                                        //enableTime={true}
-                                        /*onChange={(dates) =>
-                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
-                                        }*/
-                                        onChange = {(dstr, dobjs, fp) =>
-                                            setTimeout(function() {
-                                                var i = fp.latestSelectedDateObj
-                                                const d = i ? i : new Date()
-                                                const mins = d.getMinutes()
-                        
-                                                if (mins % 5) d.setMinutes(5*Math.round(d.getMinutes() / 5))
-                        
-                                                onChangeDate(moment(d,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
-                                            }, 1000)
-                                        }
-                                        
-                                        //value={}
-                                        //onChange={(dates) => onChangeDate(dates, true)}
-                                        
-                                                
-                                    >
-                                        
-                                    </Flatpickr>
+                            </BrowserView>
                             <MobileView>
                                 <Flatpickr
                                     options={{
                                         enableTime: true,
                                         time_24hr: false,
-                                        defaultDate: startDate,
-                                    }}
-                                    //enableTime={true}
-                                    onChange={(dates) =>
-                                        onChangeDate(
-                                            moment(
-                                                dates,
-                                                "ddd MMM DD YYYY HH:mm:ss ZZ "
+                                        defaultDate:
+                                            startDate.format(
+                                                "YYYY-MM-DD HH:mm"
                                             ),
-                                            true
-                                        )
+                                        minuteIncrement: 10,
+                                        //minDate: moment().format('YYYY-MM-DD HH:mm'),
+                                    }}
+                                    minuteStep={5}
+                                    //enableTime={true}
+                                    /*onChange={(dates) =>
+                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
+                                        }*/
+                                    onChange={(dstr, dobjs, fp) =>
+                                        setTimeout(function () {
+                                            var i = fp.latestSelectedDateObj;
+                                            const d = i ? i : new Date();
+                                            const mins = d.getMinutes();
+
+                                            if (mins % 5)
+                                                d.setMinutes(
+                                                    5 *
+                                                        Math.round(
+                                                            d.getMinutes() / 5
+                                                        )
+                                                );
+
+                                            onChangeDate(
+                                                moment(
+                                                    d,
+                                                    "ddd MMM DD YYYY HH:mm:ss ZZ "
+                                                ),
+                                                true
+                                            );
+                                        }, 1000)
                                     }
+
                                     //value={}
                                     //onChange={(dates) => onChangeDate(dates, true)}
                                 ></Flatpickr>
@@ -333,8 +324,8 @@ export const CreateEvent = ({ navigation }) => {
                                 onColor={GlobalColors.shamrock}
                                 //ios_backgroundColor= "#ffffff"
                                 //trackColor={{
-                                    //false: ,
-                                   // true: GlobalColors.shamrock,
+                                //false: ,
+                                // true: GlobalColors.shamrock,
                                 //}}
                                 //activeThumbColor={GlobalColors.shamrock}
                                 style={GlobalStyles.toggleSwitch}
@@ -370,19 +361,35 @@ export const CreateEvent = ({ navigation }) => {
                                         options={{
                                             time_24hr: false,
                                             enableTime: true,
-                                            defaultDate: endDate.format('YYYY-MM-DD HH:mm'),
+                                            defaultDate:
+                                                endDate.format(
+                                                    "YYYY-MM-DD HH:mm"
+                                                ),
                                             //minDate: moment().format('YYYY-MM-DD HH:mm')
-                                            
                                         }}
-                                        onChange = {(dstr, dobjs, fp) =>
-                                            setTimeout(function() {
-                                                var i = fp.latestSelectedDateObj
-                                                const d = i ? i : new Date()
-                                                const mins = d.getMinutes()
-                        
-                                                if (mins % 5) d.setMinutes(5*Math.round(d.getMinutes() / 5))
-                        
-                                                onChangeDate(moment(d,"ddd MMM DD YYYY HH:mm:ss ZZ "), false)
+                                        onChange={(dstr, dobjs, fp) =>
+                                            setTimeout(function () {
+                                                var i =
+                                                    fp.latestSelectedDateObj;
+                                                const d = i ? i : new Date();
+                                                const mins = d.getMinutes();
+
+                                                if (mins % 5)
+                                                    d.setMinutes(
+                                                        5 *
+                                                            Math.round(
+                                                                d.getMinutes() /
+                                                                    5
+                                                            )
+                                                    );
+
+                                                onChangeDate(
+                                                    moment(
+                                                        d,
+                                                        "ddd MMM DD YYYY HH:mm:ss ZZ "
+                                                    ),
+                                                    false
+                                                );
                                             }, 1000)
                                         }
                                     />
