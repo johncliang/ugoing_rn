@@ -96,15 +96,21 @@ const CardThree = () => {
 				<Heading textAlign={"center"} fontStyle={"semibold"} fontSize={48}>
 					It's as easy as...
 				</Heading>
-				<Image source={plusIcon} size={"sm"} />
+				<Box bg="primary.200" borderRadius={"lg"} p="5">
+					<Image source={plusIcon} size={"sm"} />
+				</Box>
 				<Heading textAlign={"center"} fontStyle={"medium"} size={"md"}>
 					1. Create your event
 				</Heading>
-				<Image source={linkIcon} size={"sm"} />
+				<Box bg="primary.200" borderRadius={"lg"} p="5">
+					<Image source={linkIcon} size={"sm"} />
+				</Box>
 				<Heading textAlign={"center"} fontStyle={"medium"} size={"md"} w="75%">
 					2. Send the link to your friends
 				</Heading>
-				<Image source={calendarIcon} size={"sm"} />
+				<Box bg="primary.200" borderRadius={"lg"} p="5">
+					<Image source={calendarIcon} size={"sm"} />
+				</Box>
 				<Heading textAlign={"center"} fontStyle={"medium"} size={"md"} w="75%">
 					3. View the details online or add them to your calendar with a single
 					tap
