@@ -1,490 +1,278 @@
 import React from "react";
 import {
-    Image,
-    Text,
-    View,
-    StyleSheet,
-    TouchableOpacity,
-    Dimensions,
+	// Image,
+	// Text,
+	// View,
+	StyleSheet,
+	TouchableOpacity,
+	Dimensions,
 } from "react-native";
 import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
-import LinearGradient from "react-native-web-linear-gradient";
-import Grid from "antd/lib/card/Grid";
+import {
+	View,
+	Text,
+	Image,
+	Heading,
+	Box,
+	Center,
+	Button,
+	ScrollView,
+	HStack,
+	FlatList,
+	Divider,
+} from "native-base";
 
-export const HomeScreen = ({ navigation }) => {
-    return (
-        <View style={styles.mainContainer}>
-            <View style={[GlobalStyles.topSection, {backgroundColor: '#FFFFFF'}]}>
-                {/*<LinearGradient
-                    useAngle={true}
-                    angle={180.0}
-                    locations={[0, 0.2521, 1.0]}
-                    colors={["#FFFFFF", "#9CDBFF", "rgba(137, 255, 255, 0.06)"]}
-                    styles="styles.linearGradient"
-                >*/}
-                <View style={[GlobalStyles.cardSection, {backgroundColor: "#F7F7F7", zIndex: 1}]}>
-                    <View style={styles.titleSection}>
-                        <Text
-                            style={[
-                                GlobalStyles.headerText,
-                                {
-                                    paddingTop: 115,
-                                    paddingBottom: 186,
-                                    paddingHorizontal: 35,
-                                    color: "#292929",
-                                    fontWeight: "normal",
-                                    letterSpacing: 1,
-                                },
-                            ]}
-                        >
-                            The 🌎’s Fastest {"\n"}
-                            <Text
-                                style={{ textDecorationLine: "underline" }}
-                                onPress={() => navigation.navigate("Create")}
-                            >
-                                Event
-                            </Text>{" "}
-                            Organizer
-                        </Text>
-                        <TouchableOpacity
-                            style={[
-                                GlobalStyles.submitButton,
-                                { marginBottom: 192},
-                            ]}
-                            onPress={() => {
-                                navigation.navigate("Create");
-                            }}
-                        >
-                            <Text style={GlobalStyles.buttonText}>
-                                Create Event
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                {/*</LinearGradient>*/}
-                {/*<Image
-                    style={styles.calendarImage}
-                    source={require("../assets/Hands_Calendar_1.png")}
-                />*/}
-                <View style={[GlobalStyles.cardSection, {backgroundColor: "#7B7B7B", zIndex: 2, marginTop: -60}]}>
-                    <View
-                        style={{
-                            flexDirection: "column",
-                            paddingHorizontal: 30,
-                            paddingBottom: 23,
-                        }}
-                    >
-                        {/*<View style={styles.columnContainer}>*/}
-                            <Text
-                                style={[
-                                    GlobalStyles.headerText,
-                                    {
-                                        fontSize: 24,
-                                        marginTop: 50,
-                                        textAlign: 'left',
-                                        paddingHorizontal: 0,
-                                        fontWeight: 700,
-                                        letterSpacing: 1,
-                                        color: '#FFFFFF'
-                                    },
-                                ]}
-                            >
-                                Let’s throw a party! 🎉{" "}
-                            </Text>
-                        {/*</View>*/}
-                        {/*<View style={styles.columnContainer}>*/}
-                            <Text
-                                style={[
-                                    GlobalStyles.bodyText,
-                                    { textAlign: "center", fontSize: 18, lineHeight: 36, color: '#FFFFFF', marginTop: 28, marginBottom: 100, paddingLeft: 0},
-                                ]}
-                            >
-                                UGoing creates a{" "}
-                                <Text
-                                    style={{ textDecorationLine: "underline" }}
-                                    onPress={() => navigation.navigate("Create")}
-                                >
-                                    unique link
-                                </Text>{" "}
-                                to your next event that friends can add directly to
-                                their calendars
-                            </Text>
-                            <View style={{justifyContent: 'center', marginLeft: 'auto', marginRight: 'auto', marginBottom: 179}}>
-                                <Image
-                                    style={{ height: 172, width: 172, margin: '0 auto 0 auto'}}
-                                    source={require("../assets/Hands_Party.png")}
-                                />
+import homeIcon1 from "../assets/HomeIcon-1.png";
+import ugoingIcon from "../assets/UGoing_Logo.png";
+import scheduleIcon1 from "../assets/Schedule-1.png";
+import plusIcon from "../assets/Plus-Icon.svg";
+import linkIcon from "../assets/Link-Icon.svg";
+import calendarIcon from "../assets/Calendar-Icon.svg";
+import calendarSmallIcon from "../assets/Calendar-small.svg";
+import mailSmallIcon from "../assets/Mail-small.svg";
+import smsSmallIcon from "../assets/SMS-small.svg";
+import facebookSmallIcon from "../assets/Facebook-small.svg";
+import textConvo from "../assets/text-convo.png";
+import calendarMultiple from "../assets/calendar-multiple.png";
+import uGoingWhiteLogo from "../assets/UGoing_Logo_w.png";
 
-                            </View>
-                            
-                            
-                        {/*</View>*/}
-                    </View>
-                </View>
-                <View style={[GlobalStyles.cardSection, {backgroundColor: "#F7F7F7", zIndex: 3, marginTop: -60}]}>
-                    <Text
-                        style={[
-                            GlobalStyles.headerText,
-                            {
-                                fontSize: 24,
-                                marginTop: 50,
-                                textAlign: 'left',
-                                paddingHorizontal: 30,
-                                fontWeight: 700,
-                                letterSpacing: 1,
-                            },
-                        ]}
-                    >
-                        It's as easy as...
-                    </Text>
-                    <View
-                        style={[
-                            GlobalStyles.bodyText,
-                            { fontSize: 18, lineHeight: 36, marginTop: 32, marginBottom: 40, paddingHorizontal: 30},
-                        ]}
-                    >
-                        <ol>
-                            <li>Create Your Event</li>
-                            <li>Send the link to your friends</li>
-                            <li>View the details online or add them to your calendar with a single tap</li>
-                        </ol>
-                        
-                    </View>
-                    <Image
-                        style={{ height: 316, width: 283, marginBottom: 47, marginLeft: 'auto', marginRight: 'auto'}}
-                        source={require("../assets/Google_Calendar_Event.png")}>
-                    </Image>
-                </View>
-
-                {/*<View
-                    style={{
-                        flexDirection: "column",
-                        paddingHorizontal: 20,
-                        paddingBottom: 12,
-                        paddingTop: 26,
-                        backgroundColor: "#FFFFFF",
-                    }}
-                >*/}
-                    <View >
-                        {/*<View style={[styles.rowContainer, { width: "55%" }]}>*/}
-                            <Text
-                                style={[
-                                    GlobalStyles.headerText,
-                                    {
-                                        fontSize: 24,
-                                        marginTop: 38,
-                                        textAlign: "center",
-                                        fontWeight: 700,
-                                        letterSpacing: 1,
-                                    },
-                                ]}
-                            >
-                                1 Link to Rule Them All 🔗
-                            </Text>
-                            <Text
-                                style={[
-                                    GlobalStyles.bodyText,
-                                    { textAlign: "center", fontSize: 18, lineHeight: 36, marginTop: 32, marginBottom: 23, paddingLeft: 30, paddingRight: 30},
-                                ]}
-                            >
-                                Details get burried often in the group chat.
-                                Instead of re-typing each time, send a{" "}
-                                <Text
-                                    style={{ textDecorationLine: "underline" }}
-                                    onPress={() =>
-                                        navigation.navigate("Create")
-                                    }
-                                >
-                                    link
-                                </Text>
-                            </Text>
-                        {/*</View>*/}
-                        <Image
-                            style={{ height: 441, width: 315, marginLeft: 'auto', marginRight: 'auto', marginBottom: 69}}
-                            source={require("../assets/Messenger_Chat.png")}
-                        />
-                    </View>
-                {/*</View>*/}
-
-                <View style={[GlobalStyles.cardSection, {backgroundColor: "#FAFDF2", zIndex: 1, marginTop: -60}]}>
-                    <Text
-                        style={[
-                            GlobalStyles.headerText,
-                            {
-                                fontSize: 24,
-                                marginTop: 38,
-                                marginBottom: 74,
-                                textAlign: "center",
-                                fontStyle: "normal",
-                                fontWeight: 700,
-                                letterSpacing: 1,
-                            },
-                        ]}
-                    >
-                        Right into their Calendar 📅
-                    </Text>
-                    <View style={[styles.columnContainer, {marginBottom: 188, paddingRight: 30}]}>
-                        <Image
-                            style={{ height: 96, width: 96, marginLeft: 30, marginTop: 'auto', marginBottom: 'auto' }}
-                            source={require("../assets/Icon_Calendar.png")}
-                        />
-                        <Text
-                            style={[
-                                GlobalStyles.bodyText,
-                                { textAlign: "right", fontSize: 18, lineHeight: 36, paddingLeft: 10},
-                            ]}
-                        >
-                            UGoing lets friends add your event directly into
-                            their preferred calendar{"\n"}
-                            {"\n"}
-                            No more digging through messages or forgotten reminders - Everything you need to know front and center where you expect it
-                        </Text>
-                    </View>
-                </View>
-
-                <View style={[GlobalStyles.cardSection, {backgroundColor: "#7B7B7B", zIndex: 2, marginTop: -60}]}>
-                    <Text
-                        style={[
-                            GlobalStyles.headerText,
-                            {
-                                fontSize: 24,
-                                marginTop: 38,
-                                marginBottom: 74,
-                                marginLeft: 30,
-                                textAlign: "center",
-                                fontStyle: "normal",
-                                fontWeight: 700,
-                                letterSpacing: 1,
-                                color: '#FFFFFF'
-                            },
-                        ]}
-                    >
-                        And it’s all Free!  👏
-                    </Text>
-                    <Text
-                        style={[
-                            GlobalStyles.bodyText,
-                            { textAlign: "center", color: '#FFFFFF', fontSize: 18, lineHeight: 36, paddingLeft: 0, marginHorizontal: 80},
-                        ]}
-                    >
-                        Create as many events as you want{"\n"}
-                        {"\n"}
-                        Free to create events{"\n"}
-                        {"\n"}
-                        Free for your guests{"\n"}
-                        {"\n"}
-                    </Text>
-                    <Image
-                        style={{ height: 64, width: 64, marginLeft: 'auto', marginRight: 'auto', marginBottom: 101}}
-                        source={require("../assets/Icon_FreeEvent.png")}
-                    />
-                </View>
-
-                {/*}
-                <View
-                    style={{
-                        flexDirection: "column",
-                        paddingHorizontal: 20,
-                        paddingBottom: 34,
-                        paddingTop: 28,
-                        backgroundColor: "#FAFDF2",
-                    }}
-                >
-                    <View style={styles.columnContainer}>
-                        <Image
-                            style={{ height: 134, width: 134 }}
-                            source={require("../assets/Hands_Calendar_2.png")}
-                        />
-                        <View style={[styles.rowContainer, { width: "60%" }]}>
-                            <Text
-                                style={[
-                                    GlobalStyles.headerText,
-                                    {
-                                        fontSize: 24,
-                                        marginVertical: 5,
-                                        textAlign: "right",
-                                        fontStyle: "normal",
-                                        fontWeight: 700,
-                                        letterSpacing: 1,
-                                    },
-                                ]}
-                            >
-                                Right into their Calendar 📅
-                            </Text>
-                            <Text
-                                style={[
-                                    GlobalStyles.bodyText,
-                                    {
-                                        textAlign: "right",
-                                        fontSize: 18,
-                                        paddingHorizontal: 0,
-                                    },
-                                ]}
-                            >
-                                UGoing lets friends add your event directly into
-                                their preferred calendar{"\n"}
-                                {"\n"}
-                                All your guests add your event...
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                {*/}
-                {/*}
-
-                <View
-                    style={{
-                        flexDirection: "column",
-                        paddingHorizontal: 20,
-                        marginBottom: 40,
-                        marginTop: 18,
-                        backgroundColor: "#F4F4F4",
-                    }}
-                >
-                    <View style={styles.columnContainer}>
-                        <Text
-                            style={[
-                                GlobalStyles.headerText,
-                                {
-                                    fontSize: 24,
-                                    marginTop: 5,
-                                    justifyContent: "left",
-                                    fontWeight: 700,
-                                    letterSpacing: 1,
-                                },
-                            ]}
-                        >
-                            and it’s Free! 👏
-                        </Text>
-                    </View>
-                    <View style={styles.columnContainer}>
-                        <Text
-                            style={[
-                                GlobalStyles.bodyText,
-                                {
-                                    textAlign: "right",
-                                    paddingHorizontal: 17,
-                                    fontSize: 18,
-                                    paddingTop: 38,
-                                },
-                            ]}
-                        >
-                            Does it get any better?
-                        </Text>
-                        <Image
-                            style={{ height: 110, width: 103 }}
-                            source={require("../assets/Hands_Balloons.png")}
-                        />
-                    </View>
-                </View>
-                <View
-                    style={[
-                        styles.titleSection,
-                        { backgroundColor: "#FFFFFF" },
-                    ]}
-                >
-                    <Text
-                        style={[
-                            GlobalStyles.headerText,
-                            {
-                                paddingTop: 36,
-                                paddingBottom: 21,
-                                paddingHorizontal: 35,
-                                color: "#292929",
-                                fontSize: 24,
-                                fontStyle: "normal",
-                                fontWeight: 700,
-                                letterSpacing: 1,
-                            },
-                        ]}
-                    >
-                        Create your first event in seconds
-                    </Text>
-                    
-                    {/*<Text
-                            style={[
-                                GlobalStyles.subheaderText,
-                                { paddingVertical: 35, color: "black" },
-                            ]}
-                        >
-                            Share events with a single link
-                        </Text>*/}
-                    {/*<Image
-                        style={{ height: 95, width: 57 }}
-                        source={require("../assets/Hands_Arrow.png")}
-                    />*/}
-
-                    <TouchableOpacity
-                        style={[
-                            GlobalStyles.submitButton,
-                            { marginTop: 54, marginBottom: 64, marginLeft: 'auto', marginRight: 'auto' },
-                        ]}
-                        onPress={() => {
-                            navigation.navigate("Create");
-                        }}
-                    >
-                        <Text style={GlobalStyles.buttonText}>
-                            Create Event
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-            {/*</View>*/}
-            <View style={[styles.columnContainer, {justifyContent: 'center', backgroundColor: '#FFFFFF', borderTopWidth: 1, borderColor: '#D5D5D5'}]}>
-                <TouchableOpacity onPress = {() => navigation.navigate("About")} style={{width: '35%', paddingTop: 30, paddingBottom: 40 }}>
-                    <Text style={[styles.footerText, {textAlign: "center"}]}>
-                        About
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress = {() => navigation.navigate("TOS")} style={{width: '30%', paddingTop: 30, paddingBottom: 40 }}>
-                    <Text style={[styles.footerText, {textAlign: "center"}]}>
-                        Terms Of Use
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress = {() => navigation.navigate("PrivacyPolicy")} style={{width: '35%', paddingTop: 30, paddingBottom: 40 }}>
-                    <Text style={[styles.footerText, {textAlign: "center"}]}>
-                        Privacy Policy
-                    </Text>
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
+// Usually one would use h="80%" to get 80% screen height, but there's some bug
+// or styling workaround that I'm unaware of that is causing the height to expand
+// past our provided percentage when enough content is being loaded
+const CardOne = () => {
+	return (
+		<Box bg="white" h={Dimensions.get("window").height * 0.8}>
+			<Center justifyContent={"space-around"} flex="1">
+				<Image source={ugoingIcon} h={44} w={137}></Image>
+				<Heading textAlign={"center"} fontSize={48}>
+					The world’s fastest{"\n"}
+					<Heading bold={true} size={32}>
+						Event Scheduler
+					</Heading>
+				</Heading>
+				<Image source={homeIcon1} width="17.625rem" height="10.574rem"></Image>
+				<Button
+					onPress={() => {
+						navigation.navigate("Create");
+					}}
+					minW="200"
+					minH="50"
+				>
+					Create Event
+				</Button>
+			</Center>
+		</Box>
+	);
 };
 
-const styles = StyleSheet.create({
-    mainContainer: {
-        flexDirection: "column",
-    },
-    titleSection: {
-        justifyContent: "center",
-        alignItems: "center",
+const CardTwo = () => {
+	return (
+		<Box
+			bg="primary.200"
+			h={Dimensions.get("window").height * 0.8}
+			overflow="hidden"
+		>
+			<Center justifyContent={"space-around"} flex="1">
+				<Box>
+					<Heading textAlign={"center"} fontStyle={"semibold"} fontSize={48}>
+						Let's throw a party!
+					</Heading>
+					<Heading textAlign={"center"} size={"md"} color={"neutral.500"}>
+						UGoing creates a free shareable link to your next event that friends
+						can add directly to their calendars
+					</Heading>
+				</Box>
 
-        /*background: `linear-gradient(180deg, #FFFFFF 11.25%, #9CDBFF 30.21%, rgba(137, 255, 255, 0) 100%)`*/
-    },
-    createSection: {
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    createEventSection: {
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    linearGradient: {
-        height: "40%",
-    },
-    calendarImage: {
-        position: "absolute",
-        right: 0,
-        top: 261,
+				<Image source={scheduleIcon1} size={48}></Image>
+			</Center>
+		</Box>
+	);
+};
 
-        height: 198,
-        width: 126,
-    },
-    columnContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-    },
-    rowContainer: {
-        justifyContent: "space-evenly",
-    },
-});
+const CardThree = () => {
+	return (
+		<Box bg="white" h={Dimensions.get("window").height * 0.8}>
+			<Center justifyContent={"space-around"} flex="1">
+				<Heading textAlign={"center"} fontStyle={"semibold"} fontSize={48}>
+					It's as easy as...
+				</Heading>
+				<Image source={plusIcon} size={"sm"} />
+				<Heading textAlign={"center"} fontStyle={"medium"} size={"md"}>
+					1. Create your event
+				</Heading>
+				<Image source={linkIcon} size={"sm"} />
+				<Heading textAlign={"center"} fontStyle={"medium"} size={"md"} w="75%">
+					2. Send the link to your friends
+				</Heading>
+				<Image source={calendarIcon} size={"sm"} />
+				<Heading textAlign={"center"} fontStyle={"medium"} size={"md"} w="75%">
+					3. View the details online or add them to your calendar with a single
+					tap
+				</Heading>
+			</Center>
+		</Box>
+	);
+};
+
+const CardFour = () => {
+	return (
+		<Box
+			bg="neutral.600"
+			h={Dimensions.get("window").height * 0.8}
+			justifyContent={"space-between"}
+		>
+			<Center justifyContent={"space-around"} overflow="hidden" flex="1">
+				<Heading
+					color={"white"}
+					fontStyle={"bold"}
+					textAlign={"center"}
+					fontSize={48}
+				>
+					One link to rule them all
+				</Heading>
+				<Heading color={"white"} size={"md"} textAlign={"center"} w="75%">
+					Details get buried easily in the group chat. Instead of re-typing your
+					event details each time, send a link
+				</Heading>
+				<HStack space={10}>
+					<Image source={calendarSmallIcon} size={"xs"} opacity={"50%"} />
+					<Image source={mailSmallIcon} size={"xs"} opacity={"50%"} />
+					<Image source={smsSmallIcon} size={"xs"} opacity={"50%"} />
+					<Image source={facebookSmallIcon} size={"xs"} opacity={"50%"} />
+				</HStack>
+			</Center>
+			<Box flex="1" justifyContent={"flex-end"}>
+				<Image
+					flex="1"
+					alignSelf={"center"}
+					source={textConvo}
+					resizeMode="contain"
+					// size="2xl"
+					style={{
+						width: "20.3125rem",
+						height: "25.0625rem",
+						margin: "0 auto 0 auto",
+					}}
+				/>
+			</Box>
+		</Box>
+	);
+};
+
+const CardFive = () => {
+	return (
+		<Box
+			bg="white"
+			h={Dimensions.get("window").height * 0.8}
+			justifyContent={"flex-start"}
+		>
+			<Center
+				justifyContent={"flex-start"}
+				overflow="hidden"
+				h="60%"
+				mt="10%"
+				pb="10%"
+			>
+				<Heading fontStyle={"bold"} textAlign={"center"} fontSize={48}>
+					Right into their calendar
+				</Heading>
+				<Image
+					alignSelf={"center"}
+					source={calendarMultiple}
+					resizeMode="contain"
+					size="xl"
+				/>
+				<Heading size={"md"} textAlign={"center"} mx={20} width="75%">
+					UGoing lets you add events directly into your preferred calendar{" "}
+					{"\n"} {"\n"}No more digging through messages or forgotten reminders -
+					Everything you need to know front and center where you expect it
+				</Heading>
+			</Center>
+		</Box>
+	);
+};
+
+const CardSix = () => {
+	return (
+		<Box bg="neutral.600" pb="10%">
+			<Box
+				bg="white"
+				w="90%"
+				h={Dimensions.get("window").height * 0.6}
+				style={{ boxShadow: "0px -6px 50px #ABBAC2" }}
+				borderRadius={"2xl"}
+				justifyContent={"space-around"}
+				alignSelf={"center"}
+				mt="-20%"
+				pb="10%"
+			>
+				<Center justifyContent={"space-around"} overflow="hidden" h="60%">
+					<Heading fontStyle={"bold"} fontSize={48} textAlign={"center"}>
+						And it's all free!
+					</Heading>
+					<Heading size={"md"} textAlign={"center"} width="75%">
+						Create as many events as you want{"\n"}
+						Free to create events{"\n"}
+						Free for your guests
+					</Heading>
+				</Center>
+				<Center justifyContent={"flex-end"}>
+					<Button
+						onPress={() => {
+							navigation.navigate("Create");
+						}}
+						minW="200"
+						minH="50"
+					>
+						Create Event
+					</Button>
+				</Center>
+			</Box>
+		</Box>
+	);
+};
+
+const Footer = () => {
+	return (
+		<Box
+			h={Dimensions.get("window").height * 0.25}
+			bg="neutral.600"
+			alignItems={"center"}
+			justifyContent={"space-around"}
+			py="15%"
+		>
+			<Image source={uGoingWhiteLogo} w={165} h={52} />
+			<Text color="white" fontStyle={"semibold"} fontSize={15}>
+				About Us
+			</Text>
+			<Text color="white" fontStyle={"semibold"} fontSize={15}>
+				Terms of Use
+			</Text>
+			<Text color="white" fontStyle={"semibold"} fontSize={15}>
+				Privacy Policy
+			</Text>
+			<Divider w="100%" color="white" my="4" />
+			<Text color="white" fontStyle={"semibold"} fontSize={12}>
+				UGoing™ 2022. All rights reserved.
+			</Text>
+		</Box>
+	);
+};
+
+export const HomeScreen = ({ navigation }) => {
+	return (
+		<View h="100%" overflowY={"scroll"}>
+			<CardOne />
+			<CardTwo />
+			<CardThree />
+			<CardFour />
+			<CardFive />
+			<CardSix />
+			<Footer />
+			{/* <Box w="100%" h="4/5" bg="white" overflow="hidden"></Box>
+			<Box w="100%" h="4/5" bg="primary.200" overflow={"hidden"}></Box>
+			<Box w="100%" h="4/5" bg="white"></Box>
+			<Box w="100%" h="4/5" bg="neutral.600"></Box> */}
+		</View>
+	);
+};

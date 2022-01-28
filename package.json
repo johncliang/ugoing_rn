@@ -24,6 +24,7 @@
         "firebase": "8.2.3",
         "flatpickr": "^4.6.9",
         "ics": "^2.31.0",
+        "native-base": "^3.3.3",
         "netlify-cli": "^4.1.10",
         "react": "16.13.1",
         "react-device-detect": "^1.17.0",
