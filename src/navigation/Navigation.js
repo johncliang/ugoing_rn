@@ -204,7 +204,7 @@ export const AppNavigator = () => {
 							headerTitleAlign: "center",
 							headerLeft: () => null,
 							headerTitle: () => {
-								return headerLogo(navigation, true);
+								return headerLogo(navigation);
 							},
 							headerStyle: [styles.headerStyle, { borderBottomWidth: 1 }],
 							// headerRight: () => {
@@ -221,7 +221,7 @@ export const AppNavigator = () => {
 							headerTitleAlign: "center",
 							headerLeft: () => null,
 							headerTitle: () => {
-								return headerLogo(navigation, true);
+								return headerLogo(navigation);
 							},
 							headerStyle: [styles.headerStyle, { borderBottomWidth: 1 }],
 							// headerRight: () => {
@@ -238,7 +238,7 @@ export const AppNavigator = () => {
 							headerTitleAlign: "center",
 							headerLeft: () => null,
 							headerTitle: () => {
-								return headerLogo(navigation, true);
+								return headerLogo(navigation);
 							},
 							headerStyle: [styles.headerStyle, { borderBottomWidth: 1 }],
 							// headerRight: () => {
