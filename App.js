@@ -24,6 +24,7 @@ function App() {
 					bold: "GilroyBold",
 					semibold: "GilroySemiBold",
 					medium: "GilroyMedium",
+					extraBold: "GilroyExtraBold"
 				},
 				500: {
 					normal: "Gilroy",
@@ -31,6 +32,7 @@ function App() {
 					bold: "GilroyBold",
 					semibold: "GilroySemiBold",
 					medium: "GilroyMedium",
+					extraBold: "GilroyExtraBold"
 				},
 				600: {
 					normal: "Gilroy",
@@ -38,6 +40,7 @@ function App() {
 					bold: "GilroyBold",
 					semibold: "GilroySemiBold",
 					medium: "GilroyMedium",
+					extraBold: "GilroyExtraBold"
 				},
 				700: {
 					normal: "Gilroy",
@@ -45,7 +48,9 @@ function App() {
 					bold: "GilroyBold",
 					semibold: "GilroySemiBold",
 					medium: "GilroyMedium",
+					extraBold: "GilroyExtraBold"
 				},
+
 				// Add more variants
 				//   700: {
 				//     normal: 'Roboto-Bold',
@@ -84,7 +89,7 @@ function App() {
 				700: "#292C35", // 120
 				600: "#3D4149", // 120
 				500: "#3D424D", // 100
-				400: "#7B86A0", // 60
+				400: "#6F7480", // 60
 				300: "#C3CAD9", // 40
 				200: "#E6EAF2", // 20
 				100: "#F7F7F7", // 10
