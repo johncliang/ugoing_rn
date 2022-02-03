@@ -61,6 +61,8 @@ export const AboutScreen = ({ navigation }) => {
                         their event in seconds without needing to sign up; guests can see every
                         detail about the event in one view where they can add the event directly to
                         their calendar.
+
+                        We see problems for both hosts and guests that current technology solutions cannot address.
                     </p>
                     <br />
                     <h2 >
@@ -75,26 +77,26 @@ export const AboutScreen = ({ navigation }) => {
                         social media platforms. On the day of the events, hosts need to answer
                         individual messages about guest parking, door access codes, apartment units
                         etc. while also entertaining guests; this leads to a negative experience
-                        for both host and guest.
+                        for both host and guest. We created UGoing to reduce all of the friction that comes with planning events.
                     </p>
                     <br />
                     <h2 >
                         <b>
-                            Guests must dig up event details day-of or message the host
+                            Guests dig up event details day-of or have to message the host
                         </b>
                     </h2>
                     <p style={{color: "#6F7480"}} dir="ltr">
                         For guests, event information is usually received at the initial invitation
                         and then lost or forgotten about until the day of the event. If you are not
-                        active on the social network that the host sent the invitation on, you may
+                        active on the social network where the host sent the invitation, you may
                         never even see an invite! In a group chat, we found ourselves scrolling up
-                        past days of messages to find the host’s original post; +1’s may not even
-                        have the host’s contact information.
+                        past messages to find the host’s original post; +1’s may not even
+                        have the host’s contact information. With UGoing, all of the information is displayed clearly within a single page so every guest can be in the loop.
                     </p>
                     <br />
                     <h2 >
                         <b>
-                            UGoing improves the experience for hosts and guests
+                            UGoing improves the experience for both hosts and guests
                         </b>
                     </h2>
                     <p style={{color: "#6F7480"}} dir="ltr">
