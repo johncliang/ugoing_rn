@@ -34,7 +34,7 @@ import smsSmallIcon from "../assets/SMS-small.svg";
 import facebookSmallIcon from "../assets/Facebook-small.svg";
 import textConvo from "../assets/text-convo.png";
 import calendarMultiple from "../assets/calendar-multiple.png";
-import uGoingWhiteLogo from "../assets/UGoing_Logo.png";
+import uGoingWhiteLogo from "../assets/UGoing_Logo_w.png";
 
 // Usually one would use h="80%" to get 80% screen height, but there's some bug
 // or styling workaround that I'm unaware of that is causing the height to expand
