@@ -151,6 +151,9 @@ export const AppNavigator = () => {
 							headerTitle: () => {
 								return headerLogo(navigation);
 							},
+							headerStyle: {
+								borderBottomWidth: 0,
+							},
 						})}
 					/>
 					<Stack.Screen

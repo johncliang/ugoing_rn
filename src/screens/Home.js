@@ -39,9 +39,15 @@ import uGoingWhiteLogo from "../assets/UGoing_Logo.png";
 // Usually one would use h="80%" to get 80% screen height, but there's some bug
 // or styling workaround that I'm unaware of that is causing the height to expand
 // past our provided percentage when enough content is being loaded
-const CardOne = () => {
+const CardOne = ({ navigation }) => {
 	return (
-		<Box bg="white" minH={"38.502rem"} px={"1.563rem"} pt={"1rem"} pb={"4.688rem"}>
+		<Box
+			bg="white"
+			minH={"38.502rem"}
+			px={"1.563rem"}
+			pt={"1rem"}
+			pb={"4.688rem"}
+		>
 			<Center justifyContent={"flex-start"} flex="1">
 				<Image source={ugoingIcon} h={44} w={137} mb={"1rem"}></Image>
 				<Heading textAlign={"center"} fontSize={32} lineHeight={50}>
@@ -50,7 +56,13 @@ const CardOne = () => {
 						Event Scheduler
 					</Heading>
 				</Heading>
-				<Image source={homeIcon1} width="17.625rem" height="10.574rem" mt={"3.625rem"} mb={"5.75rem"}></Image>
+				<Image
+					source={homeIcon1}
+					width="17.625rem"
+					height="10.574rem"
+					mt={"3.625rem"}
+					mb={"5.75rem"}
+				></Image>
 				<Button
 					onPress={() => {
 						navigation.navigate("Create");
@@ -77,10 +89,22 @@ const CardTwo = () => {
 		>
 			<Center justifyContent={"flex-start"} flex="1">
 				<Box>
-					<Heading textAlign={"center"} fontStyle={"semibold"} fontSize={28} letterSpacing={"0.02em"}>
+					<Heading
+						textAlign={"center"}
+						fontStyle={"semibold"}
+						fontSize={28}
+						letterSpacing={"0.02em"}
+					>
 						Let's throw a party!
 					</Heading>
-					<Heading textAlign={"center"} fontSize={15} lineHeight={25} color={"neutral.400"} mt={"0.938rem"} mx={"1.375rem"}>
+					<Heading
+						textAlign={"center"}
+						fontSize={15}
+						lineHeight={25}
+						color={"neutral.400"}
+						mt={"0.938rem"}
+						mx={"1.375rem"}
+					>
 						UGoing creates a free shareable link to your next event that friends
 						can add directly to their calendars
 					</Heading>
@@ -94,7 +118,7 @@ const CardTwo = () => {
 
 const CardThree = () => {
 	return (
-		<Box 
+		<Box
 			bg="white"
 			minH={"46rem"}
 			px={"1.563rem"}
@@ -102,25 +126,63 @@ const CardThree = () => {
 			pb={"5.438rem"}
 		>
 			<Center justifyContent={"flex-start"} flex="1">
-				<Heading textAlign={"center"} fontStyle={"semibold"} fontSize={28} letterSpacing={"0.02em"}>
+				<Heading
+					textAlign={"center"}
+					fontStyle={"semibold"}
+					fontSize={28}
+					letterSpacing={"0.02em"}
+				>
 					It's as easy as...
 				</Heading>
-				<Box bg="primary.200" borderRadius={"lg"} p="3.5" mt={"3.438rem"} mb={"1.625rem"}>
+				<Box
+					bg="primary.200"
+					borderRadius={"lg"}
+					p="3.5"
+					mt={"3.438rem"}
+					mb={"1.625rem"}
+				>
 					<Image source={plusIcon} size={"31px"} />
 				</Box>
-				<Heading textAlign={"center"} fontStyle={"medium"} fontSize={18} lineHeight={33}>
+				<Heading
+					textAlign={"center"}
+					fontStyle={"medium"}
+					fontSize={18}
+					lineHeight={33}
+				>
 					1. Create your event
 				</Heading>
-				<Box bg="primary.200" borderRadius={"lg"} p="3.5" mt={"3.438rem"} mb={"1.625rem"}>
+				<Box
+					bg="primary.200"
+					borderRadius={"lg"}
+					p="3.5"
+					mt={"3.438rem"}
+					mb={"1.625rem"}
+				>
 					<Image source={linkIcon} size={"31px"} />
 				</Box>
-				<Heading textAlign={"center"} fontStyle={"medium"} fontSize={18} lineHeight={33}>
+				<Heading
+					textAlign={"center"}
+					fontStyle={"medium"}
+					fontSize={18}
+					lineHeight={33}
+				>
 					2. Send the link to your friends
 				</Heading>
-				<Box bg="primary.200" borderRadius={"lg"} p="3.5" mt={"3.438rem"} mb={"1.625rem"}>
+				<Box
+					bg="primary.200"
+					borderRadius={"lg"}
+					p="3.5"
+					mt={"3.438rem"}
+					mb={"1.625rem"}
+				>
 					<Image source={calendarIcon} size={"31px"} />
 				</Box>
-				<Heading textAlign={"center"} fontStyle={"medium"} fontSize={18} lineHeight={33}>
+				<Heading
+					textAlign={"center"}
+					fontStyle={"medium"}
+					fontSize={18}
+					lineHeight={33}
+				>
 					3. View the details online or add them to your calendar with a single
 					tap
 				</Heading>
@@ -150,13 +212,25 @@ const CardFour = () => {
 				>
 					One link to rule them all
 				</Heading>
-				<Heading color={"white"} fontSize={15} lineHeight={25} textAlign={"center"} mb={"1.875rem"} mx={"1.5rem"}>
+				<Heading
+					color={"white"}
+					fontSize={15}
+					lineHeight={25}
+					textAlign={"center"}
+					mb={"1.875rem"}
+					mx={"1.5rem"}
+				>
 					Details get buried easily in the group chat. Instead of re-typing your
 					event details each time, send a link
 				</Heading>
 				<HStack space={5} alignItems={"center"} mb={"2.23rem"}>
 					<Image source={calendarSmallIcon} size={"27.24px"} opacity={"50%"} />
-					<Image source={mailSmallIcon} height={24.21} width={30.27} opacity={"50%"} />
+					<Image
+						source={mailSmallIcon}
+						height={24.21}
+						width={30.27}
+						opacity={"50%"}
+					/>
 					<Image source={smsSmallIcon} height={28} width={30} opacity={"50%"} />
 					<Image source={facebookSmallIcon} size={"27.24px"} opacity={"50%"} />
 				</HStack>
@@ -194,7 +268,13 @@ const CardFive = () => {
 				//mt="10%"
 				//pb="10%"
 			>
-				<Heading fontStyle={"bold"} textAlign={"center"} fontSize={28} mx={"2rem"} letterSpacing={"0.02em"}>
+				<Heading
+					fontStyle={"bold"}
+					textAlign={"center"}
+					fontSize={28}
+					mx={"2rem"}
+					letterSpacing={"0.02em"}
+				>
 					Right into their calendar
 				</Heading>
 				<Image
@@ -212,7 +292,13 @@ const CardFive = () => {
 						margin: "0 auto 0 auto",
 					}}
 				/>
-				<Heading fontSize={15} lineHeight={25} textAlign={"center"} mx={"2rem"} color={"neutral.400"}>
+				<Heading
+					fontSize={15}
+					lineHeight={25}
+					textAlign={"center"}
+					mx={"2rem"}
+					color={"neutral.400"}
+				>
 					UGoing lets you add events directly into your preferred calendar{" "}
 					{"\n"} {"\n"}No more digging through messages or forgotten reminders -
 					Everything you need to know front and center where you expect it
@@ -222,7 +308,7 @@ const CardFive = () => {
 	);
 };
 
-const CardSix = () => {
+const CardSix = ({ navigation }) => {
 	return (
 		<Box bg="neutral.600" px={"1.563rem"}>
 			<Box
@@ -236,10 +322,23 @@ const CardSix = () => {
 				mb="3.375rem"
 			>
 				<Center justifyContent={"flex-start"} overflow="hidden">
-					<Heading fontStyle={"bold"} fontSize={28} letterSpacing={"0.02em"} textAlign={"center"} mt={"4.375rem"}>
+					<Heading
+						fontStyle={"bold"}
+						fontSize={28}
+						letterSpacing={"0.02em"}
+						textAlign={"center"}
+						mt={"4.375rem"}
+					>
 						And it's all free!
 					</Heading>
-					<Heading  fontSize={15} lineHeight={25}  textAlign={"center"} mx={"1.375rem"} mt={"3rem"} mb={"4.563rem"}>
+					<Heading
+						fontSize={15}
+						lineHeight={25}
+						textAlign={"center"}
+						mx={"1.375rem"}
+						mt={"3rem"}
+						mb={"4.563rem"}
+					>
 						Create as many events as you want{"\n"}
 						Free to create events{"\n"}
 						Free for your guests
@@ -269,18 +368,51 @@ const Footer = (props) => {
 			alignItems={"center"}
 			justifyContent={"flex-start"}
 		>
-			<Image source={uGoingWhiteLogo} w={165} h={52} mb={"5.438rem"} tintColor={"white"}/>
-			<Text onPress={() => props.navigation.navigate("About")} color="white" fontStyle={"semibold"} fontSize={15} letterSpacing={"0.02em"} mb={"0.75rem"}>
+			<Image
+				source={uGoingWhiteLogo}
+				w={165}
+				h={52}
+				mb={"5.438rem"}
+				tintColor={"white"}
+			/>
+			<Text
+				onPress={() => props.navigation.navigate("About")}
+				color="white"
+				fontStyle={"semibold"}
+				fontSize={15}
+				letterSpacing={"0.02em"}
+				mb={"0.75rem"}
+			>
 				About Us
 			</Text>
-			<Text onPress={() => props.navigation.navigate("TOS")} color="white" fontStyle={"semibold"} fontSize={15} letterSpacing={"0.02em"} mb={"0.75rem"}>
+			<Text
+				onPress={() => props.navigation.navigate("TOS")}
+				color="white"
+				fontStyle={"semibold"}
+				fontSize={15}
+				letterSpacing={"0.02em"}
+				mb={"0.75rem"}
+			>
 				Terms of Use
 			</Text>
-			<Text onPress={() => props.navigation.navigate("PrivacyPolicy")} color="white" fontStyle={"semibold"} fontSize={15} letterSpacing={"0.02em"} mb={"1.5rem"}>
+			<Text
+				onPress={() => props.navigation.navigate("PrivacyPolicy")}
+				color="white"
+				fontStyle={"semibold"}
+				fontSize={15}
+				letterSpacing={"0.02em"}
+				mb={"1.5rem"}
+			>
 				Privacy Policy
 			</Text>
 			<Divider w="100%" color="white" />
-			<Text color="white" fontStyle={"semibold"} fontSize={12} letterSpacing={"0.02em"} my={"0.938rem"}>
+			<Text
+				color="white"
+				fontStyle={"semibold"}
+				fontSize={12}
+				letterSpacing={"0.02em"}
+				my={"0.938rem"}
+			>
 				UGoing™ 2022. All rights reserved.
 			</Text>
 		</Box>
@@ -290,13 +422,13 @@ const Footer = (props) => {
 export const HomeScreen = ({ navigation }) => {
 	return (
 		<View h="100%" overflowY={"scroll"} bg={"white"}>
-			<CardOne />
+			<CardOne navigation={navigation} />
 			<CardTwo />
 			<CardThree />
 			<CardFour />
 			<CardFive />
-			<CardSix />
-			<Footer navigation = {navigation}/>
+			<CardSix navigation={navigation} />
+			<Footer navigation={navigation} />
 			{/* <Box w="100%" h="4/5" bg="white" overflow="hidden"></Box>
 			<Box w="100%" h="4/5" bg="primary.200" overflow={"hidden"}></Box>
 			<Box w="100%" h="4/5" bg="white"></Box>
