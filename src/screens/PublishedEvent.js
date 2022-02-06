@@ -11,7 +11,7 @@ export const PublishedEvent = ({ route, navigation }) => {
 	const [eventDetails, setEventDetails] = useState({});
 	const [url, setUrl] = useState("");
 
-	const { eventID } = route.params;
+	const { eventID } = route?.params;
 
 	useEffect(() => {
 		console.log(route);

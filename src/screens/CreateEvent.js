@@ -687,7 +687,7 @@ const FinishSection = ({
 
 export const CreateEvent = ({ navigation }) => {
 	const [status, setStatus] = useState({
-		state: STATES.TIME,
+		state: STATES.NAME,
 	});
 
 	const [eventName, setEventName] = useState("");
