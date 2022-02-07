@@ -5,9 +5,12 @@ import {
 	TouchableOpacity,
 	Text,
 	Platform,
+	Dimensions,
+	View,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useHeaderHeight } from "@react-navigation/elements";
 
 import { AuthContext } from "../Firebase/context";
 import { fb, db } from "../Firebase/firebase";
@@ -21,8 +24,15 @@ import { PublishedEvent } from "../screens/PublishedEvent";
 import { AboutScreen } from "../screens/About";
 import { TOS } from "../screens/TermsOfService";
 import { PrivacyPolicy } from "../screens/PrivacyPolicy";
+import { FeedbackHome } from "../screens/Feedback/FeedbackHome";
+import { FeedbackThankYou } from "../screens/Feedback/FeedbackThankYou";
+import { Footer } from "../components/Footer";
+import { Tabs } from "antd";
+import { GlobalStyles } from "../styles/GlobalStyles";
 
 const isWeb = Platform.OS === "web";
+
+const width = Dimensions.get("window").width;
 
 function headerLogo(navigation, bigLogo) {
 	return (
@@ -33,7 +43,7 @@ function headerLogo(navigation, bigLogo) {
 			}}
 		>
 			<Image
-				style={bigLogo ? { width: 154, height: 50 } : { width: 74, height: 24 }}
+				style={bigLogo ? { width: 137, height: 44 } : { width: 74, height: 24 }}
 				source={require("../assets/UGoing_Logo.png")}
 			/>
 		</TouchableOpacity>
@@ -96,23 +106,31 @@ export const AppNavigator = () => {
 				path: "create",
 			},
 			Publish: {
-				path: "u/:eventID?/:fromCreate?",
+				path: "publish/:eventID?",
 				parse: {
 					eventID: (eventID) => `${eventID}`,
-					fromCreate: (fromCreate) => `${fromCreate}`,
-				},
-				stringify: {
-					fromCreate: () => "",
 				},
 			},
 			Login: "login",
 			Signup: "signup",
-			// Event: {
-			//     path: "u/:eventID?",
-			//     parse: {
-			//         eventID: (eventID) => `${eventID}`,
-			//     },
-			// },
+			Event: {
+				path: "u/:eventID?",
+				parse: {
+					eventID: (eventID) => `${eventID}`,
+				},
+			},
+			FeedbackHome: {
+				path: "feedback/:eventID?",
+				parse: {
+					eventID: (eventID) => `${eventID}`,
+				},
+			},
+			FeedbackThankYou: {
+				path: "thankyou/:eventID?",
+				parse: {
+					eventID: (eventID) => `${eventID}`,
+				},
+			},
 		},
 	};
 
@@ -128,12 +146,11 @@ export const AppNavigator = () => {
 						name="Home"
 						component={HomeScreen}
 						options={({ navigation }) => ({
-							headerShown: false,
 							title: "",
 							headerTitleAlign: "center",
 							headerLeft: () => null,
 							headerTitle: () => {
-								return headerLogo(navigation);
+								return headerLogo(navigation, true);
 							},
 							headerStyle: styles.headerStyle,
 							// headerRight: () => {
@@ -146,35 +163,50 @@ export const AppNavigator = () => {
 						component={CreateEvent}
 						options={({ navigation }) => ({
 							title: "",
-							headerTitleAlign: "center",
-							headerLeft: () => null,
-							headerTitle: () => {
+							headerLeft: () => {
 								return headerLogo(navigation);
 							},
+							headerRight: () => {
+								return loginButton(navigation);
+							},
+							headerStyle: [
+								width < 390 && styles.smallHeader,
+								{ borderBottomColor: "white" },
+							],
 						})}
 					/>
 					<Stack.Screen
 						name="Publish"
 						component={PublishPost}
-						initialParams={({ eventID: "" }, { fromCreate: false })}
+						initialParams={{ eventID: "" }}
+						options={({ navigation }) => ({
+							title: "",
+							headerTitleAlign: "center",
+							headerLeft: () => null,
+							headerTitle: () => {
+								return headerLogo(navigation);
+							},
+							headerStyle: [
+								width < 390 && styles.smallHeader,
+								{ borderBottomColor: "white" },
+							],
+						})}
+					/>
+					<Stack.Screen
+						name="Event"
+						component={PublishedEvent}
+						initialParams={{ eventID: "" }}
 						options={({ navigation }) => ({
 							title: "",
 							headerLeft: () => {
 								return headerLogo(navigation);
 							},
+							headerStyle: [
+								width < 390 && styles.smallHeader,
+								{ borderBottomColor: "white" },
+							],
 						})}
 					/>
-					{/* <Stack.Screen
-                        name="Event"
-                        component={PublishedEvent}
-                        initialParams={{ eventID: "" }}
-                        options={({ navigation }) => ({
-                            title: "",
-                            headerLeft: () => {
-                                return headerLogo(navigation);
-                            },
-                        })}
-                    /> */}
 					<Stack.Screen
 						name="Login"
 						component={LoginScreen}
@@ -183,6 +215,7 @@ export const AppNavigator = () => {
 							headerLeft: () => {
 								return headerLogo(navigation);
 							},
+							headerStyle: { borderBottomColor: "white" },
 						})}
 					/>
 					<Stack.Screen
@@ -193,6 +226,7 @@ export const AppNavigator = () => {
 							headerLeft: () => {
 								return headerLogo(navigation);
 							},
+							headerStyle: { borderBottomColor: "white" },
 						})}
 					/>
 					<Stack.Screen
@@ -206,7 +240,11 @@ export const AppNavigator = () => {
 							headerTitle: () => {
 								return headerLogo(navigation, true);
 							},
-							headerStyle: [styles.headerStyle, { borderBottomWidth: 1 }],
+							headerStyle: [
+								styles.headerStyle,
+								width < 390 && styles.smallHeader,
+								{ borderBottomWidth: 1 },
+							],
 							// headerRight: () => {
 							//     return loginButton(navigation);
 							// },
@@ -223,7 +261,11 @@ export const AppNavigator = () => {
 							headerTitle: () => {
 								return headerLogo(navigation, true);
 							},
-							headerStyle: [styles.headerStyle, { borderBottomWidth: 1 }],
+							headerStyle: [
+								styles.headerStyle,
+								width < 390 && styles.smallHeader,
+								{ borderBottomWidth: 1 },
+							],
 							// headerRight: () => {
 							//     return loginButton(navigation);
 							// },
@@ -240,10 +282,48 @@ export const AppNavigator = () => {
 							headerTitle: () => {
 								return headerLogo(navigation, true);
 							},
-							headerStyle: [styles.headerStyle, { borderBottomWidth: 1 }],
+							headerStyle: [
+								styles.headerStyle,
+								width < 390 && styles.smallHeader,
+								{ borderBottomWidth: 1 },
+							],
 							// headerRight: () => {
 							//     return loginButton(navigation);
 							// },
+						})}
+					/>
+					<Stack.Screen
+						name="FeedbackHome"
+						component={FeedbackHome}
+						options={({ navigation, route }) => ({
+							title: "",
+							headerTitleAlign: "center",
+							headerLeft: () => null,
+							headerTitle: () => {
+								return headerLogo(navigation);
+							},
+							headerStyle: [
+								styles.boxShadow,
+								width < 390 && styles.smallHeader,
+								{ borderBottomColor: "white" },
+							],
+						})}
+					/>
+					<Stack.Screen
+						name="FeedbackThankYou"
+						component={FeedbackThankYou}
+						options={({ navigation, route }) => ({
+							title: "",
+							headerTitleAlign: "center",
+							headerLeft: () => null,
+							headerTitle: () => {
+								return headerLogo(navigation);
+							},
+							headerStyle: [
+								styles.boxShadow,
+								width < 390 && styles.smallHeader,
+								{ borderBottomColor: "white" },
+							],
 						})}
 					/>
 				</Stack.Navigator>
@@ -261,5 +341,14 @@ const styles = StyleSheet.create({
 		},
 		elevation: 0,
 		borderBottomWidth: 0,
+	},
+	bigHeader: {
+		height: "7.625rem",
+	},
+	smallHeader: {
+		height: "2.5rem",
+	},
+	headerShadows: {
+		boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.1)",
 	},
 });
