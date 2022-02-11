@@ -49,7 +49,6 @@ const CardOne = ({ navigation }) => {
 			pb={"4.688rem"}
 		>
 			<Center justifyContent={"flex-start"} flex="1">
-				<Image source={ugoingIcon} h={44} w={137} mb={"1rem"}></Image>
 				<Heading textAlign={"center"} fontSize={32} lineHeight={50}>
 					The world’s fastest{"\n"}
 					<Heading fontStyle={"extraBold"} size={32}>

@@ -320,7 +320,7 @@ const PlaceSection = ({
 							*
 						</Text>
 					</Text>
-					<Input
+					{/* <Input
 						minW="17.813rem"
 						minH="3.25rem"
 						mx="1.25rem"
@@ -329,7 +329,13 @@ const PlaceSection = ({
 						placeholder="100 Moffett Blvd"
 						value={location}
 						onChangeText={setLocation}
-					></Input>
+					></Input> */}
+					<AutocompleteSearch
+						onChangeOutputText={(text) => {
+							setLocation(text);
+						}}
+						value={location}
+					/>
 
 					<Text
 						mt=".938rem"
