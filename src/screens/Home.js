@@ -34,7 +34,7 @@ import smsSmallIcon from "../assets/SMS-small.svg";
 import facebookSmallIcon from "../assets/Facebook-small.svg";
 import textConvo from "../assets/text-convo.png";
 import calendarMultiple from "../assets/calendar-multiple.png";
-import uGoingWhiteLogo from "../assets/UGoing_Logo_w.png";
+import uGoingWhiteLogo from "../assets/UGoing_Logo_w_final.png";
 
 // Usually one would use h="80%" to get 80% screen height, but there's some bug
 // or styling workaround that I'm unaware of that is causing the height to expand
@@ -373,7 +373,6 @@ const Footer = (props) => {
 				w={165}
 				h={52}
 				mb={"5.438rem"}
-				tintColor={"white"}
 			/>
 			<Text
 				onPress={() => props.navigation.navigate("About")}

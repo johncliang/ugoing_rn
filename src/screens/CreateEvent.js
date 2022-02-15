@@ -9,6 +9,7 @@ import {
 import {
 	View,
 	Text,
+	TextArea,
 	Input,
 	Box,
 	Progress,
@@ -80,7 +81,7 @@ const NameSection = ({
 					mx="1.25rem"
 					bg="white"
 					borderColor="neutral.400"
-					placeholder="John's Birthday Surprise"
+					placeholder="John's Surprise Party"
 					value={title}
 					onChangeText={setTitle}
 				></Input>
@@ -94,17 +95,19 @@ const NameSection = ({
 				>
 					Event Details
 				</Text>
-				<Input
+				<TextArea
 					minW="17.813rem"
-					minH="3.25rem"
+					h="3.25rem"
 					mx="1.25rem"
 					mb="1.25rem"
 					bg="white"
 					borderColor="neutral.400"
+					py="8px"
+					pt="16px"
 					placeholder="Enter your event details here!"
 					value={description}
 					onChangeText={setDescription}
-				></Input>
+				></TextArea>
 			</Box>
 			<Button h="3.25rem" w="11rem" mt="1.563rem" onPress={validateSection}>
 				Next
@@ -194,7 +197,7 @@ const TimeSection = ({
 						</View>
 					</View>
 
-					{showEndDate && (
+					{!showEndDate && (
 						<React.Fragment>
 							<Text
 								mt=".938rem"
@@ -277,7 +280,7 @@ const TimeSection = ({
 				fontWeight={400}
 				fontSize={".938rem"}
 			>
-				{description == "" ? "Description TBA!" : description}
+				{description == "" ? "(No event description)" : description}
 			</Text>
 		</View>
 	);
@@ -315,10 +318,6 @@ const PlaceSection = ({
 						fontStyle={"semibold"}
 					>
 						Location
-						<Text fontSize=".938rem" fontStyle={"semibold"} color="red.500">
-							{" "}
-							*
-						</Text>
 					</Text>
 					<Input
 						minW="17.813rem"
@@ -378,7 +377,7 @@ const PlaceSection = ({
 					fontWeight={400}
 					fontSize={".938rem"}
 				>
-					{description == "" ? "Description TBA!" : description}
+					{description == "" ? "(No event description)" : description}
 				</Text>
 				<HStack justifyContent="space-between" mt="1.625rem">
 					<Text color="neutral.400" fontStyle="semibold">
@@ -513,7 +512,7 @@ const PeopleSection = ({
 					fontWeight={400}
 					fontSize={".938rem"}
 				>
-					{description == "" ? "Description TBA!" : description}
+					{description == "" ? "(No event description)" : description}
 				</Text>
 				<HStack justifyContent="space-between" mt="1.625rem">
 					<Text color="neutral.400" fontStyle="semibold">
@@ -554,7 +553,7 @@ const PeopleSection = ({
 					fontWeight={400}
 					fontSize={".938rem"}
 				>
-					{location == "" ? "Location TBA!" : location}
+					{location == "" ? "(No location info)" : location}
 				</Text>
 			</VStack>
 		</View>
@@ -595,7 +594,7 @@ const FinishSection = ({
 					fontWeight={400}
 					fontSize={".938rem"}
 				>
-					{description == "" ? "Description TBA!" : description}
+					{description == "" ? "(No event description)" : description}
 				</Text>
 				<HStack justifyContent="space-between" mt="1.625rem">
 					<Text color="neutral.400" fontStyle="semibold">
@@ -635,7 +634,7 @@ const FinishSection = ({
 					fontWeight={400}
 					fontSize={".938rem"}
 				>
-					{location == "" ? "Location TBA!" : location}
+					{location == "" ? "(No location info)" : location}
 				</Text>
 				<HStack justifyContent="space-between" mt="1.625rem">
 					<Text color="neutral.400" fontStyle="semibold">
@@ -653,7 +652,7 @@ const FinishSection = ({
 					fontWeight={400}
 					fontSize={".938rem"}
 				>
-					{organizerName == "" ? "John Doe" : organizerName}
+					{organizerName == "" ? "(No host info)" : organizerName}
 				</Text>
 				{phoneNumber != "" && (
 					<Text
@@ -702,7 +701,7 @@ export const CreateEvent = ({ navigation }) => {
 
 	const [dateEntryError, setDateEntryError] = useState("");
 
-	const [showEndDate, setShowEndDate] = useState(true);
+	const [showEndDate, setShowEndDate] = useState(false);
 
 	// TODO: Change to be based on position / Google Maps
 	const [eventLocation, setEventLocation] = useState("");
@@ -825,9 +824,10 @@ export const CreateEvent = ({ navigation }) => {
 				else incrementStatus();
 				return;
 			case STATES.PLACE:
-				if (eventLocation === "")
+				/*if (eventLocation === "")
 					setErrorStatus("Please enter a valid location!");
-				else incrementStatus();
+				else incrementStatus();*/
+				incrementStatus();
 				return;
 			case STATES.PEOPLE:
 				incrementStatus();
@@ -864,208 +864,6 @@ export const CreateEvent = ({ navigation }) => {
 			});
 	}
 
-	const getCurrentSection = () => {
-		//console.log(startDate.format("YYYY-MM-DD HH:mm"));
-		switch (status.state) {
-			case STATES.NAME:
-				return (
-					<View style={GlobalStyles.infoSectionFilled}>
-						<Text style={GlobalStyles.subheaderText}>
-							Event Name <Text style={{ color: "red" }}>*</Text>
-						</Text>
-						<TextInput
-							style={GlobalStyles.textInput}
-							onChangeText={setEventName}
-							value={eventName}
-							placeholder="e.g. John's Surprise Birthday Party"
-							autoCompleteType="off"
-						/>
-						<Text style={GlobalStyles.subheaderText}>Event Description</Text>
-						<TextInput
-							style={GlobalStyles.textInput}
-							onChangeText={setEventDetails}
-							value={eventDetails}
-							placeholder="Enter your event details here!"
-							autoCompleteType="off"
-						/>
-					</View>
-				);
-			case STATES.TIME:
-				return (
-					<View style={GlobalStyles.infoSectionFilled}>
-						<View style={{ alignItems: "center" }}></View>
-						<Text style={GlobalStyles.subheaderText}>Start Time</Text>
-						<View style={GlobalStyles.timeButton}>
-							<BrowserView>
-								<DatePicker
-									value={startDate}
-									onChange={(date) => onChangeDate(date, true)}
-									inputReadOnly={true}
-								/>
-								<TimePicker
-									format={"HH:mm"}
-									minuteStep={5}
-									use12Hours={true}
-									showNow={false}
-									value={startDate}
-									onChange={(date) => onChangeDate(date, true)}
-									inputReadOnly={true}
-								/>
-							</BrowserView>
-							<MobileView>
-								<Flatpickr
-									options={{
-										enableTime: true,
-										time_24hr: false,
-										defaultDate: startDate.format("YYYY-MM-DD HH:mm"),
-										minuteIncrement: 10,
-										//minDate: moment().format('YYYY-MM-DD HH:mm'),
-									}}
-									minuteStep={5}
-									//enableTime={true}
-									/*onChange={(dates) =>
-                                            onChangeDate(moment(dates,"ddd MMM DD YYYY HH:mm:ss ZZ "), true)
-                                        }*/
-									onChange={(dstr, dobjs, fp) =>
-										setTimeout(function () {
-											var i = fp.latestSelectedDateObj;
-											const d = i ? i : new Date();
-											const mins = d.getMinutes();
-
-											if (mins % 5)
-												d.setMinutes(5 * Math.round(d.getMinutes() / 5));
-
-											onChangeDate(
-												moment(d, "ddd MMM DD YYYY HH:mm:ss ZZ "),
-												true
-											);
-										}, 1000)
-									}
-
-									//value={}
-									//onChange={(dates) => onChangeDate(dates, true)}
-								></Flatpickr>
-							</MobileView>
-						</View>
-
-						<View style={styles.endTimeSection}>
-							<Text style={GlobalStyles.subheaderText}>End Time</Text>
-							<Switch
-								/*value={showEndTime}
-                                onValueChange={setShowEndTime}
-                                trackColor={{
-                                    false: "#767577",
-                                    true: GlobalColors.shamrock,
-                                }}
-                                activeThumbColor={GlobalColors.shamrock}*/
-								checked={showEndTime}
-								onChange={setShowEndTime}
-								offColor="#767577"
-								onColor={GlobalColors.shamrock}
-								//ios_backgroundColor= "#ffffff"
-								//trackColor={{
-								//false: ,
-								// true: GlobalColors.shamrock,
-								//}}
-								//activeThumbColor={GlobalColors.shamrock}
-								style={GlobalStyles.toggleSwitch}
-							></Switch>
-						</View>
-						{showEndTime && (
-							<View style={GlobalStyles.timeButton}>
-								<BrowserView>
-									<DatePicker
-										value={endDate}
-										onChange={(date) => onChangeDate(date, false)}
-										disabledDate={disabledDates}
-										inputReadOnly={true}
-									/>
-									<TimePicker
-										format={"HH:mm"}
-										minuteStep={5}
-										use12Hours={true}
-										showNow={false}
-										value={endDate}
-										onChange={(date) => onChangeDate(date, false)}
-										inputReadOnly={true}
-									/>
-								</BrowserView>
-								<MobileView>
-									<Flatpickr
-										class="flatpickr-input"
-										//onChange={(dates) => onChangeDate(dates, true)}
-										options={{
-											time_24hr: false,
-											enableTime: true,
-											defaultDate: endDate.format("YYYY-MM-DD HH:mm"),
-											//minDate: moment().format('YYYY-MM-DD HH:mm')
-										}}
-										onChange={(dstr, dobjs, fp) =>
-											setTimeout(function () {
-												var i = fp.latestSelectedDateObj;
-												const d = i ? i : new Date();
-												const mins = d.getMinutes();
-
-												if (mins % 5)
-													d.setMinutes(5 * Math.round(d.getMinutes() / 5));
-
-												onChangeDate(
-													moment(d, "ddd MMM DD YYYY HH:mm:ss ZZ "),
-													false
-												);
-											}, 1000)
-										}
-									/>
-								</MobileView>
-							</View>
-						)}
-					</View>
-				);
-			case STATES.PLACE:
-				return (
-					<View style={GlobalStyles.infoSectionFilled}>
-						<Text style={GlobalStyles.subheaderText}>Place</Text>
-						<AutocompleteSearch
-							onChangeOutputText={(text) => {
-								setEventLocation(text);
-							}}
-							value={eventLocation}
-						/>
-						<Text style={GlobalStyles.subheaderText}>Instructions</Text>
-						<TextInput
-							style={GlobalStyles.textInput}
-							onChangeText={setArrivalInstructions}
-							value={arrivalInstructions}
-							placeholder="There's guest parking in Lot B!"
-							autoCompleteType="off"
-						/>
-					</View>
-				);
-			case STATES.PEOPLE:
-				return (
-					<View style={GlobalStyles.infoSectionFilled}>
-						<Text style={GlobalStyles.subheaderText}>Event Creator</Text>
-						<TextInput
-							style={GlobalStyles.textInput}
-							onChangeText={setOrganizerName}
-							value={organizerName}
-							placeholder="Joe Shmoe"
-							autoCompleteType="name"
-						/>
-						<Text style={GlobalStyles.subheaderText}>Phone Number</Text>
-						<TextInput
-							style={GlobalStyles.textInput}
-							onChangeText={setPhoneNumber}
-							value={phoneNumber}
-							placeholder="678-999-8212"
-							autoCompleteType="tel"
-						/>
-					</View>
-				);
-			default:
-				return <View></View>;
-		}
-	};
 
 	function getSection() {
 		console.log(status.state);
