@@ -149,10 +149,10 @@ export const AppNavigator = () => {
 							title: "",
 							headerTitleAlign: "center",
 							headerLeft: () => null,
-							headerTitle: () => {
-								return headerLogo(navigation, true);
-							},
-							headerStyle: styles.headerStyle,
+							//headerTitle: () => {
+						//		return headerLogo(navigation, true);
+						//	},
+							headerStyle: [styles.headerStyle, styles.noHeader]
 							// headerRight: () => {
 							//     return loginButton(navigation);
 							// },
@@ -163,12 +163,13 @@ export const AppNavigator = () => {
 						component={CreateEvent}
 						options={({ navigation }) => ({
 							title: "",
-							headerLeft: () => {
+							headerTitleAlign: "center",
+							headerTitle: () => {
 								return headerLogo(navigation);
 							},
-							headerRight: () => {
-								return loginButton(navigation);
-							},
+							//headerRight: () => {
+							//	return loginButton(navigation);
+							//},
 							headerStyle: [
 								width < 390 && styles.smallHeader,
 								{ borderBottomColor: "white" },
@@ -341,6 +342,9 @@ const styles = StyleSheet.create({
 		},
 		elevation: 0,
 		borderBottomWidth: 0,
+	},
+	noHeader: {
+		height: 0
 	},
 	bigHeader: {
 		height: "7.625rem",

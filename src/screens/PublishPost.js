@@ -319,6 +319,7 @@ export const PublishPost = ({ route, navigation }) => {
 							]}
 						>
 							{eventDetails.eventDetails}
+
 							{/*(typeof(eventDetails.eventDetails) !== undefined && eventDetails.eventDetails != null) 
                                 (eventDetails.eventDetails == '') ? 'Event Details' : eventDetails.eventDetails.length <= 50 ? eventDetails.eventDetails.length : !toggleAboutText ? eventDetails.eventDetails.substring(0, 50) : eventDetails.eventDetails}
                                 {eventDetails.eventDetails.length > 50 &&
@@ -364,7 +365,8 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginTop: "1.25em" },
 				]}
 				onPress={() => {
-					Clipboard.setString(url);
+					Clipboard.setString('' + eventDetails.arrivalInstructions + '\' from ' + eventDetails.startDate + ' at ' + eventDetails.eventLocation + '. \n \nSee more details: ' + url);
+					
 				}}
 			>
 				<View style={[styles.eventTextAndIcons]}>
@@ -393,7 +395,7 @@ export const PublishPost = ({ route, navigation }) => {
 				]}
 				onPress={() => navigation.navigate("FeedbackHome")}
 			>
-				<Text style={[GlobalStyles.buttonText2]}>Give Feedback</Text>
+				<Text style={[GlobalStyles.buttonText2]}>Feedback on UGoing</Text>
 			</TouchableOpacity>
 		);
 	};
@@ -410,7 +412,7 @@ export const PublishPost = ({ route, navigation }) => {
 			{copyEventButton()}
 			{feedbackButton()}
 			<View style={GlobalStyles.bottomSection}></View>
-			<Footer homepage={false} publish={true}></Footer>
+			<Footer homepage={false} publish={true} navigation={navigation}></Footer>
 		</View>
 	);
 };

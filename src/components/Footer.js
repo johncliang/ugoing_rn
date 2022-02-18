@@ -56,7 +56,7 @@ class Footer extends React.Component {
                     </View>
                     }
 
-                    <View style={[GlobalStyles.columnContainer, {backgroundColor: this.props.homepage ? GlobalColors.darkGrey: GlobalColors.standardRed, borderTopColor: "white", borderTopWidth: 1, paddingTop: "0.9375rem", paddingBottom: "0.9375rem", }]}>
+                    <View style={[GlobalStyles.columnContainer, {backgroundColor: this.props.homepage ? GlobalColors.darkGrey: GlobalColors.standardRed, borderTopColor: "white", borderTopWidth: 1, paddingTop: "0.9375rem", paddingBottom: "0.9375rem", marginBottom: 0}]}>
 
                         <View></View>
                         {!this.props.homepage &&
