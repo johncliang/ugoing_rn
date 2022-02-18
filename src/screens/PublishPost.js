@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
 	Text,
 	View,
@@ -15,6 +15,9 @@ import moment from "moment";
 //import Clipboard from "@react-native-community/clipboard";
 import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
+import { ScrollView } from "native-base";
+import Swiper from "react-native-swiper/src";
+import { GiftedChat } from "react-native-gifted-chat";
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -50,6 +53,29 @@ export const PublishPost = ({ route, navigation }) => {
 				console.log("Error getting document:", error);
 			});
 	}, [route.params?.eventID]);
+
+	const [messages, setMessages] = useState([]);
+
+	useEffect(() => {
+		setMessages([
+			{
+				_id: 1,
+				text: "Can I bring a plus 1?",
+				createdAt: new Date(),
+				user: {
+					_id: 2,
+					name: "React Native",
+					avatar: "https://placeimg.com/140/140/any",
+				},
+			},
+		]);
+	}, []);
+
+	const onSend = useCallback((messages = []) => {
+		setMessages((previousMessages) =>
+			GiftedChat.append(previousMessages, messages)
+		);
+	}, []);
 
 	//Event Info
 	const eventCard = () => {
@@ -334,6 +360,28 @@ export const PublishPost = ({ route, navigation }) => {
 		);
 	};
 
+	const chatCard = () => {
+		return (
+			//Event card layout
+			<View
+				style={[
+					GlobalStyles.tileSection,
+					GlobalStyles.eventTileShadow,
+					GlobalStyles.commonHorizontalMargin,
+					{ backgroundColor: "white", height: "90%" },
+				]}
+			>
+				<GiftedChat
+					messages={messages}
+					onSend={(messages) => onSend(messages)}
+					user={{
+						_id: 1,
+					}}
+				/>
+			</View>
+		);
+	};
+
 	const addCalendarButton = () => {
 		return (
 			<TouchableOpacity
@@ -364,7 +412,8 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginTop: "1.25em" },
 				]}
 				onPress={() => {
-					Clipboard.setString(url);
+					console.log(eventDetails);
+					Clipboard.setString(eventDetails.eventName + url);
 				}}
 			>
 				<View style={[styles.eventTextAndIcons]}>
@@ -406,11 +455,17 @@ export const PublishPost = ({ route, navigation }) => {
 			]}
 		>
 			{addCalendarButton()}
-			{eventCard()}
+			<View style={{ height: 550 }}>
+				<Swiper loop={false}>
+					{eventCard()}
+					{chatCard()}
+				</Swiper>
+			</View>
+
 			{copyEventButton()}
 			{feedbackButton()}
 			<View style={GlobalStyles.bottomSection}></View>
-			<Footer homepage={false} publish={true}></Footer>
+			<Footer homepage={false} publish={true} navigation={navigation}></Footer>
 		</View>
 	);
 };
