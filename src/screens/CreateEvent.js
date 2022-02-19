@@ -796,7 +796,9 @@ export const CreateEvent = ({ navigation }) => {
 	const onChangeDate = (date, isStartTime) => {
 		console.log(date);
 		if (isStartTime) {
+			console.log(date.add(1, "hour"));
 			setStartDate(date);
+			setEndDate(date.add(1, "hour"));
 			if (endDate.isBefore(date)) {
 				console.log("is before");
 				setEndDate(date);
@@ -869,7 +871,6 @@ export const CreateEvent = ({ navigation }) => {
 				});
 			});
 	}
-
 
 	function getSection() {
 		console.log(status.state);
