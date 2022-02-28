@@ -34,6 +34,7 @@ const isWeb = Platform.OS === "web";
 
 const width = Dimensions.get("window").width;
 
+
 function headerLogo(navigation, bigLogo) {
 	return (
 		<TouchableOpacity

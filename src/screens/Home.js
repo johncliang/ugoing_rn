@@ -22,6 +22,7 @@ import {
 	Divider,
 } from "native-base";
 
+
 import homeIcon1 from "../assets/HomeIcon-1.png";
 import ugoingIcon from "../assets/UGoing_Logo.png";
 import scheduleIcon1 from "../assets/Schedule-1.png";
@@ -421,6 +422,7 @@ const Footer = (props) => {
 export const HomeScreen = ({ navigation }) => {
 	return (
 		<View h="100%" overflowY={"scroll"} bg={"white"}>
+			
 			<CardOne navigation={navigation} />
 			<CardTwo />
 			<CardThree />

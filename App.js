@@ -2,6 +2,11 @@ import React from "react";
 import { AppNavigator } from "./src/navigation/Navigation.js";
 import { useFonts } from "expo-font";
 import { NativeBaseProvider, extendTheme } from "native-base";
+import Helmet from "react-helmet";
+
+import previewImage from "./src/assets/UGoing-Link-Preview.png";
+
+
 
 function App() {
 	const [loaded] = useFonts({
@@ -14,6 +19,11 @@ function App() {
 	if (!loaded) {
 		return null;
 	}
+
+	const siteTitle = 'UGoing.us'
+	const siteDesc = 'test'
+
+	
 
 	const theme = extendTheme({
 		fontConfig: {
@@ -131,7 +141,15 @@ function App() {
 	});
 
 	return (
+		
 		<NativeBaseProvider theme={theme} r>
+			<Helmet>
+				<title>{}</title>
+				<meta property="og:title" content={siteTitle}/>
+				<meta property="description" content={siteDesc}/>
+				<meta property="og:image" content={previewImage}/>
+			</Helmet>
+			
 			<AppNavigator />
 		</NativeBaseProvider>
 	);
