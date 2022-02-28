@@ -321,7 +321,7 @@ const PlaceSection = ({
 					>
 						Location
 					</Text>
-					<Input
+					{/* <Input
 						minW="17.813rem"
 						minH="3.25rem"
 						mx="1.25rem"
@@ -330,7 +330,13 @@ const PlaceSection = ({
 						placeholder="100 Moffett Blvd"
 						value={location}
 						onChangeText={setLocation}
-					></Input>
+					></Input> */}
+					<AutocompleteSearch
+						onChangeOutputText={(text) => {
+							setLocation(text);
+						}}
+						value={location}
+					/>
 
 					<Text
 						mt=".938rem"
@@ -794,7 +800,9 @@ export const CreateEvent = ({ navigation }) => {
 	const onChangeDate = (date, isStartTime) => {
 		console.log(date);
 		if (isStartTime) {
+			console.log(date.add(1, "hour"));
 			setStartDate(date);
+			setEndDate(date.add(1, "hour"));
 			if (endDate.isBefore(date)) {
 				console.log("is before");
 				setEndDate(date);
@@ -867,7 +875,6 @@ export const CreateEvent = ({ navigation }) => {
 				});
 			});
 	}
-
 
 	function getSection() {
 		console.log(status.state);

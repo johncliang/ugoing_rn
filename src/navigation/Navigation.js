@@ -107,19 +107,19 @@ export const AppNavigator = () => {
 				path: "create",
 			},
 			Publish: {
-				path: "publish/:eventID?",
+				path: "u/:eventID?",
 				parse: {
 					eventID: (eventID) => `${eventID}`,
 				},
 			},
 			Login: "login",
 			Signup: "signup",
-			Event: {
-				path: "u/:eventID?",
-				parse: {
-					eventID: (eventID) => `${eventID}`,
-				},
-			},
+			// Event: {
+			// 	path: "u/:eventID?",
+			// 	parse: {
+			// 		eventID: (eventID) => `${eventID}`,
+			// 	},
+			// },
 			FeedbackHome: {
 				path: "feedback/:eventID?",
 				parse: {
@@ -151,9 +151,9 @@ export const AppNavigator = () => {
 							headerTitleAlign: "center",
 							headerLeft: () => null,
 							//headerTitle: () => {
-						//		return headerLogo(navigation, true);
-						//	},
-							headerStyle: [styles.headerStyle, styles.noHeader]
+							//		return headerLogo(navigation, true);
+							//	},
+							headerStyle: [styles.headerStyle, styles.noHeader],
 							// headerRight: () => {
 							//     return loginButton(navigation);
 							// },
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 0,
 	},
 	noHeader: {
-		height: 0
+		height: 0,
 	},
 	bigHeader: {
 		height: "7.625rem",
