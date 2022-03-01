@@ -6,7 +6,11 @@ import {
 	TouchableOpacity,
 	Image,
 	Clipboard,
+	Linking,
+	Platform
 } from "react-native";
+//import { Alert, HStack, VStack, Divider, Center, NativeBaseProvider } from "native-base";
+
 import { GlobalStyles, GlobalColors } from "../styles/GlobalStyles";
 import { fs } from "../Firebase/firebase";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,6 +19,7 @@ import moment from "moment";
 //import Clipboard from "@react-native-community/clipboard";
 import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
+import openMap from 'react-native-open-maps';
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -50,6 +55,14 @@ export const PublishPost = ({ route, navigation }) => {
 				console.log("Error getting document:", error);
 			});
 	}, [route.params?.eventID]);
+
+	const openGoogleMaps = (query) => {
+		if (query != ""){
+			openMap({query: query})
+		}
+		
+	}
+
 
 	//Event Info
 	const eventCard = () => {
@@ -114,15 +127,23 @@ export const PublishPost = ({ route, navigation }) => {
 								}}
 								source={require("../assets/EventPhone-Icon.svg")}
 							/>
+							<Text>
+								{' '}
+							</Text>
 							<Text
 								style={[
 									GlobalStyles.bodyText,
 									GlobalStyles.eventTextMedium,
 									GlobalStyles.semiBold,
-									{ color: GlobalColors.standardRed, alignItems: "center" },
+									{ color: GlobalColors.standardRed, alignItems: "center", textDecorationLine: "underline"},
+									
 								]}
+								onPress={() => 
+									Linking.openURL(`tel:${eventDetails.phoneNumber}`)
+								}
+								
 							>
-								{" "}
+								
 								{eventDetails.phoneNumber}
 							</Text>
 						</View>
@@ -252,6 +273,10 @@ export const PublishPost = ({ route, navigation }) => {
 									textDecorationLine: "underline",
 								},
 							]}
+
+							onPress={() => 
+								openGoogleMaps(eventDetails.eventLocation)
+					}
 						>
 							{eventDetails.eventLocation == ""
 								? "Event Location"
@@ -270,6 +295,7 @@ export const PublishPost = ({ route, navigation }) => {
 									marginBottom: "0.625rem",
 								},
 							]}
+							
 						>
 							{eventDetails.arrivalInstructions == ""
 								? "Arrival Instructions"
@@ -365,7 +391,7 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginTop: "1.25em" },
 				]}
 				onPress={() => {
-					Clipboard.setString('' + eventDetails.arrivalInstructions + '\' from ' + eventDetails.startDate + ' at ' + eventDetails.eventLocation + '. \n \nSee more details: ' + url);
+					Clipboard.setString('\'' + eventDetails.eventName + '\' from ' + eventDetails.startDate + ' at ' + eventDetails.eventLocation + '. \n \nSee more details: ' + url);
 					
 				}}
 			>
@@ -399,7 +425,27 @@ export const PublishPost = ({ route, navigation }) => {
 			</TouchableOpacity>
 		);
 	};
-
+/*
+	const feedbackNotification = () => {
+		return (
+			<NativeBaseProvider>
+			<Alert w="100%" variant={key} colorScheme="success" status="success">
+                <VStack space={2} flexShrink={1} w="100%">
+                  <HStack flexShrink={1} space={2} alignItems="center" justifyContent="space-between">
+                    <HStack space={2} flexShrink={1} alignItems="center">
+                      <Alert.Icon />
+                      <Text color={GlobalColors.lightGrey}>
+                        Your feedback was received. Thank you!
+                      </Text>
+                    </HStack>
+                  </HStack>
+                </VStack>
+              </Alert>
+			  <Divider mt="5" mb="2.5" />
+			  </NativeBaseProvider>
+		);
+	};
+*/
 	return (
 		<View
 			style={[

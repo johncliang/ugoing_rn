@@ -256,7 +256,7 @@ export const FeedbackHome = ({ navigation }) => {
 
                             <TouchableOpacity
                                 style={[GlobalStyles.submitButton, styles.buttonSpacing, value == 0 || (value == 1 && email == '') ? GlobalStyles.disabled_submitButton : "", { width: "50%", maxWidth: "10.625rem" }]}
-                                onPress={() => navigation.navigate("Publish")}
+                                onPress={() => navigation.navigate("Publish", {feedback: true})}
                                 disabled={value == 0 || (value == 1 && email == '')}
                             >
                                 <Text style={GlobalStyles.buttonText}>Send</Text>
