@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "UGoing.us",
-		"slug": "UGoing.us",
+		"name": "UGoing",
+		"slug": "UGoing",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",

@@ -55,14 +55,6 @@ export const FeedbackThankYou = ({ route, navigation}) => {
 
     const submitData = () => {
 		let feedbackData = {
-			/*eventName: eventName,
-			eventDetails: eventDetails,
-			startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
-			endDate: endDate.format("M/D/YYYY, h:mm a").toString(),
-			eventLocation: eventLocation,
-			arrivalInstructions: arrivalInstructions,
-			phoneNumber: phoneNumber,
-			organizerName: organizerName,*/
             rating: userRating,
             issue: issue,
             email: email,
@@ -70,7 +62,6 @@ export const FeedbackThankYou = ({ route, navigation}) => {
             detail: detail,
             
 		};
-        console.log(feedbackData)
 
 		fs.collection("feedback")
 			.add(feedbackData)
