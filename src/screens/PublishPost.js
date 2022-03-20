@@ -391,7 +391,7 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginTop: "1.25em" },
 				]}
 				onPress={() => {
-					Clipboard.setString('\'' + eventDetails.eventName + '\' from ' + eventDetails.startDate + ' at ' + eventDetails.eventLocation + '. \n \nSee more details: ' + url);
+					Clipboard.setString('\'' + eventDetails.eventName + '\' from ' + eventDetails.startDate + (eventDetails.eventLocation ? ' at ' + eventDetails.eventLocation : '') + '. \n \nSee more details: ' + url);
 					
 				}}
 			>

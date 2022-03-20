@@ -34,6 +34,12 @@ const isWeb = Platform.OS === "web";
 
 const width = Dimensions.get("window").width;
 
+import Helmet from "react-helmet";
+import previewImage from "./../../src/assets/UGoing-Link-Preview.png";
+const siteTitle = 'UGoing.us'
+const siteDesc = 'test'
+
+
 
 function headerLogo(navigation, bigLogo) {
 	return (
@@ -141,6 +147,12 @@ export const AppNavigator = () => {
 	};
 	return (
 		<AuthContext.Provider value={userProvider}>
+			<Helmet>
+				<title>{'UGoing'}</title>
+				<meta property="og:title" content={siteTitle}/>
+				<meta property="description" content={siteDesc}/>
+				<meta property="og:image" content={previewImage}/>
+			</Helmet>
 			<NavigationContainer linking={linking}>
 				<Stack.Navigator initialRouteName="Home">
 					<Stack.Screen

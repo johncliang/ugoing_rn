@@ -1,10 +1,12 @@
 {
 	"expo": {
-		"name": "UGoing",
-		"slug": "UGoing",
+		"name": "UGoing.us",
+		"slug": "UGoing.us",
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
+		"image": "./src/assets/UGoing-Link-Preview.png",
+		"description": "test",
 		"splash": {
 			"image": "./assets/splash.png",
 			"resizeMode": "contain",

@@ -144,7 +144,7 @@ function App() {
 		
 		<NativeBaseProvider theme={theme} r>
 			<Helmet>
-				<title>{}</title>
+				<title>{'UGoing'}</title>
 				<meta property="og:title" content={siteTitle}/>
 				<meta property="description" content={siteDesc}/>
 				<meta property="og:image" content={previewImage}/>

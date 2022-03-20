@@ -37,6 +37,11 @@ import textConvo from "../assets/text-convo.png";
 import calendarMultiple from "../assets/calendar-multiple.png";
 import uGoingWhiteLogo from "../assets/UGoing_Logo_w_final.png";
 
+import Helmet from "react-helmet";
+import previewImage from "./../../src/assets/UGoing-Link-Preview.png";
+const siteTitle = 'UGoing.us'
+const siteDesc = 'test'
+
 // Usually one would use h="80%" to get 80% screen height, but there's some bug
 // or styling workaround that I'm unaware of that is causing the height to expand
 // past our provided percentage when enough content is being loaded
@@ -421,6 +426,12 @@ const Footer = (props) => {
 export const HomeScreen = ({ navigation }) => {
 	return (
 		<View h="100%" overflowY={"scroll"} bg={"white"}>
+			<Helmet>
+				<title>{'UGoing'}</title>
+				<meta property="og:title" content={siteTitle}/>
+				<meta property="description" content={siteDesc}/>
+				<meta property="og:image" content={previewImage}/>
+			</Helmet>
 			
 			<CardOne navigation={navigation} />
 			<CardTwo />
