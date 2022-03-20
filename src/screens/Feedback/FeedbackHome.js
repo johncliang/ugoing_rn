@@ -10,19 +10,54 @@ import {
 import { Radio, NativeBaseProvider, Center, Input, Box, extendTheme, TextArea } from 'native-base';
 import { GlobalStyles, GlobalColors } from "../../styles/GlobalStyles";
 import Footer from "../../components/Footer";
+import { fs } from "../../Firebase/firebase";
 
 
 
-export const FeedbackHome = ({ navigation }) => {
+export const FeedbackHome = ({ route, navigation }) => {
 
-    const [feedbackButtonPressed, setFeedbackButtonPressed] = useState(false)
-    const [issueButtonPressed, setIssueButtonPressed] = useState(false)
-    const [issue, setIssue] = useState(0)
-    const [userRating, setUserRating] = useState(false)
-    const [value, setValue] = useState(0)
-    const [email, setEmail] = useState('')
-    const height = Dimensions.get('window').height
-    const width = Dimensions.get('window').width
+    const [eventDetails, setEventDetails] = useState({});
+    const [feedbackButtonPressed, setFeedbackButtonPressed] = useState(false);
+    const [issueButtonPressed, setIssueButtonPressed] = useState(false);
+    const [issue, setIssue] = useState(0);
+    const [userRating, setUserRating] = useState(false);
+    const [value, setValue] = useState(0);
+    const [email, setEmail] = useState('');
+    const [detail, setDetail] = useState('');
+    const [url, setURL] = useState("");
+    const height = Dimensions.get('window').height;
+    const width = Dimensions.get('window').width;
+
+    const { eventID } = route?.params;
+
+    console.log(eventID)
+
+    useEffect(() => {
+		if (eventID == "") {
+			console.log("route params not found");
+			return;
+		}
+		var docRef = fs.collection("events").doc(eventID);
+		//var docRef = fs.collection('events').doc("cks0i7SlWYGD8Vy4Cr8z");
+
+		docRef
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					setEventDetails(doc.data());
+					//setURL(`ugoing.us/u/${eventID}`);
+				} else {
+					console.log(
+						"ERROR: Document with eventID " + route.params + " not found!"
+					);
+				}
+			})
+			.catch((error) => {
+				console.log("Error getting document:", error);
+			});
+
+        console.log(eventDetails)
+	}, [route.params?.eventID]);
 
     const handleEmailInput = (email) => {
         setEmail(email)
@@ -53,6 +88,36 @@ export const FeedbackHome = ({ navigation }) => {
         }
     })
 
+    const submitData = () => {
+		let feedbackData = {
+			/*eventName: eventName,
+			eventDetails: eventDetails,
+			startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
+			endDate: endDate.format("M/D/YYYY, h:mm a").toString(),
+			eventLocation: eventLocation,
+			arrivalInstructions: arrivalInstructions,
+			phoneNumber: phoneNumber,
+			organizerName: organizerName,*/
+            rating: userRating,
+            issue: issue,
+            email: email,
+            openToChat: value,
+            detail: detail,
+            
+		};
+        console.log(feedbackData)
+
+		fs.collection("feedback")
+			.add(feedbackData)
+			.then((value) => {
+				console.log(value);
+				navigation.navigate("Publish", {
+					eventID: eventID,
+					fromCreate: false,
+				});
+			});
+	}
+
     return (
         <View style={[GlobalStyles.container]}>
             <View style={{ position: "absolute", top: -100, left: 0, height: 100, width: "100%", boxShadow: "0px 4px 30px rgba(0, 0, 0, 0.1)" }}></View>
@@ -60,7 +125,7 @@ export const FeedbackHome = ({ navigation }) => {
             <View style={GlobalStyles.topSection}>
                 <View>
                     <Text style={[GlobalStyles.headerText, GlobalStyles.eventTitle, GlobalStyles.eventTextBig]}>
-                        {"Event Feedback"}
+                        {eventDetails.eventName}
                     </Text>
                     <View style={[GlobalStyles.greyLine, styles.lineStyling,]}> </View>
                 </View>
@@ -172,7 +237,7 @@ export const FeedbackHome = ({ navigation }) => {
                                         <View style={[GlobalStyles.commonMargin, { marginTop: 0 }]}>
                                             <NativeBaseProvider>
                                                 <Box alignItems="center" >
-                                                    <TextArea mx="3" height="10rem" placeholder="Please specify your issues" w="100%" fontFamily={"gilroy"} outline={GlobalColors.darkGrey} borderRadius={"0.375rem"} backgroundColor={"white"} />
+                                                    <TextArea mx="3" height="10rem" placeholder="Please specify your issues" w="100%" fontFamily={"gilroy"} borderRadius={"0.375rem"} backgroundColor={"white"} onChangeText={(text) => setDetail(text)}/>
                                                 </Box>
                                             </NativeBaseProvider>
                                         </View>
@@ -182,7 +247,7 @@ export const FeedbackHome = ({ navigation }) => {
 
                                 <View style={{ maxWidth: "30.3125rem", marginHorizontal: "auto", width: "100%" }}>
                                     <View style={[GlobalStyles.columnContainer, GlobalStyles.commonHorizontalMargin]}>
-                                        <TouchableOpacity onPress={() => navigation.navigate("Publish")} style={{ width: "50%", maxWidth: "10.625rem" }}>
+                                        <TouchableOpacity onPress={() => navigation.navigate("Publish", {eventID: eventID, fromCreate: false, })}  style={{ width: "50%", maxWidth: "10.625rem" }}>
                                             <Text style={[GlobalStyles.eventText, GlobalStyles.eventTextMedium, GlobalStyles.commonHorizontalMargin, GlobalStyles.underline, { textAlign: "center" }]}>
                                                 Back
                                             </Text>
@@ -190,7 +255,7 @@ export const FeedbackHome = ({ navigation }) => {
 
                                         <TouchableOpacity
                                             style={[GlobalStyles.submitButton, styles.buttonSpacing, { width: "50%", maxWidth: "10.625rem" }]}
-                                            onPress={() => navigation.navigate("FeedbackThankYou")}
+                                            onPress={() => navigation.navigate("FeedbackThankYou", {eventID: eventID, fromCreate: false, userRating: userRating, issue: issue, detail: detail})}
                                         >
                                             <Text style={GlobalStyles.buttonText}>Send</Text>
                                         </TouchableOpacity>
@@ -206,7 +271,7 @@ export const FeedbackHome = ({ navigation }) => {
 
                 {(!feedbackButtonPressed || (!userRating && !issueButtonPressed)) &&
                     <View style={{ marginTop: feedbackButtonPressed ? "1.563rem": "11.396rem"}}>
-                        <TouchableOpacity onPress={() => navigation.navigate("Publish")}>
+                        <TouchableOpacity onPress={() => navigation.navigate("Publish", {eventID: eventID, fromCreate: false, })} >
                             <Text style={[GlobalStyles.eventText, GlobalStyles.eventTitle, GlobalStyles.eventTextMedium, GlobalStyles.commonHorizontalMargin, GlobalStyles.underline]}>
                                 Back
                             </Text>
@@ -240,7 +305,7 @@ export const FeedbackHome = ({ navigation }) => {
                                 {(value == 1 && userRating) ?
                                     <View style={[GlobalStyles.commonMargin, { marginLeft: 0 }]}>
                                         <Box alignItems="center" >
-                                            <Input value={email} onChangeText={handleEmailInput} mx="3" placeholder="Enter your email address" w="100%" fontFamily={"gilroy"} outline={GlobalColors.darkGrey} borderRadius={"0.375rem"} />
+                                            <Input value={email} onChangeText={handleEmailInput} mx="3" placeholder="Enter your email address" w="100%" fontFamily={"gilroy"}  borderRadius={"0.375rem"} />
                                         </Box>
                                     </View>
                                     : <View style={{ marginTop: "5.375rem" }}></View>}
@@ -248,7 +313,7 @@ export const FeedbackHome = ({ navigation }) => {
                             </NativeBaseProvider>
                         </View>
                         <View style={[GlobalStyles.columnContainer, GlobalStyles.commonHorizontalMargin]}>
-                            <TouchableOpacity onPress={() => navigation.navigate("Publish")} style={{ width: "50%", maxWidth: "10.625rem" }}>
+                            <TouchableOpacity onPress={() => navigation.navigate("Publish", {eventID: eventID, fromCreate: false, })} style={{ width: "50%", maxWidth: "10.625rem" }}>
                                 <Text style={[GlobalStyles.eventText, GlobalStyles.eventTextMedium, GlobalStyles.commonHorizontalMargin, GlobalStyles.underline, { textAlign: "center" }]}>
                                     Back
                                 </Text>
@@ -256,7 +321,8 @@ export const FeedbackHome = ({ navigation }) => {
 
                             <TouchableOpacity
                                 style={[GlobalStyles.submitButton, styles.buttonSpacing, value == 0 || (value == 1 && email == '') ? GlobalStyles.disabled_submitButton : "", { width: "50%", maxWidth: "10.625rem" }]}
-                                onPress={() => navigation.navigate("Publish", {feedback: true})}
+                                //onPress={() => navigation.navigate("Publish", {feedback: true})}
+                                onPress={() => submitData()}
                                 disabled={value == 0 || (value == 1 && email == '')}
                             >
                                 <Text style={GlobalStyles.buttonText}>Send</Text>

@@ -8,17 +8,80 @@ import {
 } from "react-native";
 import { Radio, NativeBaseProvider, Center, Input, Box, extendTheme, TextArea } from 'native-base';
 import { GlobalStyles, GlobalColors } from "../../styles/GlobalStyles";
-import Footer from "../../components/Footer"
+import Footer from "../../components/Footer";
+import { fs } from "../../Firebase/firebase";
 
-export const FeedbackThankYou = ({ navigation }) => {
+export const FeedbackThankYou = ({ route, navigation}) => {
 
-
+    const [eventDetails, setEventDetails] = useState({});
     const [value, setValue] = useState(0);
     const [email, setEmail] = useState('')
 
+    const { eventID } = route?.params;
+    const { issue } = route?.params;
+    const { userRating } = route?.params;
+    const { detail } = route?.params;
+    
     const handleEmailInput = (email) => {
         setEmail(email)
     }
+
+    useEffect(() => {
+		if (eventID == "") {
+			console.log("route params not found");
+			return;
+		}
+		var docRef = fs.collection("events").doc(eventID);
+		//var docRef = fs.collection('events').doc("cks0i7SlWYGD8Vy4Cr8z");
+
+		docRef
+			.get()
+			.then((doc) => {
+				if (doc.exists) {
+					setEventDetails(doc.data());
+					//setURL(`ugoing.us/u/${eventID}`);
+				} else {
+					console.log(
+						"ERROR: Document with eventID " + route.params + " not found!"
+					);
+				}
+			})
+			.catch((error) => {
+				console.log("Error getting document:", error);
+			});
+
+        console.log(eventDetails)
+	}, [route.params?.eventID]);
+
+    const submitData = () => {
+		let feedbackData = {
+			/*eventName: eventName,
+			eventDetails: eventDetails,
+			startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
+			endDate: endDate.format("M/D/YYYY, h:mm a").toString(),
+			eventLocation: eventLocation,
+			arrivalInstructions: arrivalInstructions,
+			phoneNumber: phoneNumber,
+			organizerName: organizerName,*/
+            rating: userRating,
+            issue: issue,
+            email: email,
+            openToChat: value,
+            detail: detail,
+            
+		};
+        console.log(feedbackData)
+
+		fs.collection("feedback")
+			.add(feedbackData)
+			.then((value) => {
+				console.log(value);
+				navigation.navigate("Publish", {
+					eventID: eventID,
+					fromCreate: false,
+				});
+			});
+	}
 
     return (
         <View style={[GlobalStyles.container]}>
@@ -65,7 +128,7 @@ export const FeedbackThankYou = ({ navigation }) => {
                         </NativeBaseProvider>
                     </View>
                     <View style={[GlobalStyles.columnContainer, GlobalStyles.commonHorizontalMargin]}>
-                        <TouchableOpacity onPress={() => navigation.navigate("FeedbackHome")} style={{ width: "50%", maxWidth: "10.625rem" }}>
+                        <TouchableOpacity onPress={() => navigation.navigate("FeedbackHome", {eventID: eventID, fromCreate: false, })} style={{ width: "50%", maxWidth: "10.625rem" }}>
                             <Text style={[GlobalStyles.eventText, GlobalStyles.eventTextMedium, GlobalStyles.commonHorizontalMargin, GlobalStyles.underline, { textAlign: "center" }]}>
                                 Back
                             </Text>
@@ -73,7 +136,7 @@ export const FeedbackThankYou = ({ navigation }) => {
 
                         <TouchableOpacity
                                 style={[GlobalStyles.submitButton, styles.buttonSpacing, value == 0 || (value == 1 && email == '') ? GlobalStyles.disabled_submitButton : "", { width: "50%", maxWidth: "10.625rem" }]}
-                                onPress={() => navigation.navigate("Publish", {feedback: true})}
+                                onPress={() => submitData()}
                                 disabled={value == 0 || (value == 1 && email == '')}
                             >
                                 <Text style={GlobalStyles.buttonText}>Send</Text>

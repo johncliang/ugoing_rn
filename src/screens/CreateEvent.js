@@ -99,7 +99,6 @@ const NameSection = ({
 				</Text>
 				<TextArea
 					minW="17.813rem"
-					h="3.25rem"
 					mx="1.25rem"
 					mb="1.25rem"
 					bg="white"

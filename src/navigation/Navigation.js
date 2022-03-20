@@ -297,7 +297,7 @@ export const AppNavigator = () => {
 					<Stack.Screen
 						name="FeedbackHome"
 						component={FeedbackHome}
-						options={({ navigation, route }) => ({
+						options={({ navigation }) => ({
 							title: "",
 							headerTitleAlign: "center",
 							headerLeft: () => null,
@@ -314,7 +314,7 @@ export const AppNavigator = () => {
 					<Stack.Screen
 						name="FeedbackThankYou"
 						component={FeedbackThankYou}
-						options={({ navigation, route }) => ({
+						options={({ navigation }) => ({
 							title: "",
 							headerTitleAlign: "center",
 							headerLeft: () => null,

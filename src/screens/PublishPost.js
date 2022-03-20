@@ -419,7 +419,9 @@ export const PublishPost = ({ route, navigation }) => {
 					styles.buttonSpacing,
 					{ width: "auto", marginTop: "1.25em" },
 				]}
-				onPress={() => navigation.navigate("FeedbackHome")}
+				onPress={() => navigation.navigate("FeedbackHome", {
+					eventID: eventID,
+				})}
 			>
 				<Text style={[GlobalStyles.buttonText2]}>Feedback on UGoing</Text>
 			</TouchableOpacity>
