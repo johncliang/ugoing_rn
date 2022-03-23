@@ -25,7 +25,6 @@ import {
 import { GlobalColors, GlobalStyles } from "../styles/GlobalStyles";
 import { DatePicker, TimePicker, Space } from "antd";
 
-
 import moment from "moment";
 import { fs } from "../Firebase/firebase";
 
@@ -34,7 +33,6 @@ import AutocompleteSearch from "../components/AutocompleteSearch";
 import Flatpickr from "react-flatpickr";
 import "flatpickr/dist/themes/material_red.css";
 import { BrowserView, MobileView } from "react-device-detect";
-
 
 const STATES = {
 	NAME: 0,
@@ -198,7 +196,7 @@ const TimeSection = ({
 						</View>
 					</View>
 
-					{!showEndDate && (
+					{showEndDate && (
 						<React.Fragment>
 							<Text
 								mt=".938rem"
@@ -251,7 +249,7 @@ const TimeSection = ({
 							All Day
 						</Text>
 						<Switch
-							value={showEndDate}
+							value={!showEndDate}
 							onToggle={() => setShowEndDate(!showEndDate)}
 							offTrackColor="neutral.400"
 							onTrackColor="primary.300"
@@ -469,7 +467,7 @@ const PeopleSection = ({
 							bg="white"
 							borderColor="neutral.400"
 							placeholder="Host Phone Number"
-							keyboardType={'phone-pad'}
+							keyboardType={"phone-pad"}
 							value={phoneNumber}
 							onChangeText={setPhoneNumber}
 							maxLength={10}
@@ -710,7 +708,7 @@ export const CreateEvent = ({ navigation }) => {
 
 	const [dateEntryError, setDateEntryError] = useState("");
 
-	const [showEndDate, setShowEndDate] = useState(false);
+	const [showEndDate, setShowEndDate] = useState(true);
 
 	// TODO: Change to be based on position / Google Maps
 	const [eventLocation, setEventLocation] = useState("");
@@ -851,16 +849,29 @@ export const CreateEvent = ({ navigation }) => {
 
 	// TODO: Pass in optional user field to tether events to a uid
 	function submitData() {
-		let eventData = {
-			eventName: eventName,
-			eventDetails: eventDetails,
-			startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
-			endDate: endDate.format("M/D/YYYY, h:mm a").toString(),
-			eventLocation: eventLocation,
-			arrivalInstructions: arrivalInstructions,
-			phoneNumber: phoneNumber,
-			organizerName: organizerName,
-		};
+		let eventData = {};
+		if (showEndDate) {
+			eventData = {
+				eventName: eventName,
+				eventDetails: eventDetails,
+				startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
+				endDate: endDate.format("M/D/YYYY, h:mm a").toString(),
+				eventLocation: eventLocation,
+				arrivalInstructions: arrivalInstructions,
+				phoneNumber: phoneNumber,
+				organizerName: organizerName,
+			};
+		} else {
+			eventData = {
+				eventName: eventName,
+				eventDetails: eventDetails,
+				startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
+				eventLocation: eventLocation,
+				arrivalInstructions: arrivalInstructions,
+				phoneNumber: phoneNumber,
+				organizerName: organizerName,
+			};
+		}
 
 		console.log(eventData);
 
@@ -876,7 +887,6 @@ export const CreateEvent = ({ navigation }) => {
 	}
 
 	function getSection() {
-		console.log(status.state);
 		switch (status.state) {
 			case STATES.NAME:
 				return (
@@ -964,31 +974,8 @@ export const CreateEvent = ({ navigation }) => {
 	}
 
 	return (
-		// <View style={GlobalStyles.container}>
-		// 	{showProgressBar()}
-		// 	<View style={GlobalStyles.topSection}>
-		// 		<View>
-		// 			<FlatList
-		// 				data={sectionTitles}
-		// 				renderItem={getMinimizedSection}
-		// 				keyExtractor={(item) => item.id.toString()}
-		// 			/>
-		// 			{getCurrentSection()}
-		// 		</View>
-		// 	</View>
-
-		// 	<View style={GlobalStyles.bottomSection}>
-		// 		<TouchableOpacity
-		// 			style={GlobalStyles.submitButton}
-		// 			onPress={validateSection}
-		// 		>
-		// 			<Text style={GlobalStyles.buttonText}>{buttonText()}</Text>
-		// 		</TouchableOpacity>
-		// 		<Text style={GlobalStyles.errorText}>{errorStatus}</Text>
-		// 	</View>
-		// </View>
 		<View w="100%" bg="neutral.50" flex="1" justifyContent="flex-start">
-			<View paddingX={25}>
+			<View px={25}>
 				{showProgressBar()}
 				<Center>
 					<Heading mt="5" mb="2" fontSize={"1.25rem"} fontStyle={"semibold"}>

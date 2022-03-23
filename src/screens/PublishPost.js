@@ -7,7 +7,7 @@ import {
 	Image,
 	Clipboard,
 	Linking,
-	Platform
+	Platform,
 } from "react-native";
 //import { Alert, HStack, VStack, Divider, Center, NativeBaseProvider } from "native-base";
 
@@ -19,7 +19,8 @@ import moment from "moment";
 //import Clipboard from "@react-native-community/clipboard";
 import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
-import openMap from 'react-native-open-maps';
+import openMap from "react-native-open-maps";
+import * as Calendar from "expo-calendar";
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -44,6 +45,7 @@ export const PublishPost = ({ route, navigation }) => {
 			.then((doc) => {
 				if (doc.exists) {
 					setEventDetails(doc.data());
+					console.log(doc.data());
 					setURL(`ugoing.us/u/${eventID}`);
 				} else {
 					console.log(
@@ -57,12 +59,10 @@ export const PublishPost = ({ route, navigation }) => {
 	}, [route.params?.eventID]);
 
 	const openGoogleMaps = (query) => {
-		if (query != ""){
-			openMap({query: query})
+		if (query != "") {
+			openMap({ query: query });
 		}
-		
-	}
-
+	};
 
 	//Event Info
 	const eventCard = () => {
@@ -127,23 +127,22 @@ export const PublishPost = ({ route, navigation }) => {
 								}}
 								source={require("../assets/EventPhone-Icon.svg")}
 							/>
-							<Text>
-								{' '}
-							</Text>
+							<Text> </Text>
 							<Text
 								style={[
 									GlobalStyles.bodyText,
 									GlobalStyles.eventTextMedium,
 									GlobalStyles.semiBold,
-									{ color: GlobalColors.standardRed, alignItems: "center", textDecorationLine: "underline"},
-									
+									{
+										color: GlobalColors.standardRed,
+										alignItems: "center",
+										textDecorationLine: "underline",
+									},
 								]}
-								onPress={() => 
+								onPress={() =>
 									Linking.openURL(`tel:${eventDetails.phoneNumber}`)
 								}
-								
 							>
-								
 								{eventDetails.phoneNumber}
 							</Text>
 						</View>
@@ -273,10 +272,7 @@ export const PublishPost = ({ route, navigation }) => {
 									textDecorationLine: "underline",
 								},
 							]}
-
-							onPress={() => 
-								openGoogleMaps(eventDetails.eventLocation)
-					}
+							onPress={() => openGoogleMaps(eventDetails.eventLocation)}
 						>
 							{eventDetails.eventLocation == ""
 								? "Event Location"
@@ -295,7 +291,6 @@ export const PublishPost = ({ route, navigation }) => {
 									marginBottom: "0.625rem",
 								},
 							]}
-							
 						>
 							{eventDetails.arrivalInstructions == ""
 								? "Arrival Instructions"
@@ -372,8 +367,34 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginBottom: "1.113em", position: "sticky" },
 				]}
 				onPress={() => {
-					console.log(navigation);
-					navigation.navigate("Signup");
+					//console.log(navigation);
+					//navigation.navigate("Signup");
+					async () => {
+						const { status } = await Calendar.requestCalendarPermissionsAsync();
+						if (status === "granted") {
+							const calendars = await Calendar.getCalendarsAsync(
+								Calendar.EntityTypes.EVENT
+							);
+							console.log("Here are all your calendars:");
+							console.log({ calendars });
+							const eventStatus = await Calendar.createEventAsync(
+								calendars[0].id,
+								{
+									title: eventDetails.eventName,
+									allDay: eventDetails.endDate == undefined,
+									startDate: eventDetails.startDate,
+									endDate: eventDetails.endDate,
+									location: eventDetails.eventLocation,
+									notes: eventDetails.eventDetails,
+									organizer: eventDetails.organizer,
+									startDate: eventDetails.startDate,
+								}
+							);
+							if (eventStatus === "granted")
+								console.log("Successfully added event");
+							else console.log("event creation failed");
+						}
+					};
 				}}
 			>
 				<Text style={GlobalStyles.buttonText}>Add to Calendar</Text>
@@ -391,8 +412,17 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginTop: "1.25em" },
 				]}
 				onPress={() => {
-					Clipboard.setString('\'' + eventDetails.eventName + '\' from ' + eventDetails.startDate + (eventDetails.eventLocation ? ' at ' + eventDetails.eventLocation : '') + '. \n \nSee more details: ' + url);
-					
+					Clipboard.setString(
+						"'" +
+							eventDetails.eventName +
+							"' from " +
+							eventDetails.startDate +
+							(eventDetails.eventLocation
+								? " at " + eventDetails.eventLocation
+								: "") +
+							". \n \nSee more details: " +
+							url
+					);
 				}}
 			>
 				<View style={[styles.eventTextAndIcons]}>
@@ -419,15 +449,17 @@ export const PublishPost = ({ route, navigation }) => {
 					styles.buttonSpacing,
 					{ width: "auto", marginTop: "1.25em" },
 				]}
-				onPress={() => navigation.navigate("FeedbackHome", {
-					eventID: eventID,
-				})}
+				onPress={() =>
+					navigation.navigate("FeedbackHome", {
+						eventID: eventID,
+					})
+				}
 			>
 				<Text style={[GlobalStyles.buttonText2]}>Feedback on UGoing</Text>
 			</TouchableOpacity>
 		);
 	};
-/*
+	/*
 	const feedbackNotification = () => {
 		return (
 			<NativeBaseProvider>
@@ -455,10 +487,14 @@ export const PublishPost = ({ route, navigation }) => {
 				{ backgroundColor: GlobalColors.lightRed },
 			]}
 		>
-			{addCalendarButton()}
-			{eventCard()}
-			{copyEventButton()}
-			{feedbackButton()}
+			<View style={{ paddingHorizontal: 25 }}>
+				{" "}
+				{addCalendarButton()}
+				{eventCard()}
+				{copyEventButton()}
+				{feedbackButton()}
+			</View>
+
 			<View style={GlobalStyles.bottomSection}></View>
 			<Footer homepage={false} publish={true} navigation={navigation}></Footer>
 		</View>
