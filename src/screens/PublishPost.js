@@ -8,6 +8,7 @@ import {
 	Clipboard,
 	Linking,
 	Platform,
+	PermissionsAndroid
 } from "react-native";
 //import { Alert, HStack, VStack, Divider, Center, NativeBaseProvider } from "native-base";
 
@@ -21,7 +22,8 @@ import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
 import openMap from "react-native-open-maps";
 import * as Calendar from "expo-calendar";
-import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import * as Permissions from 'expo-permissions';
+//import * as AddCalendarEvent from 'react-native-add-calendar-event';
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -41,6 +43,7 @@ export const PublishPost = ({ route, navigation }) => {
 		var docRef = fs.collection("events").doc(eventID);
 		//var docRef = fs.collection('events').doc("cks0i7SlWYGD8Vy4Cr8z");
 
+
 		docRef
 			.get()
 			.then((doc) => {
@@ -58,6 +61,7 @@ export const PublishPost = ({ route, navigation }) => {
 				console.log("Error getting document:", error);
 			});
 	}, [route.params?.eventID]);
+
 
 	const openGoogleMaps = (query) => {
 		if (query != "") {
@@ -372,13 +376,20 @@ export const PublishPost = ({ route, navigation }) => {
 	  
 		AddCalendarEvent.presentEventCreatingDialog(eventConfig)
 		  .then((eventInfo) => {
-			//alert('eventInfo -> ' + JSON.stringify(eventInfo));
+			console.log('eventInfo -> ' + JSON.stringify(eventInfo));
 		  })
 		  .catch((error) => {
 			// handle error such as when user rejected permissions
 			alert('Error -> ' + error);
 		  });
 	  };
+
+	async function obtainCalendarPermission() {
+		const { status } = await Calendar.requestCalendarPermissionsAsync();
+		const [calStatus, requestPermission] = await Calendar.useCalendarPermissions();
+		console.log(calStatus, requestPermission);
+		return status
+  }
 
 	const addCalendarButton = () => {
 		return (
@@ -391,36 +402,43 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginBottom: "1.113em", position: "sticky" },
 				]}
 				onPress={() => {
-					//console.log(navigation);
+					console.log('hello');
 					//navigation.navigate("Signup");
-					/*
-					async () => {
-						const { status } = await Calendar.requestCalendarPermissionsAsync();
-						if (status === "granted") {
-							const calendars = await Calendar.getCalendarsAsync(
-								Calendar.EntityTypes.EVENT
-							);
-							console.log("Here are all your calendars:");
-							console.log({ calendars });
-							const eventStatus = await Calendar.createEventAsync(
-								calendars[0].id,
-								{
-									title: eventDetails.eventName,
-									allDay: eventDetails.endDate == undefined,
-									startDate: eventDetails.startDate,
-									endDate: eventDetails.endDate,
-									location: eventDetails.eventLocation,
-									notes: eventDetails.eventDetails,
-									organizer: eventDetails.organizer,
-									startDate: eventDetails.startDate,
-								}
-							);
-							if (eventStatus === "granted")
-								console.log("Successfully added event");
-							else console.log("event creation failed");
-						}
+					//const { status } = await Permissions.askAsync(Permissions.CALENDAR);
+					const status = obtainCalendarPermission();
+					console.log(status);
+					if (status === "granted") {
+						/*const async calendars = await Calendar.getCalendarsAsync(
+							Calendar.EntityTypes.EVENT
+						);
+						console.log("Here are all your calendars:");
+						console.log({ calendars });
+						const eventStatus = await Calendar.createEventAsync(
+							calendars[0].id,
+							{
+								title: eventDetails.eventName,
+								allDay: eventDetails.endDate == undefined,
+								startDate: eventDetails.startDate,
+								endDate: eventDetails.endDate,
+								location: eventDetails.eventLocation,
+								notes: eventDetails.eventDetails,
+								organizer: eventDetails.organizer,
+								startDate: eventDetails.startDate,
+							}
+						);
+						if (eventStatus === "granted")
+							console.log("Successfully added event");
+						else console.log("event creation failed");*/
+					}
+					/*async () => {
+						
 					};*/
-					addToCalendar(eventDetails);
+					/*if (Platform.OS != 'web')
+						addToCalendar(eventDetails);
+					else if (Platform.OS === 'android' && Platform.Version >= 23) {
+						androidPermissions();
+					}*/
+
 					
 				}}
 			>
