@@ -21,6 +21,7 @@ import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
 import openMap from "react-native-open-maps";
 import * as Calendar from "expo-calendar";
+import * as AddCalendarEvent from 'react-native-add-calendar-event';
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -356,6 +357,29 @@ export const PublishPost = ({ route, navigation }) => {
 		);
 	};
 
+	const addToCalendar = (eventDetails) => {
+		const eventConfig = {
+		  eventDetails: eventDetails.eventName,
+		  startDate: eventDetails.startDate,
+		  endDate: eventDetails.endDate,
+		  notes: eventDetails.eventDetails,
+		  navigationBarIOS: {
+			tintColor: 'orange',
+			backgroundColor: 'green',
+			titleColor: 'blue',
+		  },
+		};
+	  
+		AddCalendarEvent.presentEventCreatingDialog(eventConfig)
+		  .then((eventInfo) => {
+			//alert('eventInfo -> ' + JSON.stringify(eventInfo));
+		  })
+		  .catch((error) => {
+			// handle error such as when user rejected permissions
+			alert('Error -> ' + error);
+		  });
+	  };
+
 	const addCalendarButton = () => {
 		return (
 			<TouchableOpacity
@@ -369,6 +393,7 @@ export const PublishPost = ({ route, navigation }) => {
 				onPress={() => {
 					//console.log(navigation);
 					//navigation.navigate("Signup");
+					/*
 					async () => {
 						const { status } = await Calendar.requestCalendarPermissionsAsync();
 						if (status === "granted") {
@@ -394,7 +419,9 @@ export const PublishPost = ({ route, navigation }) => {
 								console.log("Successfully added event");
 							else console.log("event creation failed");
 						}
-					};
+					};*/
+					addToCalendar(eventDetails);
+					
 				}}
 			>
 				<Text style={GlobalStyles.buttonText}>Add to Calendar</Text>
