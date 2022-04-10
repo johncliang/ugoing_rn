@@ -17,11 +17,7 @@
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
-			"supportsTablet": true,
-			"infoPlist": {
-				"NSCalendarsUsageDescription": "Allow $(PRODUCT_NAME) to access your calendar",
-				"NSRemindersUsageDescription": "Allow $(PRODUCT_NAME) to access your reminders"
-			}
+			"supportsTablet": true
 		},
 		"android": {
 			"adaptiveIcon": {
