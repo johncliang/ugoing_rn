@@ -22,8 +22,8 @@ import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
 import openMap from "react-native-open-maps";
 import * as Calendar from "expo-calendar";
-import * as Permissions from 'expo-permissions';
-//import * as AddCalendarEvent from 'react-native-add-calendar-event';
+import ICalendarLink from "react-icalendar-link";
+import { Link } from "native-base";
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -375,8 +375,9 @@ export const PublishPost = ({ route, navigation }) => {
 					//navigation.navigate("Signup");
 					//const { status } = await Permissions.askAsync(Permissions.CALENDAR);
 					//const status = obtainCalendarPermission();
-					async () => {
+					/*(async () => {
 						const { status } = await Calendar.requestCalendarPermissionsAsync();
+						console.log(status);
 						if (status === "granted") {
 							const calendars = await Calendar.getCalendarsAsync(
 								Calendar.EntityTypes.EVENT
@@ -400,12 +401,26 @@ export const PublishPost = ({ route, navigation }) => {
 								console.log("Successfully added event");
 							else console.log("event creation failed");
 						}
-					};
+					})();*/
 
 					
 				}}
 			>
-				<Text style={GlobalStyles.buttonText}>Add to Calendar</Text>
+				<ICalendarLink style={[styles.iCalLink]} event={{
+						title: eventDetails.eventName,
+						startTime: eventDetails.startDate,
+						endTime: eventDetails.endDate,
+						location: eventDetails.eventLocation,
+						organizer: eventDetails.organizer,
+						notes: eventDetails.eventDetails,
+						attendees: [
+						]
+						}}>
+								<Text style={[GlobalStyles.buttonText, {textDecorationColor: GlobalColors.standardRed, textDecorationLine: "underline"}]}>Add to Calendar</Text>
+							
+				</ICalendarLink>
+				
+				
 			</TouchableOpacity>
 		);
 	};
@@ -539,4 +554,8 @@ const styles = StyleSheet.create({
 		top: 0,
 		width: "100%",
 	},
+	iCalLink: {
+		textDecorationLine: "none",
+	},
+	
 });
