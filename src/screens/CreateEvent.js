@@ -31,7 +31,7 @@ import { fs } from "../Firebase/firebase";
 import AutocompleteSearch from "../components/AutocompleteSearch";
 
 import Flatpickr from "react-flatpickr";
-import "flatpickr/dist/themes/material_red.css";
+//import "flatpickr/dist/themes/material_red.css";
 import { BrowserView, MobileView } from "react-device-detect";
 
 const STATES = {

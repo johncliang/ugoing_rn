@@ -21,7 +21,7 @@ import moment from "moment";
 import { ShareComponent } from "../components/ShareComponent";
 import Footer from "../components/Footer";
 import openMap from "react-native-open-maps";
-import * as Calendar from "expo-calendar";
+//import * as Calendar from "expo-calendar";
 import ICalendarLink from "react-icalendar-link";
 import { Link } from "native-base";
 
