@@ -60,6 +60,7 @@ export const FeedbackThankYou = ({ route, navigation}) => {
             email: email,
             openToChat: value,
             detail: detail,
+            
 		};
 
 		fs.collection("feedback")

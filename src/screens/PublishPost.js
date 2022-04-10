@@ -361,36 +361,6 @@ export const PublishPost = ({ route, navigation }) => {
 		);
 	};
 
-	const addToCalendar = (eventDetails) => {
-		const eventConfig = {
-		  eventDetails: eventDetails.eventName,
-		  startDate: eventDetails.startDate,
-		  endDate: eventDetails.endDate,
-		  notes: eventDetails.eventDetails,
-		  navigationBarIOS: {
-			tintColor: 'orange',
-			backgroundColor: 'green',
-			titleColor: 'blue',
-		  },
-		};
-	  
-		AddCalendarEvent.presentEventCreatingDialog(eventConfig)
-		  .then((eventInfo) => {
-			console.log('eventInfo -> ' + JSON.stringify(eventInfo));
-		  })
-		  .catch((error) => {
-			// handle error such as when user rejected permissions
-			alert('Error -> ' + error);
-		  });
-	  };
-
-	async function obtainCalendarPermission() {
-		const { status } = await Calendar.requestCalendarPermissionsAsync();
-		const [calStatus, requestPermission] = await Calendar.useCalendarPermissions();
-		console.log(calStatus, requestPermission);
-		return status
-  }
-
 	const addCalendarButton = () => {
 		return (
 			<TouchableOpacity
@@ -402,42 +372,35 @@ export const PublishPost = ({ route, navigation }) => {
 					{ width: "auto", marginBottom: "1.113em", position: "sticky" },
 				]}
 				onPress={() => {
-					console.log('hello');
 					//navigation.navigate("Signup");
 					//const { status } = await Permissions.askAsync(Permissions.CALENDAR);
-					const status = obtainCalendarPermission();
-					console.log(status);
-					if (status === "granted") {
-						/*const async calendars = await Calendar.getCalendarsAsync(
-							Calendar.EntityTypes.EVENT
-						);
-						console.log("Here are all your calendars:");
-						console.log({ calendars });
-						const eventStatus = await Calendar.createEventAsync(
-							calendars[0].id,
-							{
-								title: eventDetails.eventName,
-								allDay: eventDetails.endDate == undefined,
-								startDate: eventDetails.startDate,
-								endDate: eventDetails.endDate,
-								location: eventDetails.eventLocation,
-								notes: eventDetails.eventDetails,
-								organizer: eventDetails.organizer,
-								startDate: eventDetails.startDate,
-							}
-						);
-						if (eventStatus === "granted")
-							console.log("Successfully added event");
-						else console.log("event creation failed");*/
-					}
-					/*async () => {
-						
-					};*/
-					/*if (Platform.OS != 'web')
-						addToCalendar(eventDetails);
-					else if (Platform.OS === 'android' && Platform.Version >= 23) {
-						androidPermissions();
-					}*/
+					//const status = obtainCalendarPermission();
+					async () => {
+						const { status } = await Calendar.requestCalendarPermissionsAsync();
+						if (status === "granted") {
+							const calendars = await Calendar.getCalendarsAsync(
+								Calendar.EntityTypes.EVENT
+							);
+							console.log("Here are all your calendars:");
+							console.log({ calendars });
+							const eventStatus = await Calendar.createEventAsync(
+								calendars[0].id,
+								{
+									title: eventDetails.eventName,
+									allDay: eventDetails.endDate == undefined,
+									startDate: eventDetails.startDate,
+									endDate: eventDetails.endDate,
+									location: eventDetails.eventLocation,
+									notes: eventDetails.eventDetails,
+									organizer: eventDetails.organizer,
+									startDate: eventDetails.startDate,
+								}
+							);
+							if (eventStatus === "granted")
+								console.log("Successfully added event");
+							else console.log("event creation failed");
+						}
+					};
 
 					
 				}}

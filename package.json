@@ -39,7 +39,6 @@
         "react-helmet": "^6.1.0",
         "react-ios-switch": "^0.1.19",
         "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
-        "react-native-add-calendar-event": "^4.0.0",
         "react-native-gesture-handler": "~1.10.2",
         "react-native-modal-datetime-picker": "^11.0.0",
         "react-native-open-maps": "^0.4.0",

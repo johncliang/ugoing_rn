@@ -183,10 +183,10 @@ const TimeSection = ({
 										if (mins % 5)
 											d.setMinutes(5 * Math.round(d.getMinutes() / 5));
 
-										d.setDate(onChangeDate(
-											moment(d, "ddd MMM DD YYYY HH:mm ZZ "),
+										onChangeDate(
+											moment(d, "ddd MMM DD YYYY HH:mm:ss ZZ "),
 											true
-										));
+										);
 									}, 1000)
 								}
 
@@ -218,7 +218,7 @@ const TimeSection = ({
 										time_24hr: false,
 										defaultDate: endDate.format("YYYY-MM-DD HH:mm"),
 										minuteIncrement: 10,
-										//minDate: startDate.format("YYYY-MM-DD HH:mm"),
+										minDate: startDate.format("YYYY-MM-DD HH:mm"),
 									}}
 									onChange={(dstr, dobjs, fp) =>
 										setTimeout(function () {
@@ -229,17 +229,10 @@ const TimeSection = ({
 											if (mins % 5)
 												d.setMinutes(5 * Math.round(d.getMinutes() / 5));
 
-											let newDate = (onChangeDate(
-												moment(d, "ddd MMM DD YYYY HH:mm ZZ "),
+											onChangeDate(
+												moment(d, "ddd MMM DD YYYY HH:mm:ss ZZ "),
 												false
-											));
-
-											console.log(newDate);
-
-											const newD = new Date();
-											newDate = moment(newDate);
-
-											d.setDate(newDate);
+											);
 										}, 1000)
 									}
 								/>
@@ -804,35 +797,14 @@ export const CreateEvent = ({ navigation }) => {
 	const onChangeDate = (date, isStartTime) => {
 		console.log(date);
 		if (isStartTime) {
-			//console.log(date.add(1, "hours"));
-			let adjustedDate = startDate;
-			adjustedDate.add(1, "hours");
+			console.log(date.add(1, "hour"));
 			setStartDate(date);
-			setEndDate(adjustedDate);
+			setEndDate(date.add(1, "hour"));
 			if (endDate.isBefore(date)) {
 				console.log("is before");
-				console.log("StartDate: ", startDate);
-				setEndDate(adjustedDate);
-				return adjustedDate;
-			}
-			return date;
-		} else {
-			console.log("date: ", date);
-			if (date.isBefore(startDate)) {
-				console.log("is before");
-				console.log("StartDate: ", startDate);
-				
-				let adjustedDate = startDate;
-				adjustedDate.add(1, "hours");
-				console.log("adjustedDate: ", adjustedDate)
-				setEndDate(adjustedDate);
-				return adjustedDate;
-			} else {
 				setEndDate(date);
-				return date;
 			}
-			
-		}
+		} else setEndDate(date);
 	};
 
 	function disabledDates(current) {
