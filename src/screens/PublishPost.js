@@ -193,23 +193,21 @@ export const PublishPost = ({ route, navigation }) => {
 							]}
 						>
 							<View></View>
-							<View style={GlobalStyles.columnContainer}>
+							<View style={[GlobalStyles.columnContainer, {display: "flex", flex: 1, justifyContent: "space-evenly"}]}>
 								<Text
 									style={[
 										GlobalStyles.bodyText,
 										GlobalStyles.eventTextMedium,
 										GlobalStyles.semiBold,
-										{ color: GlobalColors.standardRed, alignItems: "center" },
+										{ color: GlobalColors.standardRed, alignItems: "left" },
 									]}
 								>
-									{moment(eventDetails.startDate).format("MMM DD hh:mm a") +
-										"   "}
+									{moment(eventDetails.startDate).format("MMM DD hh:mm a")}
 								</Text>
 								<Text
 									style={[
 										GlobalStyles.bodyText,
 										GlobalStyles.eventTextMedium,
-										{ alignItems: "center" },
 									]}
 								>
 									{"To"}
@@ -219,10 +217,10 @@ export const PublishPost = ({ route, navigation }) => {
 										GlobalStyles.bodyText,
 										GlobalStyles.eventTextMedium,
 										GlobalStyles.semiBold,
-										{ color: GlobalColors.standardRed, alignItems: "center" },
+										{ color: GlobalColors.standardRed, alignItems: "right" },
 									]}
 								>
-									{"   " +
+									{
 										moment(eventDetails.endDate).format("MMM DD hh:mm a")}
 								</Text>
 							</View>
@@ -417,7 +415,6 @@ export const PublishPost = ({ route, navigation }) => {
 						]
 						}}>
 								<Text style={[GlobalStyles.buttonText, {textDecorationColor: GlobalColors.standardRed, textDecorationLine: "underline"}]}>Add to Calendar</Text>
-							
 				</ICalendarLink>
 				
 				
@@ -510,7 +507,7 @@ export const PublishPost = ({ route, navigation }) => {
 				{ backgroundColor: GlobalColors.lightRed },
 			]}
 		>
-			<View style={{ paddingHorizontal: 25 }}>
+			<View>
 				{" "}
 				{addCalendarButton()}
 				{eventCard()}

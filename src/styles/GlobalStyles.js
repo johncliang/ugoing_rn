@@ -53,6 +53,9 @@ export const GlobalStyles = StyleSheet.create({
 	commonHorizontalMargin: {
 		marginHorizontal: "1.5625rem",
 	},
+	commonHorizontalPadding: {
+		paddingHorizontal: "1.5625rem",
+	},
 	commonMargin: {
 		marginHorizontal: "1.5625rem",
 		marginVertical: "1.5625rem",

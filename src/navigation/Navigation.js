@@ -162,10 +162,10 @@ export const AppNavigator = () => {
 							title: "",
 							headerTitleAlign: "center",
 							headerLeft: () => null,
-							//headerTitle: () => {
-							//		return headerLogo(navigation, true);
-							//	},
-							headerStyle: [styles.headerStyle, styles.noHeader],
+							headerTitle: () => {
+									return headerLogo(navigation, true);
+								},
+							headerStyle: [styles.headerStyle, ],
 							// headerRight: () => {
 							//     return loginButton(navigation);
 							// },

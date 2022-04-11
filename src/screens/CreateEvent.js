@@ -4,6 +4,7 @@ import {
 	TextInput,
 	TouchableOpacity,
 	FlatList,
+	Dimensions
 	//Switch,
 } from "react-native";
 import {
@@ -42,6 +43,9 @@ const STATES = {
 	FINISH: 4,
 };
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 // Componentizing rendered sections outside main component to avoid re-render loop
 // which causes keyboard to lose focus. This is a stylistic choice to avoid an overly
 // lengthy return method
@@ -54,73 +58,79 @@ const NameSection = ({
 	validateSection,
 }) => {
 	return (
-		<Center>
-			<Box
-				borderRadius={"lg"}
-				bg="primary.200"
-				minW="20.313rem"
-				minH="14.063rem"
-				mt="1.563rem"
-			>
-				<Text
-					mt="1.25rem"
-					ml="1.25rem"
-					mb="0.938rem"
-					fontSize=".938rem"
-					fontStyle={"semibold"}
+		<View>
+			<Center>
+				<Box
+					borderRadius={"lg"}
+					bg="primary.200"
+					//minW="20.313rem"
+					width="100%"
+					minH="14.063rem"
+					mx="0"
+					mt="1.563rem"
 				>
-					Event Title
-					<Text fontSize=".938rem" fontStyle={"semibold"} color="red.500">
-						{" "}
-						*
+					<Text
+						mt="1.25rem"
+						ml="1.25rem"
+						mb="0.938rem"
+						fontSize=".938rem"
+						fontStyle={"semibold"}
+					>
+						Event Title
+						<Text fontSize=".938rem" fontStyle={"semibold"} color="red.500">
+							{" "}
+							*
+						</Text>
 					</Text>
-				</Text>
-				<Input
-					minW="17.813rem"
-					minH="3.25rem"
-					mx="1.25rem"
-					bg="white"
-					borderColor="neutral.400"
-					placeholder="John's Surprise Party"
-					value={title}
-					onChangeText={setTitle}
-				></Input>
+					<Input
+						//minW="17.813rem"
+						w={windowWidth*0.76}
+						minH="3.25rem"
+						mx="1.25rem"
+						bg="white"
+						borderColor="neutral.400"
+						placeholder="John's Surprise Party"
+						value={title}
+						onChangeText={setTitle}
+					></Input>
 
+					<Text
+						mt=".938rem"
+						ml="1.25rem"
+						mb="0.938rem"
+						fontSize=".938rem"
+						fontStyle={"semibold"}
+					>
+						Event Details
+					</Text>
+					<TextArea
+						//minW="17.813rem"
+						w={windowWidth*0.76}
+						mx="1.25rem"
+						mb="1.25rem"
+						bg="white"
+						borderColor="neutral.400"
+						py="8px"
+						pt="16px"
+						placeholder="Enter your event details here!"
+						value={description}
+						onChangeText={setDescription}
+					></TextArea>
+				</Box>
+				<Button h="3.25rem" w="11rem" mt="1.563rem" onPress={validateSection}>
+					Next
+				</Button>
 				<Text
 					mt=".938rem"
 					ml="1.25rem"
 					mb="0.938rem"
 					fontSize=".938rem"
-					fontStyle={"semibold"}
+					color="error.500"
 				>
-					Event Details
+					{errorStatus}
 				</Text>
-				<TextArea
-					minW="17.813rem"
-					mx="1.25rem"
-					mb="1.25rem"
-					bg="white"
-					borderColor="neutral.400"
-					py="8px"
-					pt="16px"
-					placeholder="Enter your event details here!"
-					value={description}
-					onChangeText={setDescription}
-				></TextArea>
-			</Box>
-			<Button h="3.25rem" w="11rem" mt="1.563rem" onPress={validateSection}>
-				Next
-			</Button>
-			<Text
-				mt=".938rem"
-				ml="1.25rem"
-				mb="0.938rem"
-				fontSize=".938rem"
-				color="error.500"
-			>
-				{errorStatus}
-			</Text>
-		</Center>
+			</Center>
+		</View>
 	);
 };
 
@@ -136,18 +146,18 @@ const TimeSection = ({
 	navigateToSection,
 }) => {
 	return (
-		<View>
+		<View w={windowWidth*0.76}>
 			<Center>
 				<Box
 					borderRadius={"lg"}
 					bg="primary.200"
-					minW="20.313rem"
+					//minW="20.313rem"
 					minH="14.063rem"
 					mt="1.563rem"
 					flex="1"
 					justifyContent={"space-between"}
 				>
-					<View>
+					<View >
 						<Text
 							mt="1.25rem"
 							ml="1.25rem"
@@ -161,7 +171,7 @@ const TimeSection = ({
 								*
 							</Text>
 						</Text>
-						<View mx="1.25rem">
+						<View mx="1.25rem" w={windowWidth*0.76}>
 							<Flatpickr
 								options={{
 									enableTime: true,
@@ -211,7 +221,7 @@ const TimeSection = ({
 									*
 								</Text>
 							</Text>
-							<View mx="1.25rem">
+							<View mx="1.25rem" w={windowWidth*0.76}>
 								<Flatpickr
 									options={{
 										enableTime: true,
@@ -300,7 +310,7 @@ const PlaceSection = ({
 	navigateToSection,
 }) => {
 	return (
-		<View>
+		<View w={windowWidth*0.76}>
 			<Center>
 				<Box
 					borderRadius={"lg"}
@@ -345,6 +355,7 @@ const PlaceSection = ({
 						Arrival Instructions
 					</Text>
 					<Input
+						w={windowWidth*0.76}
 						minW="17.813rem"
 						minH="3.25rem"
 						mx="1.25rem"
@@ -430,7 +441,7 @@ const PeopleSection = ({
 	navigateToSection,
 }) => {
 	return (
-		<View>
+		<View w={windowWidth*0.76}>
 			<Center>
 				<Box
 					borderRadius={"lg"}
@@ -449,6 +460,7 @@ const PeopleSection = ({
 						Host Contact Information
 					</Text>
 					<Input
+						w={windowWidth*0.76}
 						minW="17.813rem"
 						minH="3.25rem"
 						mx="1.25rem"
@@ -460,6 +472,7 @@ const PeopleSection = ({
 					></Input>
 					{showPhoneNumber && (
 						<Input
+							w={windowWidth*0.76}
 							mt="1rem"
 							minW="17.813rem"
 							minH="3.25rem"
@@ -583,7 +596,7 @@ const FinishSection = ({
 	navigateToSection,
 }) => {
 	return (
-		<View>
+		<View w={windowWidth*0.76}>
 			<VStack>
 				<HStack justifyContent="space-between" mt="1.625rem">
 					<Text color="neutral.400" fontStyle="semibold">
