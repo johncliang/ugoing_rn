@@ -124,6 +124,7 @@ export const PublishPost = ({ route, navigation }) => {
 						<View
 							style={[styles.eventTextAndIcons, { marginBottom: "0.5rem" }]}
 						>
+							{eventDetails.phoneNumber != '' &&
 							<Image
 								style={{
 									width: "0.8125rem",
@@ -131,8 +132,9 @@ export const PublishPost = ({ route, navigation }) => {
 									margin: "auto auto auto auto",
 								}}
 								source={require("../assets/EventPhone-Icon.svg")}
-							/>
-							<Text> </Text>
+							/>}
+							{eventDetails.phoneNumber != '' && <Text> </Text>}
+							{eventDetails.phoneNumber != '' &&
 							<Text
 								style={[
 									GlobalStyles.bodyText,
@@ -149,7 +151,7 @@ export const PublishPost = ({ route, navigation }) => {
 								}
 							>
 								{eventDetails.phoneNumber}
-							</Text>
+							</Text>}
 						</View>
 					</View>
 					{/*Grey Line*/}
@@ -202,17 +204,18 @@ export const PublishPost = ({ route, navigation }) => {
 										{ color: GlobalColors.standardRed, alignItems: "left" },
 									]}
 								>
-									{moment(eventDetails.startDate).format("MMM DD hh:mm a")}
+									{eventDetails.endDate != '' ? moment(eventDetails.startDate).format("MMM DD hh:mm a") : "All Day: " + moment(eventDetails.startDate).format("MMM DD")}
 								</Text>
-								<Text
+								{eventDetails.endDate != '' && 
+									<Text
 									style={[
 										GlobalStyles.bodyText,
 										GlobalStyles.eventTextMedium,
 									]}
 								>
 									{"To"}
-								</Text>
-								<Text
+								</Text>}
+								{eventDetails.endDate != '' && <Text
 									style={[
 										GlobalStyles.bodyText,
 										GlobalStyles.eventTextMedium,
@@ -220,9 +223,9 @@ export const PublishPost = ({ route, navigation }) => {
 										{ color: GlobalColors.standardRed, alignItems: "right" },
 									]}
 								>
-									{
+									{eventDetails.endDate != '' && 
 										moment(eventDetails.endDate).format("MMM DD hh:mm a")}
-								</Text>
+								</Text>}
 							</View>
 							<View></View>
 						</View>
@@ -407,13 +410,19 @@ export const PublishPost = ({ route, navigation }) => {
 				<ICalendarLink style={[styles.iCalLink]} event={{
 						title: eventDetails.eventName,
 						startTime: eventDetails.startDate,
-						endTime: eventDetails.endDate,
-						location: eventDetails.eventLocation,
+						endTime: eventDetails.endDate != '' ? eventDetails.endDate : eventDetails.endICSDate,
+						location: `${typeof eventDetails.eventLocation === 'undefined' ? '' : eventDetails.eventLocation.toString().replace(',', ' ')}`,
 						organizer: eventDetails.organizer,
-						notes: eventDetails.eventDetails,
+						description: 
+						`View ${eventDetails.eventName} online at:\\nugoing.us/u/${eventID}\\n- - - - - - - - - - - - - - - - - - - -\\n${eventDetails.arrivalInstructions != '' ? 'Arrival Instructions: ' + eventDetails.arrivalInstructions + `\\n` : ''}\\n${eventDetails.organizer != '' ? 'Contact Person: '+ eventDetails.organizerName + `\\n`: ''}${eventDetails.phoneNumber != '' ? 'Contact Phone Number: ' + eventDetails.phoneNumber + `\\n`: ''}\\n${`Description: ` + eventDetails.eventDetails}`,
+						url: `ugoing.us/u/${eventID}`,
+						organizer: eventDetails.organizerName,
+						contact: '+1' + eventDetails.phoneNumber,
 						attendees: [
 						]
-						}}>
+						}}
+						rawContent={eventDetails.endDate != '' ? `` : `DTSTART;VALUE=DATE:${moment(eventDetails.startDate).format("YYYYMMDD").toString()}`}
+						>
 								<Text style={[GlobalStyles.buttonText, {textDecorationColor: GlobalColors.standardRed, textDecorationLine: "underline"}]}>Add to Calendar</Text>
 				</ICalendarLink>
 				

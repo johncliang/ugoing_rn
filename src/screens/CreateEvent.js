@@ -878,7 +878,9 @@ export const CreateEvent = ({ navigation }) => {
 			eventData = {
 				eventName: eventName,
 				eventDetails: eventDetails,
-				startDate: startDate.format("M/D/YYYY, h:mm a").toString(),
+				startDate: startDate.format("M/D/YYYY").toString(),
+				endDate: '',
+				endICSDate: startDate.add(2, "hours").format("YYYY/M/D").toString(),
 				eventLocation: eventLocation,
 				arrivalInstructions: arrivalInstructions,
 				phoneNumber: phoneNumber,
