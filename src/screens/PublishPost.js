@@ -445,7 +445,8 @@ export const PublishPost = ({ route, navigation }) => {
 						"'" +
 							eventDetails.eventName +
 							"' from " +
-							eventDetails.startDate +
+							eventDetails.startDate + 
+							(eventDetails.endDate != '' ? " to " + eventDetails.endDate : '') +
 							(eventDetails.eventLocation
 								? " at " + eventDetails.eventLocation
 								: "") +
