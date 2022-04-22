@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
 	StyleSheet,
 	TextInput,
@@ -32,8 +32,10 @@ import { fs } from "../Firebase/firebase";
 import AutocompleteSearch from "../components/AutocompleteSearch";
 
 import Flatpickr from "react-flatpickr";
+
 import "flatpickr/dist/themes/material_red.css";
 import { BrowserView, MobileView } from "react-device-detect";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const STATES = {
 	NAME: 0,
@@ -144,7 +146,25 @@ const TimeSection = ({
 	errorStatus,
 	description,
 	navigateToSection,
+	open,
+	setOpen,
 }) => {
+
+	const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+	const showDatePicker = () => {
+		setDatePickerVisibility(true);
+	};
+
+	const hideDatePicker = () => {
+		setDatePickerVisibility(false);
+	};
+
+	const handleConfirm = (date) => {
+		console.warn("A date has been picked: ", date);
+		hideDatePicker();
+	};
+	  
 	return (
 		<View w={windowWidth*0.76}>
 			<Center>
@@ -172,7 +192,14 @@ const TimeSection = ({
 							</Text>
 						</Text>
 						<View mx="1.25rem" w={windowWidth*0.76}>
-							<Flatpickr
+							{/*
+						<Button title="Show Date Picker" />
+						<DatePicker
+							mode="time"
+							locale="en_GB" // Use "en_GB" here
+							date={new Date()}
+						/>*/}
+						<Flatpickr
 								options={{
 									enableTime: true,
 									time_24hr: false,
@@ -228,7 +255,7 @@ const TimeSection = ({
 										time_24hr: false,
 										defaultDate: endDate.format("YYYY-MM-DD HH:mm"),
 										minuteIncrement: 10,
-										minDate: startDate.format("YYYY-MM-DD HH:mm"),
+										//minDate: startDate.format("YYYY-MM-DD HH:mm"),
 									}}
 									onChange={(dstr, dobjs, fp) =>
 										setTimeout(function () {
@@ -246,6 +273,7 @@ const TimeSection = ({
 										}, 1000)
 									}
 								/>
+								
 							</View>
 						</React.Fragment>
 					)}
@@ -735,6 +763,8 @@ export const CreateEvent = ({ navigation }) => {
 
 	const datepickerRef = React.createRef();
 
+	const [open, setOpen] = useState(false);
+
 	function navigateToSection(section) {
 		if (status.state > section) {
 			setStatus({ state: section });
@@ -810,13 +840,13 @@ export const CreateEvent = ({ navigation }) => {
 	const onChangeDate = (date, isStartTime) => {
 		console.log(date);
 		if (isStartTime) {
-			console.log(date.add(1, "hour"));
+			//console.log(date.add(1, "hour"));
 			setStartDate(date);
-			setEndDate(date.add(1, "hour"));
-			if (endDate.isBefore(date)) {
-				console.log("is before");
-				setEndDate(date);
-			}
+			//setEndDate(date.add(1, "hour"));
+			//if (endDate.isBefore(date)) {
+			//	console.log("is before");
+			//	setEndDate(date);
+			//}
 		} else setEndDate(date);
 	};
 
@@ -927,6 +957,8 @@ export const CreateEvent = ({ navigation }) => {
 						errorStatus={errorStatus}
 						description={eventDetails}
 						navigateToSection={navigateToSection}
+						open={open}
+						setOpen = {setOpen}
 					/>
 				);
 			case STATES.PLACE:
