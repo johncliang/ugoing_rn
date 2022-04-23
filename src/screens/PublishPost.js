@@ -524,7 +524,7 @@ export const PublishPost = ({ route, navigation }) => {
 			]}
 		>
 			<Helmet>
-				<title>{'UGoing - ' + siteDesc}</title>
+				<title>{'UGoing'}</title>
 					<meta name="description" content={siteDesc}/>
 					<meta name="image" content={previewImage}/>
 					<meta itemProp="name" content={"Ugoing"}/>

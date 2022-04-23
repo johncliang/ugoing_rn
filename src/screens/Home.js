@@ -429,7 +429,7 @@ export const HomeScreen = ({ navigation }) => {
 	return (
 		<View h="100%" overflowY={"scroll"} bg={"white"}>
 			<Helmet>
-				<title>{'UGoing - ' + siteDesc}</title>
+				<title>{'UGoing'}</title>
 					<meta name="description" content={siteDesc}/>
 					<meta name="image" content={previewImage}/>
 					<meta itemProp="name" content={"Ugoing"}/>
