@@ -24,6 +24,10 @@ import openMap from "react-native-open-maps";
 //import * as Calendar from "expo-calendar";
 import ICalendarLink from "react-icalendar-link";
 import { Link } from "native-base";
+import Helmet from "react-helmet";
+import previewImage from "./../../src/assets/UGoing-Link-Preview.png";
+const siteTitle = 'UGoing.us'
+const siteDesc = "The world’s fastest event scheduler"
 
 // route.params - eventID to event
 export const PublishPost = ({ route, navigation }) => {
@@ -517,6 +521,12 @@ export const PublishPost = ({ route, navigation }) => {
 				{ backgroundColor: GlobalColors.lightRed },
 			]}
 		>
+			<Helmet>
+				<title>{'UGoing - ' + siteDesc}</title>
+				<meta property="og:title" content={siteTitle}/>
+				<meta property="description" content={siteDesc}/>
+				<meta property="og:image" content={previewImage}/>
+			</Helmet>
 			<View>
 				{" "}
 				{addCalendarButton()}
