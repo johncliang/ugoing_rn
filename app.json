@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "image": "./src/assets/UGoing-Link-Preview.png",
-    "description": "",
+    "description": "The world’s fastest event scheduler",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
