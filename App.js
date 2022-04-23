@@ -21,7 +21,7 @@ function App() {
 	}
 
 	const siteTitle = 'UGoing.us'
-	const siteDesc = ''
+	const siteDesc = "The world’s fastest event scheduler"
 
 	
 
@@ -144,7 +144,7 @@ function App() {
 		
 		<NativeBaseProvider theme={theme} r>
 			<Helmet>
-				<title>{'UGoing'}</title>
+				<title>{"UGoing - The world's fastest event scheduler"}</title>
 				<meta property="og:title" content={siteTitle}/>
 				<meta property="description" content={siteDesc}/>
 				<meta property="og:image" content={previewImage}/>

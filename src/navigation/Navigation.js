@@ -148,7 +148,7 @@ export const AppNavigator = () => {
 	return (
 		<AuthContext.Provider value={userProvider}>
 			<Helmet>
-				<title>{'UGoing'}</title>
+				<title>{'UGoing - ' + siteDesc}</title>
 				<meta property="og:title" content={siteTitle}/>
 				<meta property="description" content={siteDesc}/>
 				<meta property="og:image" content={previewImage}/>
