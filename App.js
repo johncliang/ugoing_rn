@@ -21,7 +21,7 @@ function App() {
 	}
 
 	const siteTitle = 'UGoing.us'
-	const siteDesc = 'test'
+	const siteDesc = ''
 
 	
 

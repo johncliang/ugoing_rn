@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "image": "./src/assets/UGoing-Link-Preview.png",
-    "description": "test",
+    "description": "",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
