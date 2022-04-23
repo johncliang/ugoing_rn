@@ -40,7 +40,7 @@ import uGoingWhiteLogo from "../assets/UGoing_Logo_w_final.png";
 import Helmet from "react-helmet";
 import previewImage from "./../../src/assets/UGoing-Link-Preview.png";
 const siteTitle = 'UGoing.us'
-const siteDesc = 'test'
+const siteDesc = "The world’s fastest event scheduler"
 
 // Usually one would use h="80%" to get 80% screen height, but there's some bug
 // or styling workaround that I'm unaware of that is causing the height to expand

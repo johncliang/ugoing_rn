@@ -37,7 +37,7 @@ const width = Dimensions.get("window").width;
 import Helmet from "react-helmet";
 import previewImage from "./../../src/assets/UGoing-Link-Preview.png";
 const siteTitle = 'UGoing.us'
-const siteDesc = ''
+const siteDesc = "The world’s fastest event scheduler"
 
 
 
