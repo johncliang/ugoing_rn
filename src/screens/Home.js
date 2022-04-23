@@ -39,6 +39,8 @@ import uGoingWhiteLogo from "../assets/UGoing_Logo_w_final.png";
 
 import Helmet from "react-helmet";
 import previewImage from "./../../src/assets/UGoing-Link-Preview.png";
+import logo180 from "../../assets/icon180.png";
+import logo from "../../assets/icon.png";
 const siteTitle = 'UGoing.us'
 const siteDesc = "The world’s fastest event scheduler"
 
@@ -428,9 +430,20 @@ export const HomeScreen = ({ navigation }) => {
 		<View h="100%" overflowY={"scroll"} bg={"white"}>
 			<Helmet>
 				<title>{'UGoing - ' + siteDesc}</title>
-				<meta property="og:title" content={siteTitle}/>
-				<meta property="description" content={siteDesc}/>
-				<meta property="og:image" content={previewImage}/>
+					<meta name="description" content={siteDesc}/>
+					<meta name="image" content={previewImage}/>
+					<meta itemProp="name" content={"Ugoing"}/>
+					<meta itemProp="description" content={siteDesc}/>
+					<meta itemProp="image" content={previewImage}/>
+
+					<meta name="og:title" content={siteTitle}/>
+					<meta name="og:description" content={siteDesc}/>
+					<meta name="og:image" content={previewImage}/>
+					<meta name="og:locale" content="en_US"/>
+					<meta name="og:type" content="website"/>
+
+					<link rel="apple-touch-icon" sizes="180x180" href={logo180}/>
+					<link rel="mask-icon" href={logo} color="#5bbad5"/>
 			</Helmet>
 			
 			<CardOne navigation={navigation} />

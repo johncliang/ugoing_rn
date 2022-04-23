@@ -5,7 +5,8 @@ import { NativeBaseProvider, extendTheme } from "native-base";
 import Helmet from "react-helmet";
 
 import previewImage from "./src/assets/UGoing-Link-Preview.png";
-
+import logo180 from "./assets/icon180.png";
+import logo from "./assets/icon.png";
 
 
 function App() {
@@ -22,7 +23,7 @@ function App() {
 
 	const siteTitle = 'UGoing.us'
 	const siteDesc = "The world’s fastest event scheduler"
-
+	
 	
 
 	const theme = extendTheme({
@@ -144,10 +145,21 @@ function App() {
 		
 		<NativeBaseProvider theme={theme} r>
 			<Helmet>
-				<title>{"UGoing - The world's fastest event scheduler"}</title>
-				<meta property="og:title" content={siteTitle}/>
-				<meta property="description" content={siteDesc}/>
-				<meta property="og:image" content={previewImage}/>
+				<title>{'UGoing - ' + siteDesc}</title>
+					<meta name="description" content={siteDesc}/>
+					<meta name="image" content={previewImage}/>
+					<meta itemProp="name" content={"Ugoing"}/>
+					<meta itemProp="description" content={siteDesc}/>
+					<meta itemProp="image" content={previewImage}/>
+
+					<meta name="og:title" content={siteTitle}/>
+					<meta name="og:description" content={siteDesc}/>
+					<meta name="og:image" content={previewImage}/>
+					<meta name="og:locale" content="en_US"/>
+					<meta name="og:type" content="website"/>
+
+					<link rel="apple-touch-icon" sizes="180x180" href={logo180}/>
+					<link rel="mask-icon" href={logo} color="#5bbad5"/>
 			</Helmet>
 			
 			<AppNavigator />
